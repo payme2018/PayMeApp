@@ -6,7 +6,9 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
    
-    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/modernizr")*@
+
+    <script src="~/Scripts/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="~/scripts/jqwidgets4.1.0/styles/jqx.base.css" type="text/css" />
     <link rel="stylesheet" href="~/scripts/jqwidgets4.1.0/styles/jqx.classic.css" type="text/css" />
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxcore.js"></script>
@@ -59,6 +61,10 @@
 
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxchart.core.js"></script>
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxchart.js"></script>
+
+    <script type="text/javascript">
+        var baseDir = ""
+    </script>
 
 
 
@@ -419,7 +425,7 @@
             </div><!--/.col-->
 
 
-            <div class="col-md-6">
+            @*<div class="col-md-6">
                 <div class="panel panel-default ">
                     <div class="panel-heading">
                         Timeline
@@ -504,22 +510,20 @@
                         </ul>
                     </div>
                 </div>
-            </div><!--/.col-->
-            <div class="col-sm-12">
-                <p class="back-link">Lumino Theme by <a href="https://www.medialoot.com">Medialoot</a></p>
-            </div>
+            </div>*@<!--/.col-->
+           
         </div><!--/.row-->
     </div>	<!--/.main-->
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year -Pay Me</p>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: false)*@
 </body>
 </html>

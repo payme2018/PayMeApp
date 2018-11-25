@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayMe", "PayMe\PayMe.csproj", "{0F6933E5-DDBD-4B19-82BE-FB527D5AFA15}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{BF08C55F-8B41-4F7D-A576-BDCAD8CDF50B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{0D493828-1DD3-4998-A94D-70BA86F8679B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{0F6933E5-DDBD-4B19-82BE-FB527D5AFA15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F6933E5-DDBD-4B19-82BE-FB527D5AFA15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F6933E5-DDBD-4B19-82BE-FB527D5AFA15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF08C55F-8B41-4F7D-A576-BDCAD8CDF50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF08C55F-8B41-4F7D-A576-BDCAD8CDF50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF08C55F-8B41-4F7D-A576-BDCAD8CDF50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF08C55F-8B41-4F7D-A576-BDCAD8CDF50B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D493828-1DD3-4998-A94D-70BA86F8679B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D493828-1DD3-4998-A94D-70BA86F8679B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D493828-1DD3-4998-A94D-70BA86F8679B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D493828-1DD3-4998-A94D-70BA86F8679B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
