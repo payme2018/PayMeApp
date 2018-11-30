@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "PayMe - Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@*<script src="~/Scripts/jquery-2.0.3.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxcore.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxdata.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxbuttons.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).ready(function () {
+            // prepare the data
+            var data = {
+                "FirstName": "Dinesh",
+
+                "LastName": "K",
+            }
+            var source =
+            {
+                localdata: data,
+                datatype: "json",
+                datafields:
+                [
+                    { name: 'FirstName', type: 'string' },
+                    { name: 'LastName', type: 'string' },
+                    
+                ]
+            };
+            var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("#jqxgridEmployee").jqxGrid(
+            {
+               // width: getWidth('Grid'),
+                source: dataAdapter,
+                width:"100%",
+                sortable: true,
+               
+                columns: [
+                  { text: 'First Name', datafield: 'FirstName', width: 130 },
+                  { text: 'Last Name', datafield: 'LastName', width: 130 },
+                 
+                ]
+            });
+           
+        });
+    });
+</script>
+
+<div id="jqxgridEmployee">
+</div>

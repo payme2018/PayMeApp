@@ -95,5 +95,41 @@ namespace PayMe.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+
+            try
+            {
+                HttpContext.Session.Clear();
+                Session.Abandon();
+                return RedirectToAction("Index", "Login");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [NonAction]
+        public void remove_Anonymous_Cookies()
+        {
+            try
+            {
+
+                if (Request.Cookies["WebTime"] != null)
+                {
+                    var option = new HttpCookie("WebTime");
+                    option.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(option);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

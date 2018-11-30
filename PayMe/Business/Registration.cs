@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Business
 {
-    [Table("Registration")]
+    [Table("Registration")] 
     public class Registration
     {
         [Key]
