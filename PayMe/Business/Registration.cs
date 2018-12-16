@@ -63,8 +63,11 @@ namespace Business
         public int? fkManagerId { get; set; }
         public int? fkContactID { get; set; }
         public string Designation { get; set; }
-    
-       
+
+        public string RoleName { get; set; }
+        public string GenderName { get; set; }
+
+
     }
     public enum Gender
     {

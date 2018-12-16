@@ -68,6 +68,11 @@ namespace DAL
                         registration.RoleID = Convert.ToInt32(reader["fkRoleId"].ToString());
                         registration.EmployeeID = Convert.ToInt32(reader["ID"].ToString());
                         registration.Username = reader["UserName"].ToString();
+                        registration.FirstName = reader["FirstName"].ToString();
+                        registration.LastName = reader["LastName"].ToString();
+                        registration.RoleName = reader["RoleName"].ToString();
+                        registration.GenderName = reader["Gender"].ToString();
+                        registration.EmailID = reader["EmailID"].ToString();
                         registrationList.Add(registration);
                     }
                 }

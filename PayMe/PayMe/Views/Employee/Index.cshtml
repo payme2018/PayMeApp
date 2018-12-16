@@ -18,16 +18,19 @@
 
     function LoadGrid() {
         
-
+        debugger;
       
-        var url = "/Finance/GetHLMCServiceMetricMapping";
+        var url = "/Employee/GetUserList";
         var data =
         {
             datatype: "json",
             datafields: [
               
-                { name: 'First Name', type: 'string' },
-                { name: 'Last Name', type: 'string' },
+                { name: 'FirstName', type: 'string' },
+                { name: 'LastName', type: 'string' },
+                { name: 'GenderName', type: 'string' },
+                { name: 'EmailID', type: 'string' },
+                { name: 'RoleName', type: 'string' },
               
             ],
           
@@ -57,8 +60,12 @@
                 
                 
                
-                { text: 'FirstName', datafield: 'FirstName'},
-                { text: 'LastName', datafield: 'LastName'},
+                { text: 'First Name', datafield: 'FirstName'},
+                { text: 'Last Name', datafield: 'LastName' },
+                { text: 'Gender', datafield: 'GenderName' },
+                { text: 'Email', datafield: 'EmailID' },
+                { text: 'Role', datafield: 'RoleName' },
+
               
 
             ],
@@ -77,6 +84,7 @@
     </ol>
 </div><!--/.row-->
 
-<a href="~/Employee/Register" class="btn btn-primary btn-lg" >Register</a>
+<div style="float:right"><a href="~/Employee/Register" class="btn btn-primary btn-lg">Register</a></div>
+
 <div id="jqxgridEmployee">
 </div>

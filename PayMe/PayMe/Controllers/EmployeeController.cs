@@ -75,20 +75,20 @@ namespace PayMe.Controllers
                 return View();
             }
         }
-        public JsonResult GetHLMCServiceMetricMapping(int projectId, int loadType)
+        public JsonResult GetUserList()
         {
-            IEnumerable<Registration> metricMappingByProject = null;
+            IEnumerable<Registration> userList = null;
             try
             {
-               
-                metricMappingByProject = serviceManager.GetHLMCServiceMetricMapping(projectId, loadType);
+                UserManager userManager = new UserManager();
+                userList = userManager.GetUsers();
             }
             catch (Exception ex)
             {
                 string sMessage = ex.Message;
 
             }
-            var jsonResult = this.Json(metricMappingByProject, JsonRequestBehavior.AllowGet);
+            var jsonResult = this.Json(userList, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
