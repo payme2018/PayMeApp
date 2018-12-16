@@ -13,43 +13,70 @@
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxbuttons.js"></script>*@
 <script type="text/javascript">
     $(document).ready(function () {
-        $(document).ready(function () {
-            // prepare the data
-            var data = {
-                "FirstName": "Dinesh",
+        LoadGrid();
+    });
 
-                "LastName": "K",
-            }
-            var source =
-            {
-                localdata: data,
-                datatype: "json",
-                datafields:
-                [
-                    { name: 'FirstName', type: 'string' },
-                    { name: 'LastName', type: 'string' },
-                    
-                ]
-            };
-            var dataAdapter = new $.jqx.dataAdapter(source);
-            // initialize jqxGrid
-            $("#jqxgridEmployee").jqxGrid(
-            {
-               // width: getWidth('Grid'),
-                source: dataAdapter,
-                width:"100%",
-                sortable: true,
+    function LoadGrid() {
+        
+
+      
+        var url = "/Finance/GetHLMCServiceMetricMapping";
+        var data =
+        {
+            datatype: "json",
+            datafields: [
+              
+                { name: 'First Name', type: 'string' },
+                { name: 'Last Name', type: 'string' },
+              
+            ],
+          
+            url: url
+         
+        };
+        var dataAdapter = new $.jqx.dataAdapter(data, {
+        });
+       
+        $("#jqxgridEmployee").jqxGrid(
+        {
+            width: '1155px',
+            height: '600px',
+            columnsresize: true,
+            pageable: true,
+            sortable: true,
+            filterable: true,
+            pageSize: 25,
+            editable: true,
+            columnsautoresize: true,
+            columnsreorder: true,
+            selectionmode: 'singlecell',
+            source: dataAdapter,
+            editmode: 'click',
+            enabletooltips: true,
+            columns: [
+                
+                
                
-                columns: [
-                  { text: 'First Name', datafield: 'FirstName', width: 130 },
-                  { text: 'Last Name', datafield: 'LastName', width: 130 },
-                 
-                ]
-            });
+                { text: 'FirstName', datafield: 'FirstName'},
+                { text: 'LastName', datafield: 'LastName'},
+              
+
+            ],
            
         });
-    });
+    }
 </script>
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Employee List</li>
+    </ol>
+</div><!--/.row-->
 
+<a href="~/Employee/Register" class="btn btn-primary btn-lg" >Register</a>
 <div id="jqxgridEmployee">
 </div>

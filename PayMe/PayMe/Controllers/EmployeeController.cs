@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Business;
+using DAL;
+using PayMe.Filters;
+using PayMe.Library;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,6 +10,7 @@ using System.Web.Mvc;
 
 namespace PayMe.Controllers
 {
+    [ValidateUserSession]
     public class EmployeeController : Controller
     {
         // GET: Employee
@@ -20,21 +25,28 @@ namespace PayMe.Controllers
             return View();
         }
 
-        // GET: Employee/Create
-        public ActionResult Create()
+        // GET: Employee/Register
+        public ActionResult Register()
         {
             return View();
         }
 
-        // POST: Employee/Create
+        // POST: Employee/Register
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Registration registration)
         {
             try
             {
-                // TODO: Add insert logic here
+                UserManager userManager = new UserManager();
+                string password = EncryptionLibrary.EncryptText(registration.Password);
+                string username = Session["Username"].ToString();
+                userManager.CreateUser(registration.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
+                    , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
 
-                return RedirectToAction("Index");
+                // TODO: Add insert logic here
+                TempData["MessageRegistration"] = "Data Saved Successfully!";
+                return RedirectToAction("Register");
             }
             catch
             {
@@ -63,7 +75,23 @@ namespace PayMe.Controllers
                 return View();
             }
         }
+        public JsonResult GetHLMCServiceMetricMapping(int projectId, int loadType)
+        {
+            IEnumerable<Registration> metricMappingByProject = null;
+            try
+            {
+               
+                metricMappingByProject = serviceManager.GetHLMCServiceMetricMapping(projectId, loadType);
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
 
+            }
+            var jsonResult = this.Json(metricMappingByProject, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
         // GET: Employee/Delete/5
         public ActionResult Delete(int id)
         {

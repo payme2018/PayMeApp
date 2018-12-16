@@ -35,7 +35,7 @@ namespace PayMe.Controllers
 
                     if (result != null)
                     {
-                        if (result.RegistrationID == 0 || result.RegistrationID < 0)
+                        if (result.EmployeeID == 0 || result.EmployeeID < 0)
                         {
                             ViewBag.errormessage = "Invalid Username or Password";
                         }
