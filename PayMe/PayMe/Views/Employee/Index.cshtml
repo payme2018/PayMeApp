@@ -4,75 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-@*<script src="~/Scripts/jquery-2.0.3.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.10.3.js"></script>
-    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxcore.js"></script>
-    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxdata.js"></script>
-    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxbuttons.js"></script>*@
-<script type="text/javascript">
-    $(document).ready(function () {
-        LoadGrid();
-    });
-
-    function LoadGrid() {
-        
-        debugger;
-      
-        var url = "../Employee/GetUserList";
-        var data =
-        {
-            datatype: "json",
-            datafields: [
-              
-                { name: 'FirstName', type: 'string' },
-                { name: 'LastName', type: 'string' },
-                { name: 'GenderName', type: 'string' },
-                { name: 'EmailID', type: 'string' },
-                { name: 'RoleName', type: 'string' },
-              
-            ],
-          
-            url: url
-         
-        };
-        var dataAdapter = new $.jqx.dataAdapter(data, {
-        });
-       
-        $("#jqxgridEmployee").jqxGrid(
-        {
-            width: '1155px',
-            height: '600px',
-            columnsresize: true,
-            pageable: true,
-            sortable: true,
-            filterable: true,
-            pageSize: 25,
-            editable: true,
-            columnsautoresize: true,
-            columnsreorder: true,
-            selectionmode: 'singlecell',
-            source: dataAdapter,
-            editmode: 'click',
-            enabletooltips: true,
-            columns: [
-                
-                
-               
-                { text: 'First Name', datafield: 'FirstName'},
-                { text: 'Last Name', datafield: 'LastName' },
-                { text: 'Gender', datafield: 'GenderName' },
-                { text: 'Email', datafield: 'EmailID' },
-                { text: 'Role', datafield: 'RoleName' },
-
-              
-
-            ],
-           
-        });
-    }
-</script>
 <div class="row">
     <ol class="breadcrumb">
         <li>
@@ -82,9 +13,27 @@
         </li>
         <li class="active">Employee List</li>
     </ol>
-</div><!--/.row-->
+</div>
 
-<div style="float:right;margin-right: 84px;"><a href="~/Employee/Register" class="btn btn-primary btn-lg">Register</a></div>
+<div style="float:right;"><a href="~/Employee/Register" class="btn btn-md btn-primary">Register</a></div>
 
-<div id="jqxgridEmployee">
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Employee List</div>
+            <div class="panel-body">
+                <table data-toggle="table" data-url="../Employee/GetUserList" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+                    <thead>
+                        <tr>
+                            <th data-field="FirstName" data-sortable="true">First Name</th>
+                            <th data-field="LastName" data-sortable="true">Last Name</th>
+                            <th data-field="GenderName" data-sortable="true">Gender</th>
+                            <th data-field="EmailID" data-sortable="true">Email</th>
+                            <th data-field="RoleName" data-sortable="true">Role</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
