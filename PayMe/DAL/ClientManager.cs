@@ -36,8 +36,8 @@ namespace DAL
                         client.Description = reader["Description"].ToString();
                         client.PrimaryContact = reader["PrimaryContact"].ToString();
                         client.IsActive = Convert.ToBoolean(reader["IsActive"].ToString());
-
-
+                        client.ClientName   = reader["ClientName"].ToString();
+                        client.ClientCode = reader["ClientCode"].ToString();
                         clientList.Add(client);
                     }
                 }
