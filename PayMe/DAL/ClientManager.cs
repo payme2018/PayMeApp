@@ -53,5 +53,70 @@ namespace DAL
             }
         }
 
+        public string CreateClient(
+            string ClientName, string ClientCode, string PrimaryContact,
+             string Description, string LocationInfo, bool IsActive
+            )
+        {
+            string returnValue = "";
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("CreateClient", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ClientCode", ClientCode);
+                cmd.Parameters.AddWithValue("@ClientName", ClientName);
+                cmd.Parameters.AddWithValue("@PrimaryContact", PrimaryContact);
+                cmd.Parameters.AddWithValue("@LocationInfo", LocationInfo);
+                cmd.Parameters.AddWithValue("@Designation", Description);
+                cmd.Parameters.AddWithValue("@IsActive", IsActive);
+                cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                int outputId = Convert.ToInt32(cmd.Parameters["@output"].Value);
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+            return returnValue;
+        }
+
+        public string CreateClient(
+          Client client
+          )
+        {
+            string returnValue = "";
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("CreateClient", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ClientCode", client.ClientCode);
+                cmd.Parameters.AddWithValue("@ClientName", client.ClientName);
+                cmd.Parameters.AddWithValue("@PrimaryContact", client.PrimaryContact);
+                cmd.Parameters.AddWithValue("@LocationInfo", client.LocationInfo);
+                cmd.Parameters.AddWithValue("@Description", client.Description);
+                cmd.Parameters.AddWithValue("@IsActive", client.IsActive);
+                cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                int outputId = Convert.ToInt32(cmd.Parameters["@output"].Value);
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+            return returnValue;
+        }
+
     }
 }
