@@ -28,6 +28,8 @@ namespace PayMe.Controllers
         // GET: Employee/Register
         public ActionResult Register()
         {
+            UserManager userManager = new UserManager();
+            ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName"); 
             return View();
         }
 

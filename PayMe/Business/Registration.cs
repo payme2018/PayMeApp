@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Web.Mvc;
 namespace Business
 {
   
@@ -37,7 +37,7 @@ namespace Business
         [Required(ErrorMessage = "Password Required")]
         public string Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "Enter Valid Password")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Enter Valid Password")]
         [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
 
@@ -47,6 +47,7 @@ namespace Business
         public DateTime? Birthdate { get; set; }
         public DateTime? DateofJoining { get; set; }
         [DisplayName("Role")]
+        [Required(ErrorMessage = "Role Required")]
         public int RoleID { get; set; }
 
         public int EmployeeID { get; set; }
@@ -63,7 +64,7 @@ namespace Business
         public int? fkManagerId { get; set; }
         public int? fkContactID { get; set; }
         public string Designation { get; set; }
-
+        [Required(ErrorMessage = "Role Required")]
         public string RoleName { get; set; }
         public string GenderName { get; set; }
 
@@ -73,5 +74,14 @@ namespace Business
     {
         Male =1,
         Female=2
+    }
+
+    public class Role
+    {
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
+     
+        [NotMapped]
+        public SelectList RoleList { get; set; }
     }
 }

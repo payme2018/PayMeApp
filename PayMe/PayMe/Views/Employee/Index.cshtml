@@ -4,6 +4,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
+   
+</script>
 <div class="row">
     <ol class="breadcrumb">
         <li>
@@ -22,7 +34,11 @@
         <div class="panel panel-default">
             <div class="panel-heading">Employee List</div>
             <div class="panel-body">
-                <table data-toggle="table" data-url="../Employee/GetUserList" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-url="../Employee/GetUserList" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+        data-show-export="true" data-toolbar="#toolbar">
                     <thead>
                         <tr>
                             <th data-field="FirstName" data-sortable="true">First Name</th>

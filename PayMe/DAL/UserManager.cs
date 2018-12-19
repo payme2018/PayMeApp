@@ -124,6 +124,41 @@ namespace DAL
             }
             return returnValue;
         }
+        //public IEnumerable<Dropdown> GetMobileList()
+        //{
+        //    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MYConnector"].ToString());
+        //    string query = "SELECT [ID],[RoleName] AS Name FROM [dbo].[Role]";
+        //    var result = con.Query<Dropdown>(query);
+        //    return result;
+        //}
+        public IEnumerable<Role>GetRoleList()
+        {
+            List<Role> items = new List<Role>();
+            string constr = ConfigurationManager.ConnectionStrings["PayMe-Connectionstring"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "SELECT [ID],[RoleName] AS Name FROM [dbo].[Role]";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            items.Add(new Role
+                            {
+                                RoleID = Convert.ToInt32(sdr["ID"].ToString()),
+                                RoleName = sdr["Name"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
+                }
+            }
+
+            return items;
+        }
 
     }
 }

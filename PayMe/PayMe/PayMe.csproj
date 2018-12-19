@@ -293,9 +293,11 @@
     <Content Include="js\easypiechart.js" />
     <Content Include="js\html5shiv.min.js" />
     <Content Include="js\jquery-1.11.1.min.js" />
+    <Content Include="js\jquery-3.3.1.min.js" />
     <Content Include="js\lumino.glyphs.js" />
     <Content Include="js\npm.js" />
     <Content Include="js\respond.min.js" />
+    <Content Include="js\tableExport.js" />
     <Content Include="login.html" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
@@ -766,7 +768,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
