@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "PayMe - Projects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
+
+</script>
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Projects</li>
+    </ol>
+</div>
+
+<div style="float:right;"><a href="~/Project/Create" class="btn btn-md btn-primary">Create</a></div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Projects</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-url="../Project/GetProjectList" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="ClientName" data-sortable="true">Client</th>
+                            <th data-field="ProjectName" data-sortable="true">Project</th>
+                            <th data-field="PrimaryContact" data-sortable="true">Primary Contact</th>
+                            <th data-field="LocationInfo" data-sortable="true">Location Info</th>
+                            <th data-field="IsActive" data-sortable="true">Is Active</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

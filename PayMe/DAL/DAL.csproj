@@ -53,6 +53,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="DatabaseContext.cs" />
+    <Compile Include="ProjectManager.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
