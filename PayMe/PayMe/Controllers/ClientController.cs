@@ -43,11 +43,21 @@ namespace PayMe.Controllers
 
         // POST: Client/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Client client)
         {
             try
             {
+                ClientManager clientManager = new ClientManager();
+                clientManager.CreateClient(client);
+                //UserManager userManager = new UserManager();
+                ////string password = EncryptionLibrary.EncryptText(registration.Password);
+                ////string username = Session["Username"].ToString();
+                //userManager.CreateUser(client.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
+                //    , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
+
                 // TODO: Add insert logic here
+                TempData["MessageRegistration"] = "Data Saved Successfully!";
+               // return RedirectToAction("Register");
 
                 return RedirectToAction("Index");
             }
