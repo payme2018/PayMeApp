@@ -791,6 +791,8 @@
     <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Employee\Register.cshtml" />
     <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\ClientCreate.cshtml" />
+    <Content Include="Views\Client\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
