@@ -13,20 +13,7 @@ namespace PayMe.Controllers
         // GET: Client
         public ActionResult Index()
         {
-
-            IEnumerable<Client> clientList = null;
-            try
-            {
-                ClientManager clientManager = new ClientManager();
-                clientList = clientManager.GetClients();
-            }
-            catch (Exception ex)
-            {
-                string sMessage = ex.Message;
-
-            }
-            
-            return View(clientList);
+            return View();
         }
 
         // GET: Client/Details/5
@@ -49,17 +36,8 @@ namespace PayMe.Controllers
             {
                 ClientManager clientManager = new ClientManager();
                 clientManager.CreateClient(client);
-                //UserManager userManager = new UserManager();
-                ////string password = EncryptionLibrary.EncryptText(registration.Password);
-                ////string username = Session["Username"].ToString();
-                //userManager.CreateUser(client.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
-                //    , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
-
-                // TODO: Add insert logic here
-                TempData["MessageRegistration"] = "Data Saved Successfully!";
-               // return RedirectToAction("Register");
-
-                return RedirectToAction("Index");
+                TempData["Message"] = "Client Created Successfully";
+                return RedirectToAction("Create");
             }
             catch
             {
@@ -109,6 +87,24 @@ namespace PayMe.Controllers
             {
                 return View();
             }
+        }
+
+        public JsonResult GetClientList()
+        {
+            IEnumerable<Client> clientList = null;
+            try
+            {
+                ClientManager clientManager = new ClientManager();
+                clientList = clientManager.GetClients();
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+
+            }
+            var jsonResult = this.Json(clientList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
     }
 }

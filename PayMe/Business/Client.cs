@@ -13,12 +13,22 @@ namespace Business
     {
         [Key]
         public int ID { get; set; }
+        [DisplayName("Client Code")]
+        [Required(ErrorMessage = "Enter Client Code")]
+        public string ClientCode { get; set; }
 
-      public string ClientCode { get; set; }
+        [DisplayName("Client Name")]
+        [Required(ErrorMessage = "Enter Client Name")]
         public string ClientName { get; set; }
+
+        [DisplayName("Primary Contact")]
         public string PrimaryContact { get; set; }
+
+        [DisplayName("Location Info")]
         public string LocationInfo { get; set; }
         public string Description { get; set; }
+
+        [DisplayName("Is Active")]
         public bool IsActive { get; set; }
     }
 }

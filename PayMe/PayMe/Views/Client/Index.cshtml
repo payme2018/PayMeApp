@@ -1,64 +1,54 @@
-﻿@model IEnumerable<Business.Client>
-
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "PayMe - Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<script>
+    $(document).ready(function () {
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
 
+</script>
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Clients</li>
+    </ol>
+</div>
 
-<div style="float:right;margin-right: 84px;"><a href="~/Client/Create" class="btn btn-primary btn-lg">Create</a></div>
+<div style="float:right;"><a href="~/Client/Create" class="btn btn-md btn-primary">Create</a></div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ClientCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClientName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PrimaryContact)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LocationInfo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClientCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ClientName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrimaryContact)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LocationInfo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsActive)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-
-</table>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Clients</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-url="../Client/GetClientList" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="ClientName" data-sortable="true">Client Name</th>
+                            <th data-field="ClientCode" data-sortable="true">Client Code</th>
+                            <th data-field="PrimaryContact" data-sortable="true">Primary Contact</th>
+                            <th data-field="LocationInfo" data-sortable="true">Location Info</th>
+                            <th data-field="IsActive" data-sortable="true">Is Active</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

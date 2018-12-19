@@ -47,7 +47,7 @@ namespace PayMe.Controllers
                     , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
 
                 // TODO: Add insert logic here
-                TempData["MessageRegistration"] = "Data Saved Successfully!";
+                TempData["MessageRegistration"] = "Data Saved Successfully";
                 return RedirectToAction("Register");
             }
             catch
