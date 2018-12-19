@@ -1,6 +1,9 @@
 ﻿using Business;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,26 +12,152 @@ namespace DAL
 {
    public class UserManager
     {
-        public Registration ValidateUser(string userName, string passWord)
+        public Registration ValidateUser(string username, string password)
         {
             try
             {
-                using (var _context = new DatabaseContext())
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("ValidateUser", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserName", username);
+                cmd.Parameters.AddWithValue("@Password", password);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                Registration registration = new Registration();
+                if (reader.HasRows)
                 {
+                    while (reader.Read())
+                    {
+                        registration.RoleID = Convert.ToInt32( reader["fkRoleId"].ToString());
+                        registration.EmployeeID = Convert.ToInt32(reader["ID"].ToString());
+                        registration.Username = reader["UserName"].ToString();
+                    }
+                }
+                reader.Close();
+                connection.Close();
 
-                    var test = _context.Registration;
-                    var validate = (from user in _context.Registration
-                                    where user.Username == userName && user.Password == passWord
-                                    select user).SingleOrDefault();
+                return registration;
 
-                    return validate;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+        public IEnumerable<Registration> GetUsers()
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetUserList", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+               
+
+                List<Registration> registrationList = new List<Registration>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Registration registration = new Registration();
+                        registration.RoleID = Convert.ToInt32(reader["fkRoleId"].ToString());
+                        registration.EmployeeID = Convert.ToInt32(reader["ID"].ToString());
+                        registration.Username = reader["UserName"].ToString();
+                        registration.FirstName = reader["FirstName"].ToString();
+                        registration.LastName = reader["LastName"].ToString();
+                        registration.RoleName = reader["RoleName"].ToString();
+                        registration.GenderName = reader["Gender"].ToString();
+                        registration.EmailID = reader["EmailID"].ToString();
+                        registrationList.Add(registration);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+
+                return registrationList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+        public string CreateUser(string firstName, string lastName, string email, DateTime? dateOfJoining, DateTime? dob, string designation, string emplyeeCode,
+            int gender, string userName, string password, int roleID, string createdBy)
+        {
+            string returnValue = "";
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("CreateUser", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@FirstName", firstName);
+                cmd.Parameters.AddWithValue("@LastName", lastName);
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@DateOfJoining", dateOfJoining);
+                cmd.Parameters.AddWithValue("@DOB", dob);
+                cmd.Parameters.AddWithValue("@Designation", designation);
+                cmd.Parameters.AddWithValue("@EmployeeCode", emplyeeCode);
+                cmd.Parameters.AddWithValue("@Gender", gender);
+                cmd.Parameters.AddWithValue("@UserName", userName);
+                cmd.Parameters.AddWithValue("@Password", password);
+                cmd.Parameters.AddWithValue("@RoleID", roleID);
+                cmd.Parameters.AddWithValue("@CreatedBy", createdBy);
+                cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                int outputId = Convert.ToInt32(cmd.Parameters["@output"].Value);
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+            return returnValue;
+        }
+        //public IEnumerable<Dropdown> GetMobileList()
+        //{
+        //    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["MYConnector"].ToString());
+        //    string query = "SELECT [ID],[RoleName] AS Name FROM [dbo].[Role]";
+        //    var result = con.Query<Dropdown>(query);
+        //    return result;
+        //}
+        public IEnumerable<Role>GetRoleList()
+        {
+            List<Role> items = new List<Role>();
+            string constr = ConfigurationManager.ConnectionStrings["PayMe-Connectionstring"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                string query = "SELECT [ID],[RoleName] AS Name FROM [dbo].[Role]";
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            items.Add(new Role
+                            {
+                                RoleID = Convert.ToInt32(sdr["ID"].ToString()),
+                                RoleName = sdr["Name"].ToString()
+                            });
+                        }
+                    }
+                    con.Close();
                 }
             }
-            catch (Exception)
-            {
 
-                throw;
-            }
+            return items;
         }
 
     }
