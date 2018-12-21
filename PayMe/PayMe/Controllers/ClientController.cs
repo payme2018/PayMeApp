@@ -1,5 +1,6 @@
 ﻿using Business;
 using DAL;
+using PayMe.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace PayMe.Controllers
 {
+    [ValidateUserSession]
     public class ClientController : Controller
     {
         // GET: Client

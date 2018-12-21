@@ -1,5 +1,6 @@
 ﻿using Business;
 using DAL;
+using PayMe.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace PayMe.Controllers
 {
+    [ValidateUserSession]
     public class ProjectController : Controller
     {
         // GET: Project
@@ -34,13 +36,14 @@ namespace PayMe.Controllers
 
         // POST: Project/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Project project)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                ProjectManager projectManager = new ProjectManager();
+                projectManager.CreateProject(project);
+                TempData["Message"] = "Project Created Successfully";
+                return RedirectToAction("Create");
             }
             catch
             {
