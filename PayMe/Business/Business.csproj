@@ -48,6 +48,8 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Employee.cs" />
+    <Compile Include="ExpenseDetail.cs" />
+    <Compile Include="ExpenseSummary.cs" />
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

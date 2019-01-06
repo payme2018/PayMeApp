@@ -1,0 +1,123 @@
+﻿@model Business.ExpenseSummary
+@{
+    ViewBag.Title = "PayMe - Create Expense Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Expense Summary</li>
+    </ol>
+</div><!--/.row-->
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Create Expense</div>
+    <div class="panel-body">
+
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @using (Html.BeginForm())
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.ProjectID, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("ProjectID", ViewBag.Projects as SelectList, "--Please select--"
+, new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div class="clearfix"></div>
+                <div class="col-lg-4">
+                 
+                        @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-4">
+                   @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+              
+
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="col-lg-4">
+
+                    <input type="submit" value="Create" class="btn btn-md btn-primary" />
+                    @Html.ActionLink("Cancel", "Index", "Expense", null, new { @class = "btn btn-md btn-primary" })
+
+
+
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+   
+
+        $("#FromDate").datepicker
+           ({
+               dateFormat: "yy-mm-dd",
+               changeMonth: true,
+               changeYear: true,
+               yearRange: "-100:+100"
+           });
+        $("#ToDate").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+
+    });
+
+   
+
+</script>

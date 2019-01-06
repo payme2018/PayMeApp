@@ -90,10 +90,10 @@ namespace DAL
             }
         }
 
-        public string CreateUser(string firstName, string lastName, string email, DateTime? dateOfJoining, DateTime? dob, string designation, string emplyeeCode,
+        public int CreateUser(string firstName, string lastName, string email, DateTime? dateOfJoining, DateTime? dob, string designation, string emplyeeCode,
             int gender, string userName, string password, int roleID, string createdBy)
         {
-            string returnValue = "";
+            int returnValue = 0;
             try
             {
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
@@ -116,7 +116,7 @@ namespace DAL
 
                 connection.Open();
                 cmd.ExecuteNonQuery();
-                int outputId = Convert.ToInt32(cmd.Parameters["@output"].Value);
+                returnValue = Convert.ToInt32(cmd.Parameters["@output"].Value);
 
                 connection.Close();
             }

@@ -43,12 +43,31 @@ namespace PayMe.Controllers
                 UserManager userManager = new UserManager();
                 string password = EncryptionLibrary.EncryptText(registration.Password);
                 string username = Session["Username"].ToString();
-                userManager.CreateUser(registration.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
+                int value =userManager.CreateUser(registration.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
                     , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
+                if (value == 1)
+                {
+                    TempData["MessageRegistration"] = "User Created Successfully";
+                    return RedirectToAction("Index");
+                }
+                else if (value == 2)
+                {
+                    TempData["MessageRegistration"] = " EmailID already exist";
 
-                // TODO: Add insert logic here
-                TempData["MessageRegistration"] = "Data Saved Successfully";
-                return RedirectToAction("Register");
+                }
+                else if (value == 3)
+                {
+                    TempData["MessageRegistration"] = " Username already exist";
+
+                }
+                else if (value == 0)
+                {
+                    TempData["MessageRegistration"] = "Error Occured";
+
+                }
+                ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
+                return View(registration);
+
             }
             catch
             {

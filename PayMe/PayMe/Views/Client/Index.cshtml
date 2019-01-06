@@ -13,6 +13,9 @@
             });
         });
     });
+    function YesNoFormater(value) {
+        return value == true ? 'Yes' : 'No';
+    }
 
 </script>
 <div class="row">
@@ -44,7 +47,7 @@
                             <th data-field="ClientCode" data-sortable="true">Client Code</th>
                             <th data-field="PrimaryContact" data-sortable="true">Primary Contact</th>
                             <th data-field="LocationInfo" data-sortable="true">Location Info</th>
-                            <th data-field="IsActive" data-sortable="true">Is Active</th>
+                            <th data-field="IsActive" data-sortable="true" data-formatter="YesNoFormater">Is Active</th>
                         </tr>
                     </thead>
                 </table>

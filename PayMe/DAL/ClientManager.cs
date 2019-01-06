@@ -86,11 +86,11 @@ namespace DAL
             return returnValue;
         }
 
-        public string CreateClient(
+        public int CreateClient(
           Client client
           )
         {
-            string returnValue = "";
+            int returnValue = 0;
             try
             {
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
@@ -107,7 +107,7 @@ namespace DAL
 
                 connection.Open();
                 cmd.ExecuteNonQuery();
-                int outputId = Convert.ToInt32(cmd.Parameters["@output"].Value);
+                returnValue = Convert.ToInt32(cmd.Parameters["@output"].Value);
 
                 connection.Close();
             }

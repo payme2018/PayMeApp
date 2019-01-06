@@ -37,8 +37,21 @@ namespace PayMe.Controllers
             try
             {
                 ClientManager clientManager = new ClientManager();
-                clientManager.CreateClient(client);
-                TempData["Message"] = "Client Created Successfully";
+                int value = clientManager.CreateClient(client);
+                if (value == 1)
+                {
+                    TempData["Message"] = "Client Created Successfully";
+                }
+                else if (value == 2)
+                {
+                    TempData["Message"] = "Client Name already exists";
+                    return View();
+                }
+                else if (value == 0)
+                {
+                    TempData["Message"] = "Error Occured";
+                    return View();
+                }
                 return RedirectToAction("Create");
             }
             catch

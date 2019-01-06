@@ -41,8 +41,23 @@ namespace PayMe.Controllers
             try
             {
                 ProjectManager projectManager = new ProjectManager();
-                projectManager.CreateProject(project);
-                TempData["Message"] = "Project Created Successfully";
+                int value = projectManager.CreateProject(project);
+
+                if (value == 1)
+                {
+                    TempData["Message"] = "Project Created Successfully";
+                }
+                else if (value == 2)
+                {
+                    TempData["Message"] = "Project Name already exists";
+                   
+                }
+                else if (value == 0)
+                {
+                    TempData["Message"] = "Error Occured";
+                   
+                }
+
                 return RedirectToAction("Create");
             }
             catch

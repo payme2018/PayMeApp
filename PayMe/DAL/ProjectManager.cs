@@ -50,9 +50,9 @@ namespace DAL
             }
         }
 
-        public string CreateProject(Project project)
+        public int CreateProject(Project project)
         {
-            string returnValue = "";
+            int returnValue = 0;
             try
             {
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
@@ -69,7 +69,7 @@ namespace DAL
 
                 connection.Open();
                 cmd.ExecuteNonQuery();
-                int outputId = Convert.ToInt32(cmd.Parameters["@output"].Value);
+                returnValue = Convert.ToInt32(cmd.Parameters["@output"].Value);
 
                 connection.Close();
             }

@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "PayMe - Expense Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
+    function Action(value) {
+        return '<a href="../Expense/Detail/' + value + '"><em class="fa fa-plus-circle"></a>';
+    }
+    function dateFormat(value, row, index) {
+        return moment(value).format('MM/DD/YYYY');
+    }
+  
+</script>
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Expense Summary</li>
+    </ol>
+</div>
+
+<div style="float:right;"><a href="~/Expense/Create" class="btn btn-md btn-primary">Create</a></div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Expense Summary</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-url="../Expense/GetExpenseSummaries" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="Name" data-sortable="true">Name</th>
+                            <th data-field="ProjectName" data-sortable="true">Project Name</th>
+                            <th data-field="ExpenseStatusName" data-sortable="true">Expense Status</th>
+                            <th data-field="TotalAmount" data-sortable="true">Total Amount</th>
+                            <th data-field="ApprovedAmount" data-sortable="true">Approved Amount</th>
+                            <th data-field="FromDate" data-sortable="true" data-formatter="dateFormat">From Date</th>
+                            <th data-field="ToDate" data-sortable="true" data-formatter="dateFormat">To Date</th>
+                            <th data-field="ID" data-sortable="true" data-formatter="Action">Add</th>
+                            <td><i class="fa fa-plus-circle"></i></td>
+                           
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
