@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
    
     @*@Scripts.Render("~/bundles/modernizr")*@
@@ -95,7 +95,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span>MVC</span>&nbsp;TestProject</a>
+                <a class="navbar-brand" href="#"><span>PAY</span>&nbsp;ME</a>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -176,11 +176,11 @@
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
         <div class="profile-sidebar">
-            <div class="profile-userpic">
-                <img src="http://placehold.it/50/30a5ff/fff" class="img-responsive" alt="">
-            </div>
+            @*<div class="profile-userpic">
+                <img src="~/Images/UserIcon.png" class="img-responsive" alt="">
+            </div>*@
             <div class="profile-usertitle">
-                <div class="profile-usertitle-name">@Session["Username"] !</div>
+                <div class="profile-usertitle-name">@Session["FullName"]</div>
                 <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
             </div>
             <div class="clear"></div>
@@ -193,10 +193,11 @@
         </form>
         <ul class="nav menu">
             <li class="active"><a href="~/Home/Index"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="~/Employee/Index"><em class="fa fa-calendar">&nbsp;</em> Employees</a></li>
-            <li><a  href="~/Client/Index"><em class="fa fa-bar-chart">&nbsp;</em> Client</a></li>
-            <li><a  href="#"><em class="fa fa-toggle-off">&nbsp;</em> Project</a></li>
-            <li><a href="#"><em class="fa fa-clone">&nbsp;</em> Alerts &amp; Panels</a></li>
+            <li><a href="~/Employee/Index"><em class="fa fa-users">&nbsp;</em> Employees</a></li>
+            <li><a  href="~/Client/Index"><em class="fa fa-globe">&nbsp;</em> Clients</a></li>
+            <li><a  href="~/Project/Index"><em class="fa fa-suitcase">&nbsp;</em> Projects</a></li>
+            <li><a  href="~/Expense/Index"><em class="fa fa-money">&nbsp;</em> Expenses</a></li>
+          
             <li class="parent ">
                 <a data-toggle="collapse" href="#sub-item-1">
                     <em class="fa fa-navicon">&nbsp;</em> Timesheet <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
@@ -219,6 +220,7 @@
                     </li>
                 </ul>
             </li>
+            <li><a href="#"><em class="fa fa-bar-chart">&nbsp;</em> Reports</a></li>
             <li><a href="~/Login/Logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div><!--/.sidebar-->

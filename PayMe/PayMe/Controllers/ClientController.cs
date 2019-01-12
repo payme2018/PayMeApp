@@ -1,5 +1,6 @@
 ﻿using Business;
 using DAL;
+using PayMe.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +9,13 @@ using System.Web.Mvc;
 
 namespace PayMe.Controllers
 {
+    [ValidateUserSession]
     public class ClientController : Controller
     {
         // GET: Client
         public ActionResult Index()
         {
-
-            IEnumerable<Client> clientList = null;
-            try
-            {
-                ClientManager clientManager = new ClientManager();
-                clientList = clientManager.GetClients();
-            }
-            catch (Exception ex)
-            {
-                string sMessage = ex.Message;
-
-            }
-            
-            return View(clientList);
+            return View();
         }
 
         // GET: Client/Details/5
@@ -48,18 +37,22 @@ namespace PayMe.Controllers
             try
             {
                 ClientManager clientManager = new ClientManager();
-                clientManager.CreateClient(client);
-                //UserManager userManager = new UserManager();
-                ////string password = EncryptionLibrary.EncryptText(registration.Password);
-                ////string username = Session["Username"].ToString();
-                //userManager.CreateUser(client.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
-                //    , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
-
-                // TODO: Add insert logic here
-                TempData["MessageRegistration"] = "Data Saved Successfully!";
-               // return RedirectToAction("Register");
-
-                return RedirectToAction("Index");
+                int value = clientManager.CreateClient(client);
+                if (value == 1)
+                {
+                    TempData["Message"] = "Client Created Successfully";
+                }
+                else if (value == 2)
+                {
+                    TempData["Message"] = "Client Name already exists";
+                    return View();
+                }
+                else if (value == 0)
+                {
+                    TempData["Message"] = "Error Occured";
+                    return View();
+                }
+                return RedirectToAction("Create");
             }
             catch
             {
@@ -109,6 +102,24 @@ namespace PayMe.Controllers
             {
                 return View();
             }
+        }
+
+        public JsonResult GetClientList()
+        {
+            IEnumerable<Client> clientList = null;
+            try
+            {
+                ClientManager clientManager = new ClientManager();
+                clientList = clientManager.GetClients();
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+
+            }
+            var jsonResult = this.Json(clientList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
     }
 }

@@ -46,6 +46,8 @@ namespace PayMe.Controllers
 
                             Session["RoleID"] = Convert.ToString(result.RoleID);
                             Session["Username"] = Convert.ToString(result.Username);
+                            Session["FullName"] = result.FirstName + " " + result.LastName;
+                            Session["UserID"] = result.EmployeeID;
                             return RedirectToAction("Index", "Home");
                             //if (RoleID == 1)
                             //{
