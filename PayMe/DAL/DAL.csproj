@@ -55,6 +55,7 @@
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="ExpenseManager.cs" />
     <Compile Include="ProjectManager.cs" />
+    <Compile Include="TaskManager.cs" />
     <Compile Include="UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

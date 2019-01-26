@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "PayMe - Projects";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script>
+    $(document).ready(function () {
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
+    function YesNoFormater(value) {
+        return value == true ? 'Yes' : 'No';
+    }
+
+    function ActionEdit(value) {
+        return '<a href="../Tasks/Edit/' + value + '"><em class="fa fa-pencil-square" style="font-size:18px;color:dodgerblue"></a>';
+    }
+    function ActionDelete(value) {
+      
+        return '<a onclick="return confirm_click();" href="../Tasks/Delete/' + value + ' "><em class="fa fa-trash"  style="font-size:18px;color:red"></a>';
+              
+    }
+    function confirm_click(value) {
+        return confirm('Are you sure do you want to delete task?');
+    }   
+
+
+</script>
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Tasks</li>
+    </ol>
+</div>
+<div style="float:right;"><a href="~/Tasks/Create" class="btn btn-md btn-primary">Create</a></div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Tasks</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-url="../Tasks/GetTaskList" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="ClientName" data-sortable="true">Client</th>
+                            <th data-field="ProjectName" data-sortable="true">Project</th>
+                            <th data-field="TaskName" data-sortable="true">Task Name</th>                          
+                            <th data-field="IsActive" data-sortable="true" data-formatter="YesNoFormater">Is Active</th>
+                            <th data-field="ID" data-sortable="true" data-formatter="ActionEdit">Edit</th>
+                            <th data-field="ID" data-sortable="true" data-formatter="ActionDelete">Delete</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
