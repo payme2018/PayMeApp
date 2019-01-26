@@ -148,7 +148,19 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
         $("#expenseAttachment").hide();
+
+     
+        $('#BSbtninfo').filestyle({
+ 
+            buttonName : 'btn-info',
+ 
+            buttonText : ' Select a File'
+ 
+        });
+
+
         var table = $('#table');
         $('#export').click(function () {
             table.tableExport({
