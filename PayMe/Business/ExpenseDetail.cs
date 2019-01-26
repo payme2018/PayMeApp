@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
 
 namespace Business
 {
@@ -37,6 +38,11 @@ namespace Business
         [DisplayName("Has Attachment")]
         public bool HasAttachment { get; set; }
         public string Notes { get; set; }
+
+        public HttpPostedFileBase expenseAttachment { get; set; }
+        public string Name { get; set; }
+        public string ContentType { get; set; }
+        public byte[] Data { get; set; }
     }
 
     public class ExpenseCategory

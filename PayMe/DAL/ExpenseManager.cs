@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Web;
 namespace DAL
 {
     public class ExpenseManager
@@ -227,5 +228,33 @@ namespace DAL
             return returnValue;
         }
 
+        //public int UploadExpenseDetailDocument(ExpenseDetail expenseDetail)
+        //{
+        //    int returnValue = 0;
+        //    try
+        //    {
+
+        //        string constr = ConfigurationManager.ConnectionStrings["ConString"].ConnectionString;
+        //        using (SqlConnection con = new SqlConnection(constr))
+        //        {
+        //            string query = "INSERT INTO tblFiles VALUES (@Name, @ContentType, @Data)";
+        //            using (SqlCommand cmd = new SqlCommand(query))
+        //            {
+        //                cmd.Connection = con;
+        //                cmd.Parameters.AddWithValue("@Name", Path.GetFileName(expenseDetail.expenseAttachment));
+        //                cmd.Parameters.AddWithValue("@ContentType", expenseDetail.expenseAttachment.ContentType);
+        //                cmd.Parameters.AddWithValue("@Data", bytes);
+        //                con.Open();
+        //                cmd.ExecuteNonQuery();
+        //                con.Close();
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new ApplicationException(ex.Message.ToString());
+        //    }
+        //    return returnValue;
+        //}
     }
 }

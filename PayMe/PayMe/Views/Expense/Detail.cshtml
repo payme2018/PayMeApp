@@ -30,7 +30,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @using (Html.BeginForm())
+      @using (Html.BeginForm("Detail", "Expense", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
             @Html.AntiForgeryToken()
 
@@ -80,7 +80,9 @@
                     @Html.EditorFor(model => model.HasAttachment)
                     @Html.ValidationMessageFor(model => model.HasAttachment, "", new { @class = "text-danger" })
                 </div>
-
+              
+                
+               
             </div>
             <div class="row">
                 <div class="col-lg-4">
@@ -88,8 +90,10 @@
                     @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
                 </div>
-               
-            </div>
+                <div class="col-lg-4">
+                    @Html.TextBoxFor(model => model.expenseAttachment, new { Type = "File" })
+                </div>
+                </div>
 
             <br />
             <div class="row">
@@ -125,6 +129,7 @@
                                 <th data-field="Location" data-sortable="true">Location</th>
                                 <th data-field="HasAttachment" data-sortable="true" data-formatter="YesNoFormater">Has Attachment</th>
                                 <th data-field="Notes" data-sortable="true">To Date</th>
+                                <th data-field="ID" data-sortable="true" data-formatter="Download">Download</th>
                             </tr>
                         </thead>
                     </table>
@@ -143,6 +148,9 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        $("#expenseAttachment").hide();
+
      
         $('#BSbtninfo').filestyle({
  
@@ -151,6 +159,7 @@
             buttonText : ' Select a File'
  
         });
+
 
         var table = $('#table');
         $('#export').click(function () {
@@ -170,9 +179,21 @@
                changeYear: true,
                yearRange: "-100:+100"
            });
-        
+
+        $("#HasAttachment").click(function () {
+            if ($(this).is(':checked')) {
+                $("#expenseAttachment").show();
+            }
+            else {
+                $("#expenseAttachment").hide();
+            }
+        });
 
     });
+   
+    function Download(value) {
+        return '<a href="/Expense/DownloadFile/' + value + '"><em class="fa fa-download"></a>';
+    }  
     function dateFormat(value, row, index) {
         return moment(value).format('MM/DD/YYYY');
     }
