@@ -50,6 +50,40 @@ namespace DAL
             }
         }
 
+
+        public IEnumerable<Project> GetProjectsByClient(int ClientID)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetProjectsByClient", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ClientID", ClientID);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Project> projectList = new List<Project>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Project project = new Project();
+                        project.ID = Convert.ToInt32(reader["ID"].ToString());
+                        project.ProjectName = reader["ProjectName"].ToString();                      
+                        projectList.Add(project);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return projectList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
         public int CreateProject(Project project)
         {
             int returnValue = 0;
