@@ -2,6 +2,9 @@
 using DAL;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -53,8 +56,8 @@ namespace PayMe.Controllers
                         TempData["Message"] = "Error Occured";
 
                     }
-
-                    return RedirectToAction("Index");
+                    return Redirect("~/Expense/Index");
+                   
                 }
                 catch (Exception ex)
                 {
@@ -109,24 +112,75 @@ namespace PayMe.Controllers
                 ExpenseManager expenseManager = new ExpenseManager();
                 expenseDetail.ExpenseSummaryID = id;
                 int value = expenseManager.CreateExpenseDetail(expenseDetail);
-
-                if (value == 1)
+                ////create path to store in database
+                //// expenseDetail.user_image = "~/image/" + expenseDetail.expenseAttachment.FileName;
+                //var t = Server.MapPath("Images") + "/" + expenseDetail.expenseAttachment.FileName;
+                ////store image in folder
+                //expenseDetail.expenseAttachment.SaveAs(Server.MapPath("~/Images") + "/" + expenseDetail.expenseAttachment.FileName);
+                byte[] bytes;
+                using (BinaryReader br = new BinaryReader(expenseDetail.expenseAttachment.InputStream))
                 {
-                    TempData["Message"] = "Expense Detail Created Successfully";
+                    bytes = br.ReadBytes(expenseDetail.expenseAttachment.ContentLength);
+                }
+                string constr = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string query = "INSERT INTO ExpenseDetailDocument VALUES (@ExpenseDetailID,@Name, @ContentType, @Data)";
+                    using (SqlCommand cmd = new SqlCommand(query))
+                    {
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("@ExpenseDetailID", value);
+                        cmd.Parameters.AddWithValue("@Name", Path.GetFileName(expenseDetail.expenseAttachment.FileName));
+                        cmd.Parameters.AddWithValue("@ContentType", expenseDetail.expenseAttachment.ContentType);
+                        cmd.Parameters.AddWithValue("@Data", bytes);
+                      
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
                 }
 
-                else if (value == 0)
-                {
-                    TempData["Message"] = "Error Occured";
-
-                }
+                TempData["Message"] = "Expense Detail Created Successfully";
 
                 return RedirectToAction("Detail/" + id);
             }
             catch (Exception ex)
             {
+                TempData["Message"] = "Error Occured";
                 return View();
             }
+        }
+
+   
+        public ActionResult DownloadFile(int id)
+        {
+            byte[] bytes =null;
+            string fileName="", contentType="";
+            string constr = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.CommandText = "SELECT Name, Data, ContentType FROM ExpenseDetailDocument WHERE ExpenseDetailID=@ExpenseDetailID";
+                    cmd.Parameters.AddWithValue("@ExpenseDetailID", id);
+                    cmd.Connection = con;
+                    con.Open();
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        if (sdr.HasRows)
+                        {
+                            sdr.Read();
+                            bytes = (byte[])sdr["Data"];
+                            contentType = sdr["ContentType"].ToString();
+                            fileName = sdr["Name"].ToString();
+                        }
+                    }
+                    con.Close();
+                }
+            }
+
+            return File(bytes, contentType, fileName);
+          
         }
 
         // GET: Expense/Delete/5
@@ -185,6 +239,12 @@ namespace PayMe.Controllers
             var jsonResult = this.Json(expenseDetailList, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
+        }
+
+        public FileResult Download(string ImageName)
+        {
+            var FileVirtualPath = "~/Images/" + ImageName;
+            return File(FileVirtualPath, "application/force-download", Path.GetFileName(FileVirtualPath));
         }
     }
 }
