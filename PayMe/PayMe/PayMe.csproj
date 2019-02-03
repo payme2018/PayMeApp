@@ -823,9 +823,12 @@
     <Content Include="Views\Expense\Detail.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Tasks\Create.cshtml" />
+    <Content Include="Views\Expense\Upload.cshtml" />
+    <Content Include="Template\Expense Detail Template.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\ExpenseDetail\" />
     <Folder Include="Views\ExpenseDetail\" />
   </ItemGroup>
   <ItemGroup>

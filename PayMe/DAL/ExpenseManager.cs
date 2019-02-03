@@ -101,6 +101,51 @@ namespace DAL
             }
         }
 
+
+        public IEnumerable<ExpenseDetail> UplodExpenseDetail(DataTable ExpenseDetail)
+        {
+
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("UploadExpenseDetail", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ExpenseDetail", ExpenseDetail);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<ExpenseDetail> ExpenseDetailList = new List<ExpenseDetail>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExpenseDetail expenseDetail = new ExpenseDetail();                                               
+                        expenseDetail.CategoryName = reader["CategoryName"].ToString();                      
+                        expenseDetail.CurrencyBillNo = reader["CurrencyBillNo"].ToString();
+                        expenseDetail.Amount = Convert.ToDecimal(reader["Amount"] == DBNull.Value ? 0 : reader["Amount"]);
+                        expenseDetail.BillDate = Convert.ToDateTime(reader["BillDate"].ToString());
+                        expenseDetail.Location = reader["Location"].ToString();
+                        //expenseDetail.HasAttachment = Convert.ToBoolean(reader["HasAttachment"]);
+                        expenseDetail.Notes = reader["Notes"].ToString();
+                        expenseDetail.Error = reader["Error"].ToString();
+                        ExpenseDetailList.Add(expenseDetail);
+
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return ExpenseDetailList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }                       
+        }
+
+
+
+
         public int CreateExpense(ExpenseSummary expenseSummary)
         {
             int returnValue = 0;

@@ -3,6 +3,8 @@ using DAL;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -31,7 +33,7 @@ namespace PayMe.Controllers
             ProjectManager projectManager = new ProjectManager();
             ViewBag.Projects = new SelectList(projectManager.GetProjects(), "ID", "ProjectName");
             return View();
-           
+
         }
 
         // POST: Expense/Create
@@ -50,21 +52,21 @@ namespace PayMe.Controllers
                     {
                         TempData["Message"] = "Expense Created Successfully";
                     }
-                   
+
                     else if (value == 0)
                     {
                         TempData["Message"] = "Error Occured";
 
                     }
                     return Redirect("~/Expense/Index");
-                   
+
                 }
                 catch (Exception ex)
                 {
                     return View();
                 }
 
-               
+
             }
             catch
             {
@@ -94,6 +96,17 @@ namespace PayMe.Controllers
             }
         }
         public ActionResult Detail(int id)
+        {
+
+            ExpenseManager expenseManager = new ExpenseManager();
+            ViewBag.ExpenseSummaryName = expenseManager.GetExpenseSummaryName(id);
+            ViewBag.ExpenseSummaryID = id;
+            ViewBag.Category = new SelectList(expenseManager.GetExpenseCategory(), "ID", "Name");
+            return View();
+        }
+
+
+        public ActionResult Upload(int id)
         {
 
             ExpenseManager expenseManager = new ExpenseManager();
@@ -133,7 +146,7 @@ namespace PayMe.Controllers
                         cmd.Parameters.AddWithValue("@Name", Path.GetFileName(expenseDetail.expenseAttachment.FileName));
                         cmd.Parameters.AddWithValue("@ContentType", expenseDetail.expenseAttachment.ContentType);
                         cmd.Parameters.AddWithValue("@Data", bytes);
-                      
+
                         con.Open();
                         cmd.ExecuteNonQuery();
                         con.Close();
@@ -151,11 +164,11 @@ namespace PayMe.Controllers
             }
         }
 
-   
+
         public ActionResult DownloadFile(int id)
         {
-            byte[] bytes =null;
-            string fileName="", contentType="";
+            byte[] bytes = null;
+            string fileName = "", contentType = "";
             string constr = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
             using (SqlConnection con = new SqlConnection(constr))
             {
@@ -180,7 +193,7 @@ namespace PayMe.Controllers
             }
 
             return File(bytes, contentType, fileName);
-          
+
         }
 
         // GET: Expense/Delete/5
@@ -246,5 +259,319 @@ namespace PayMe.Controllers
             var FileVirtualPath = "~/Images/" + ImageName;
             return File(FileVirtualPath, "application/force-download", Path.GetFileName(FileVirtualPath));
         }
+
+
+
+        [HttpPost]
+        public JsonResult UploadExcelsheet()
+        {
+            var id = Request.Params["id"];
+            IEnumerable<ExpenseDetail> expenseDetailerrorList = null;
+
+            try
+            {
+                if (Request.Files.Count > 0)
+                {
+                    List<string> data = new List<string>();
+                    var File = Request.Files[0];
+                    string filePath = string.Empty;
+                    string path=Server.MapPath("~/Uploads/ExpenseDetail/");
+                    //string path = ConfigurationManager.AppSettings["UploadFiles"];
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+
+                    //foreach (HttpPostedFileBase File in fileToUpload)
+                    //{
+                    filePath = path + Path.GetFileName(File.FileName);
+                    string extension = Path.GetExtension(File.FileName);
+                    if ((System.IO.File.Exists(filePath)))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    File.SaveAs(filePath);
+
+                    string conString = string.Empty;
+                    switch (extension)
+                    {
+                        case ".xls": //Excel 97-03.
+                            conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+                            break;
+                        case ".xlsx": //Excel 07 and above.
+                            conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+                            break;
+                    }
+
+                    DataTable dt = new DataTable();
+                    conString = string.Format(conString, filePath);
+
+                    using (OleDbConnection connExcel = new OleDbConnection(conString))
+                    {
+                        using (OleDbCommand cmdExcel = new OleDbCommand())
+                        {
+                            using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+                            {
+                                cmdExcel.Connection = connExcel;
+
+                                //Get the name of First Sheet.
+                                connExcel.Open();
+                                DataTable dtExcelSchema;
+                                dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                                string sheetName = ConfigurationManager.AppSettings["SheetName"];
+                                connExcel.Close();
+
+                                bool contains = dtExcelSchema.AsEnumerable().Any(row => sheetName == row.Field<String>("TABLE_NAME"));
+                                if (contains)
+                                {
+                                    //Read Data from First Sheet.
+                                    connExcel.Open();
+                                    cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+                                    odaExcel.SelectCommand = cmdExcel;
+                                    odaExcel.Fill(dt);
+                                    connExcel.Close();
+                                }
+                                else
+                                {
+                                    var result = new { Success = "False", Message = "Invalid template. Please check the sheet name" };
+                                    return Json(result, JsonRequestBehavior.AllowGet);
+                                }
+                            }
+                        }
+                    }
+
+                   
+                    if (dt.Rows.Count > 0)
+                    {
+
+                        try
+                        {
+                            ExpenseManager expenseManager = new ExpenseManager();
+
+                            DataTable ExpenseDetailLine = new DataTable("BillingLineItemType");
+                            ExpenseDetailLine.Columns.Add("ExpenseSummaryID", typeof(int));
+                            ExpenseDetailLine.Columns.Add("Category", typeof(string));
+                            ExpenseDetailLine.Columns.Add("BillNo", typeof(string));
+                            ExpenseDetailLine.Columns.Add("Amount", typeof(decimal));
+                            ExpenseDetailLine.Columns.Add("BillDate", typeof(DateTime));
+                            ExpenseDetailLine.Columns.Add("Location", typeof(string));
+                            ExpenseDetailLine.Columns.Add("Notes", typeof(string));                       
+                          
+                           
+
+
+                            int j = 0;
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                DataRow dr = dt.Rows[i];
+
+                                ExpenseDetailLine.Rows.Add();                               
+                                ExpenseDetailLine.Rows[j]["ExpenseSummaryID"] = id;
+                                ExpenseDetailLine.Rows[j]["Category"] = dt.Rows[i]["Category"];
+                                ExpenseDetailLine.Rows[j]["BillNo"] = dt.Rows[i]["BillNo"];
+                                ExpenseDetailLine.Rows[j]["Amount"] = dt.Rows[i]["Amount"];
+                                ExpenseDetailLine.Rows[j]["BillDate"] = Convert.ToDateTime(dt.Rows[i]["BillDate"]);
+                                ExpenseDetailLine.Rows[j]["Location"] = dt.Rows[i]["Location"];
+                                ExpenseDetailLine.Rows[j]["Notes"] = dt.Rows[i]["Notes"];
+                              
+                                j++;
+                                
+                            }
+
+
+
+                            expenseDetailerrorList = expenseManager.UplodExpenseDetail(ExpenseDetailLine);
+                            if (expenseDetailerrorList.Count() > 0)
+                            {
+                               
+                                var jsonResultS = this.Json(expenseDetailerrorList, JsonRequestBehavior.AllowGet);
+                                jsonResultS.MaxJsonLength = int.MaxValue;
+                                return jsonResultS;
+                            }
+                            else
+                            {
+                              
+                                var result = new { Success = "True", Message = "Successfully uploaded !!" };
+                                return Json(result, JsonRequestBehavior.AllowGet);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            string sMessage = ex.Message;
+                            //data.Add("<li>Only Excel file format is allowed</li>");
+                            //data.Add("<li>"+ sMessage + "</li>");
+                            //data.Add("</ul>");
+                            //data.ToArray();
+                            //return Json(data, JsonRequestBehavior.AllowGet);
+                            var result = new { Success = "False", Message = "Invalid template. Please check the template & data format, Error: " + sMessage };
+                            return Json(result, JsonRequestBehavior.AllowGet);
+                        }
+
+
+                        /* ### Unreachable code
+                        var jsonResult = this.Json(_ProjectBillingSummayDto, JsonRequestBehavior.AllowGet);
+                        jsonResult.MaxJsonLength = int.MaxValue;
+                        return jsonResult;
+                        */
+
+                        //}
+                        //data.Add("<ul>");
+                        //data.Add("<li>Only Excel file format is allowed</li>");
+                        //data.Add("</ul>");
+                        //data.ToArray();
+                        //return Json(data, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        var result = new { Success = "False", Message = "File should not empty, Please check the file" };
+                        return Json(result, JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    var result = new { Success = "False", Message = "File should not empty, Please check the file" };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+                //data.Add("<li>Only Excel file format is allowed</li>");
+                //data.Add("<li>"+ sMessage + "</li>");
+                //data.Add("</ul>");
+                //data.ToArray();
+                //return Json(data, JsonRequestBehavior.AllowGet);
+                var result = new { Success = "False", Message = "Exception: " + sMessage };
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        //[HttpPost]
+        //public ActionResult UploadExcelsheet()
+        //{
+        //    if (Request.Files.Count > 0)
+        //    {
+        //        var file = Request.Files[0];
+        //        List<ExpenseDetail> _lstProductMaster = new List<ExpenseDetail>();
+        //        string filePath = string.Empty;
+        //        if (Request.Files != null)
+        //        {
+        //            string path = Server.MapPath("~/Uploads/Product/");
+        //            if (!Directory.Exists(path))
+        //            {
+        //                Directory.CreateDirectory(path);
+        //            }
+        //            filePath = path + Path.GetFileName("ProductUploadSheet-" + DateTime.Now.ToString("dd-MMM-yyyy-HH-mm-ss-ff") + Path.GetExtension(file.FileName));
+        //            string extension = Path.GetExtension("ProductUploadSheet-" + DateTime.Now.ToString("dd-MMM-yyyy-HH-mm-ss-ff") + Path.GetExtension(file.FileName));
+        //            file.SaveAs(filePath);
+
+        //    string conString = string.Empty;
+        //                switch (extension)
+        //                {
+        //                    case ".xls": //Excel 97-03.
+        //                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
+        //                        break;
+        //                    case ".xlsx": //Excel 07 and above.
+        //                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
+        //                        break;
+        //                }
+        //int total = 0;
+        //int entered = 0;
+        //int failed = 0;
+
+        //            conString = string.Format(conString, filePath);
+
+        //            using (OleDbConnection connExcel = new OleDbConnection(conString))
+        //            {
+        //                using (OleDbCommand cmdExcel = new OleDbCommand())
+        //                {
+        //                    using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
+        //                    {
+        //                        DataTable dt = new DataTable();
+        //cmdExcel.Connection = connExcel;
+
+        //                        //Get the name of First Sheet.
+        //                        connExcel.Open();
+        //                        DataTable dtExcelSchema;
+        //dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+        //                        string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
+        //connExcel.Close();
+
+        //                        //Read Data from First Sheet.
+        //                        connExcel.Open();
+        //                        cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
+        //                        odaExcel.SelectCommand = cmdExcel;
+        //                        odaExcel.Fill(dt);
+        //                        connExcel.Close();
+
+
+        //                        if (dt.Rows.Count > 0)
+        //                        {
+
+        //                            foreach (DataRow row in dt.Rows)
+        //                            {
+        //                                total++;
+        //                                _lstProductMaster.Add(new ProductModel
+        //                                {
+        //                                    ProductName = row["ProductName"].ToString().Replace("'", "''"),
+        //                                    ProductSKU = row["VendorSKU"].ToString().Trim() + "GL" + DateTime.Now.Year.ToString().Substring(2),
+        //                                    VendorSKU = row["VendorSKU"].ToString().Trim(),
+        //                                    DisplayText = row["DisplayText"].ToString().Trim(),
+        //                                    ProductSpecification = row["ProductSpecification"].ToString().Replace("'", "''"),
+        //                                    Description = row["Description"].ToString().Replace("'", "''"),
+        //                                    ShortDescription = row["ShortDescription"].ToString().Replace("'", "''"),
+        //                                    LongDescription = row["LongDescription"].ToString().Replace("'", "''"),
+        //                                    InventoryCount = row["InventoryCount"].ToString().Trim(),
+        //                                    ListPrice = row["ListPrice"].ToString().Trim(),
+        //                                    SellingPrice = row["SellingPrice"].ToString().Trim(),
+        //                                    // if (chkMultiple.Checked == true && ProductSKU != "")
+        //                                    //{
+        //                                    //    ProductImage = Convert.ToString(VendorSKU).Trim() + "_1.jpg";
+        //                                    //}
+        //                                    //else if ((chkMultiple.Checked == false && details.SKU != ""))
+        //                                    //{
+        //                                    //    ProductImage = Convert.ToString(VendorSKU).Trim() + ".jpg";
+        //                                    //}
+        //                                });
+        //                                entered++;
+        //                                if (entered > 0)
+        //                                {
+        //                                    GetOccassionRecipientMasters();
+        //                                }
+        //                            }
+        //                        }
+        //                    }
+        //                    failed = total - entered;
+        //                    if (failed > 0)
+        //                    {
+        //                        ViewBag.Fail = failed + " Records not entered";
+        //                    }
+        //                    else
+        //                    {
+        //                        ViewBag.Pass = entered + " Records entered";
+        //                        ViewBag.Fail = failed + " Records not entered";
+
+
+        //                    }
+        //                    ViewBag.Total = total + " Total Records";
+
+        //                }
+        //            }
+        //        }
+        //        List<ProductMaster> _productmaster = new List<ProductMaster>();
+        //        ViewBag.maindata = _lstProductMaster;
+        //        //return Json(_lstProductMaster, JsonRequestBehavior.AllowGet);
+        //        return View("ImportProductsFromExcel", _lstProductMaster);
+        //    }
+        //    else
+        //    {
+        //        //return Json("", JsonRequestBehavior.AllowGet);
+        //        return View();
+        //    }
+
+        //}
+
+
+
     }
 }

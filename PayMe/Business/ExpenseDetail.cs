@@ -43,6 +43,8 @@ namespace Business
         public string Name { get; set; }
         public string ContentType { get; set; }
         public byte[] Data { get; set; }
+
+        public string Error { get; set; }
     }
 
     public class ExpenseCategory

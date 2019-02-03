@@ -17,6 +17,11 @@
     function Action(value) {
         return '<a href="../Expense/Detail/' + value + '"><em class="fa fa-plus-circle"></a>';
     }
+
+    function Upload(value) {
+        return '<a href="../Expense/Upload/' + value + '"><em class="fa fa-upload"></a>';
+    }
+
     function dateFormat(value, row, index) {
         return moment(value).format('MM/DD/YYYY');
     }
@@ -54,8 +59,8 @@
                             <th data-field="FromDate" data-sortable="true" data-formatter="dateFormat">From Date</th>
                             <th data-field="ToDate" data-sortable="true" data-formatter="dateFormat">To Date</th>
                             <th data-field="ID" data-sortable="true" data-formatter="Action">Add</th>
-                            <td><i class="fa fa-plus-circle"></i></td>
-                           
+                            <th data-field="ID" data-sortable="true" data-formatter="Upload">Upload</th>
+                            <td><i class="fa fa-plus-circle"></i></td>                           
                         </tr>
                     </thead>
                 </table>

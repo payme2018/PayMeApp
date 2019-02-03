@@ -1,0 +1,181 @@
+﻿@model Business.ExpenseDetail
+@{
+    ViewBag.Title = "PayMe - Create Expense Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Upload Expense Detail</li>
+    </ol>
+</div><!--/.row-->
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Upload Expense Detail
+        <span style="float: right;"><a href="~/Template/Expense Detail Template.xlsx" download="Billing Line Item Import Template.xlsx">Download Expense Detail Template</a></span>
+    </div>
+    <div class="panel-heading" style="font-weight:bold;">Expense Summary Name : @ViewBag.ExpenseSummaryName</div>
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+    </div>
+    <div style="align-items:center;text-align: center;">
+
+        <label for="file-upload" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Upload Expense Detail
+        </label>
+        <input id="file-upload"  type="file" />
+        <b><div id="file-upload-filename"></div></b>
+    </div>
+    <div id="grid" class="row">
+        <div class="col-lg-12">
+            <div id="error" class="panel panel-default">
+                <div class="panel-heading">Error Detail</div>
+                <div class="panel-body">
+                    <div id="toolbar">
+                        <button id="export" class="btn btn-default">Export Excel</button>
+                    </div>
+                    <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                           data-show-export="true" data-toolbar="#toolbar">
+                        <thead>
+                            <tr>
+                                <th data-field="Error" data-sortable="true">Error</th>
+                                <th data-field="CategoryName" data-sortable="true">Category Name</th>
+                                <th data-field="CurrencyBillNo" data-sortable="true">Currency Bill No</th>
+                                <th data-field="Amount" data-sortable="true">Amount</th>
+                                <th data-field="Notes" data-sortable="true">Notes</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #30A5FF;
+    }
+</style>
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script type="text/javascript">
+
+    var input = document.getElementById( 'file-upload' );
+    var infoArea = document.getElementById( 'file-upload-filename' );
+
+    input.addEventListener( 'change', showFileName );
+
+    function showFileName( event ) {
+
+        // the change event gives us the input it occurred in
+        var input = event.srcElement;
+
+        // the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
+        var fileName = input.files[0].name;
+
+        // use fileName however fits your app best, i.e. add it into a div
+        infoArea.textContent = 'File name: ' + fileName;
+        debugger;
+
+
+        var validExts = new Array(".xlsx", ".xls");
+        var fileExt = fileName;
+        fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+        if (validExts.indexOf(fileExt) < 0) {
+            alert("Invalid file selected, valid files are of " +
+                     validExts.toString() + " types.");
+            return false;
+        }
+        else
+        {
+            UploadSelectedExcelsheet();
+        }
+
+    }
+    function UploadSelectedExcelsheet() {
+        var data = new FormData();
+        var i = 0;
+        var fl = $("#file-upload").get(0).files[0];
+
+        if (fl != undefined) {
+
+            data.append("file", fl);
+            data.append('id',@ViewBag.ExpenseSummaryID);
+
+        }
+        var Url = '/Expense/UploadExcelsheet'
+
+        $.ajax({
+            type: "POST",
+            url: Url,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (result) {
+                debugger;
+                if (typeof (result.Message) == "undefined")                
+                {
+                    $("#grid").show();
+                    $('#table').bootstrapTable('load',result);
+                    alert('Validation failed , Please correct the data as per below error message & Re upload');
+                }
+                else
+                {
+                    alert(result.Message)
+                    window.location.href = '../Detail/' + @ViewBag.ExpenseSummaryID;
+                }
+
+            },
+            error: function (xhr, status, p3, p4) {
+                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                if (xhr.responseText && xhr.responseText[0] == "{")
+                    err = JSON.parse(xhr.responseText).Message;
+                alert(err);
+                return false;
+            }
+        });
+
+    }
+    $(document).ready(function () {
+
+        $("#grid").hide();
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+
+        @*$('#table').bootstrapTable('refresh', {
+            "url": "/Expense/GetExpenseDetail/"+@ViewBag.ExpenseSummaryID
+        });*@
+
+
+
+    });
+</script>
