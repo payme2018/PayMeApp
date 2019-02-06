@@ -261,6 +261,71 @@ namespace PayMe.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult ExpenseSummeryReport(int clientNo, int ProjectNo)
+        {
+            IEnumerable<ExpenseSummary> expenseSummaryList = null;
+            try
+            {
+                ExpenseManager expenseManager = new ExpenseManager();
+                expenseSummaryList = expenseManager.ExpenseSummeryReport(clientNo, ProjectNo);
+                if (expenseSummaryList.Count() > 0)
+                {
+
+                    var jsonResultS = this.Json(expenseSummaryList, JsonRequestBehavior.AllowGet);
+                    jsonResultS.MaxJsonLength = int.MaxValue;
+                    return jsonResultS;
+                }
+                else
+                {
+
+                    var result = new { Success = "True", Message = "No Data Found" };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+                var result = new { Success = "False", Message = "Exception: " + sMessage };
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+        }
+
+
+        [HttpPost]
+        public ActionResult ExpenseDetailReport(int clientNo, int ProjectNo)
+        {
+            IEnumerable<ExpenseDetail> expenseDetailList = null;
+            try
+            {
+                ExpenseManager expenseManager = new ExpenseManager();               
+                expenseDetailList = expenseManager.ExpenseDetailReport(clientNo, ProjectNo);
+                if (expenseDetailList.Count() > 0)
+                {
+
+                    var jsonResultS = this.Json(expenseDetailList, JsonRequestBehavior.AllowGet);
+                    jsonResultS.MaxJsonLength = int.MaxValue;
+                    return jsonResultS;
+                }
+                else
+                {
+
+                    var result = new { Success = "True", Message = "No Data Found" };
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+                var result = new { Success = "False", Message = "Exception: " + sMessage };
+                return Json(result, JsonRequestBehavior.AllowGet);
+
+            }
+
+        }
+
 
         [HttpPost]
         public JsonResult UploadExcelsheet()
@@ -275,7 +340,7 @@ namespace PayMe.Controllers
                     List<string> data = new List<string>();
                     var File = Request.Files[0];
                     string filePath = string.Empty;
-                    string path=Server.MapPath("~/Uploads/ExpenseDetail/");
+                    string path = Server.MapPath("~/Uploads/ExpenseDetail/");
                     //string path = ConfigurationManager.AppSettings["UploadFiles"];
                     if (!Directory.Exists(path))
                     {
@@ -340,7 +405,7 @@ namespace PayMe.Controllers
                         }
                     }
 
-                   
+
                     if (dt.Rows.Count > 0)
                     {
 
@@ -355,9 +420,9 @@ namespace PayMe.Controllers
                             ExpenseDetailLine.Columns.Add("Amount", typeof(decimal));
                             ExpenseDetailLine.Columns.Add("BillDate", typeof(DateTime));
                             ExpenseDetailLine.Columns.Add("Location", typeof(string));
-                            ExpenseDetailLine.Columns.Add("Notes", typeof(string));                       
-                          
-                           
+                            ExpenseDetailLine.Columns.Add("Notes", typeof(string));
+
+
 
 
                             int j = 0;
@@ -365,7 +430,7 @@ namespace PayMe.Controllers
                             {
                                 DataRow dr = dt.Rows[i];
 
-                                ExpenseDetailLine.Rows.Add();                               
+                                ExpenseDetailLine.Rows.Add();
                                 ExpenseDetailLine.Rows[j]["ExpenseSummaryID"] = id;
                                 ExpenseDetailLine.Rows[j]["Category"] = dt.Rows[i]["Category"];
                                 ExpenseDetailLine.Rows[j]["BillNo"] = dt.Rows[i]["BillNo"];
@@ -373,9 +438,9 @@ namespace PayMe.Controllers
                                 ExpenseDetailLine.Rows[j]["BillDate"] = Convert.ToDateTime(dt.Rows[i]["BillDate"]);
                                 ExpenseDetailLine.Rows[j]["Location"] = dt.Rows[i]["Location"];
                                 ExpenseDetailLine.Rows[j]["Notes"] = dt.Rows[i]["Notes"];
-                              
+
                                 j++;
-                                
+
                             }
 
 
@@ -383,14 +448,14 @@ namespace PayMe.Controllers
                             expenseDetailerrorList = expenseManager.UplodExpenseDetail(ExpenseDetailLine);
                             if (expenseDetailerrorList.Count() > 0)
                             {
-                               
+
                                 var jsonResultS = this.Json(expenseDetailerrorList, JsonRequestBehavior.AllowGet);
                                 jsonResultS.MaxJsonLength = int.MaxValue;
                                 return jsonResultS;
                             }
                             else
                             {
-                              
+
                                 var result = new { Success = "True", Message = "Successfully uploaded !!" };
                                 return Json(result, JsonRequestBehavior.AllowGet);
                             }
@@ -446,130 +511,7 @@ namespace PayMe.Controllers
             }
 
         }
-        //[HttpPost]
-        //public ActionResult UploadExcelsheet()
-        //{
-        //    if (Request.Files.Count > 0)
-        //    {
-        //        var file = Request.Files[0];
-        //        List<ExpenseDetail> _lstProductMaster = new List<ExpenseDetail>();
-        //        string filePath = string.Empty;
-        //        if (Request.Files != null)
-        //        {
-        //            string path = Server.MapPath("~/Uploads/Product/");
-        //            if (!Directory.Exists(path))
-        //            {
-        //                Directory.CreateDirectory(path);
-        //            }
-        //            filePath = path + Path.GetFileName("ProductUploadSheet-" + DateTime.Now.ToString("dd-MMM-yyyy-HH-mm-ss-ff") + Path.GetExtension(file.FileName));
-        //            string extension = Path.GetExtension("ProductUploadSheet-" + DateTime.Now.ToString("dd-MMM-yyyy-HH-mm-ss-ff") + Path.GetExtension(file.FileName));
-        //            file.SaveAs(filePath);
 
-        //    string conString = string.Empty;
-        //                switch (extension)
-        //                {
-        //                    case ".xls": //Excel 97-03.
-        //                        conString = ConfigurationManager.ConnectionStrings["Excel03ConString"].ConnectionString;
-        //                        break;
-        //                    case ".xlsx": //Excel 07 and above.
-        //                        conString = ConfigurationManager.ConnectionStrings["Excel07ConString"].ConnectionString;
-        //                        break;
-        //                }
-        //int total = 0;
-        //int entered = 0;
-        //int failed = 0;
-
-        //            conString = string.Format(conString, filePath);
-
-        //            using (OleDbConnection connExcel = new OleDbConnection(conString))
-        //            {
-        //                using (OleDbCommand cmdExcel = new OleDbCommand())
-        //                {
-        //                    using (OleDbDataAdapter odaExcel = new OleDbDataAdapter())
-        //                    {
-        //                        DataTable dt = new DataTable();
-        //cmdExcel.Connection = connExcel;
-
-        //                        //Get the name of First Sheet.
-        //                        connExcel.Open();
-        //                        DataTable dtExcelSchema;
-        //dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-        //                        string sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-        //connExcel.Close();
-
-        //                        //Read Data from First Sheet.
-        //                        connExcel.Open();
-        //                        cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-        //                        odaExcel.SelectCommand = cmdExcel;
-        //                        odaExcel.Fill(dt);
-        //                        connExcel.Close();
-
-
-        //                        if (dt.Rows.Count > 0)
-        //                        {
-
-        //                            foreach (DataRow row in dt.Rows)
-        //                            {
-        //                                total++;
-        //                                _lstProductMaster.Add(new ProductModel
-        //                                {
-        //                                    ProductName = row["ProductName"].ToString().Replace("'", "''"),
-        //                                    ProductSKU = row["VendorSKU"].ToString().Trim() + "GL" + DateTime.Now.Year.ToString().Substring(2),
-        //                                    VendorSKU = row["VendorSKU"].ToString().Trim(),
-        //                                    DisplayText = row["DisplayText"].ToString().Trim(),
-        //                                    ProductSpecification = row["ProductSpecification"].ToString().Replace("'", "''"),
-        //                                    Description = row["Description"].ToString().Replace("'", "''"),
-        //                                    ShortDescription = row["ShortDescription"].ToString().Replace("'", "''"),
-        //                                    LongDescription = row["LongDescription"].ToString().Replace("'", "''"),
-        //                                    InventoryCount = row["InventoryCount"].ToString().Trim(),
-        //                                    ListPrice = row["ListPrice"].ToString().Trim(),
-        //                                    SellingPrice = row["SellingPrice"].ToString().Trim(),
-        //                                    // if (chkMultiple.Checked == true && ProductSKU != "")
-        //                                    //{
-        //                                    //    ProductImage = Convert.ToString(VendorSKU).Trim() + "_1.jpg";
-        //                                    //}
-        //                                    //else if ((chkMultiple.Checked == false && details.SKU != ""))
-        //                                    //{
-        //                                    //    ProductImage = Convert.ToString(VendorSKU).Trim() + ".jpg";
-        //                                    //}
-        //                                });
-        //                                entered++;
-        //                                if (entered > 0)
-        //                                {
-        //                                    GetOccassionRecipientMasters();
-        //                                }
-        //                            }
-        //                        }
-        //                    }
-        //                    failed = total - entered;
-        //                    if (failed > 0)
-        //                    {
-        //                        ViewBag.Fail = failed + " Records not entered";
-        //                    }
-        //                    else
-        //                    {
-        //                        ViewBag.Pass = entered + " Records entered";
-        //                        ViewBag.Fail = failed + " Records not entered";
-
-
-        //                    }
-        //                    ViewBag.Total = total + " Total Records";
-
-        //                }
-        //            }
-        //        }
-        //        List<ProductMaster> _productmaster = new List<ProductMaster>();
-        //        ViewBag.maindata = _lstProductMaster;
-        //        //return Json(_lstProductMaster, JsonRequestBehavior.AllowGet);
-        //        return View("ImportProductsFromExcel", _lstProductMaster);
-        //    }
-        //    else
-        //    {
-        //        //return Json("", JsonRequestBehavior.AllowGet);
-        //        return View();
-        //    }
-
-        //}
 
 
 

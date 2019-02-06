@@ -1,0 +1,191 @@
+﻿@model Business.Report
+@{
+    ViewBag.Title = "Pay Me - Expense Summery Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Report/Expense Summery Report</li>
+    </ol>
+</div><!--/.row-->
+
+<div class="panel panel-default">
+    <div id="title" class="panel-heading">Expense Summery Report</div>
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @using (Html.BeginForm())
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.ClientID, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("ClientID", ViewBag.Client as SelectList, "--Please select--", new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.ClientID, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.ProjectId, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("ProjectId", ViewBag.Project as SelectList, "--Please select--", new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.ClientID, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-lg-4">
+                    <input  id="Report" value="Report" class="btn btn-md btn-primary"  />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="grid" class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Expense Summary Report</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-show-refresh="true" data-url='x' data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="UserName" data-sortable="true">User Name</th>             
+                            <th data-field="Name" data-sortable="true">Name</th>
+                            <th data-field="ClientName" data-sortable="true">Client Name</th>       
+                            <th data-field="ProjectName" data-sortable="true">Project Name</th>
+                            <th data-field="ExpenseStatusName" data-sortable="true">Expense Status</th>
+                            <th data-field="TotalAmount" data-sortable="true">Total Amount</th>
+                            <th data-field="ApprovedAmount" data-sortable="true">Approved Amount</th>
+                            <th data-field="FromDate" data-sortable="true" data-formatter="dateFormat">From Date</th>
+                            <th data-field="ToDate" data-sortable="true" data-formatter="dateFormat">To Date</th>                           
+                            <th data-field="Description" data-sortable="true" >Description</th>             
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script>
+
+    function dateFormat(value, row, index) {
+        return moment(value).format('MM/DD/YYYY');
+    }
+    $(document).ready(function () {
+        $("#grid").hide();
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
+
+    $("#Report").click(function () {
+        debugger;
+        var clientNo = $("#ClientID").val();
+        var ProjectNo = $("#ProjectId").val();
+        if (clientNo == null || clientNo == "") {
+            alert("Please Select Client");
+            $("#grid").hide();
+            return;
+        }
+        else if (ProjectNo == null || ProjectNo == "" || ProjectNo==-1) {
+            alert("Please Select Project");
+            $("#grid").hide();
+                return;
+        }
+        else if (ProjectNo != null && clientNo != null)
+        {
+            
+         
+          
+
+            $.ajax({
+
+                url:"/Expense/ExpenseSummeryReport",
+                type: "POST",
+                data: JSON.stringify({ 'clientNo': clientNo, 'ProjectNo': ProjectNo }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    debugger;
+                    if (typeof (result.Message) == "undefined")                
+                    {
+                        $("#grid").show();
+                        $('#table').bootstrapTable('load',result);                       
+                    }
+                    else
+                    {
+                        $("#grid").hide();
+                        alert(result.Message)
+                       
+                    }
+
+                },
+                error: function (xhr, status, p3, p4) {
+                    var err = "Error " + " " + status + " " + p3 + " " + p4;
+                    if (xhr.responseText && xhr.responseText[0] == "{")
+                        err = JSON.parse(xhr.responseText).Message;
+                    alert(err);
+                    return false;
+                }
+            });
+        }
+    });
+
+    $("#ClientID").change(function () {
+        var clientNo = $("#ClientID").val();
+        if (clientNo == null || clientNo == "") {
+            alert("Please Select Client");
+            return;
+        }
+        $("input[id='ClientName']").val(clientNo);
+        if (clientNo != null || clientNo != "") {
+            $.ajax({
+                url: "/Tasks/BindProject",
+                type: "POST",
+                data: JSON.stringify({ 'clientNo': clientNo }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    debugger;
+                    var listItems = "";
+                    var list = "";
+                    var a = result.bindingAddresses.project;
+                    listItems = "<option value='" + -1 + "'>" + "--Please select--" + "</option>"
+                    if (a.length > 0)
+                    {
+                        listItems += "<option value='" + -2 + "'>" + "All Project" + "</option>"
+                    }
+                    for (i in a) {
+                        listItems += "<option value='" + a[i].Value + "'>" + a[i].Text + "</option>";
+                    }
+                    $("#ProjectId").html(listItems);
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+    });
+</script>

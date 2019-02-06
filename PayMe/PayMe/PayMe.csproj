@@ -204,6 +204,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Filters\ValidateUserSession.cs" />
     <Compile Include="Global.asax.cs">
@@ -825,6 +826,8 @@
     <Content Include="Views\Tasks\Create.cshtml" />
     <Content Include="Views\Expense\Upload.cshtml" />
     <Content Include="Template\Expense Detail Template.xlsx" />
+    <Content Include="Views\Report\ExpensesSummery.cshtml" />
+    <Content Include="Views\Report\ExpensesDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

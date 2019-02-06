@@ -59,6 +59,107 @@ namespace DAL
             }
         }
 
+
+
+        public IEnumerable<ExpenseSummary> ExpenseSummeryReport(int clientNo, int ProjectNo)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetExpenseSummeryReport", connection);
+                cmd.Parameters.AddWithValue("@ClientId", clientNo);
+                cmd.Parameters.AddWithValue("@ProjectId", ProjectNo);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<ExpenseSummary> ExpenseSummaryList = new List<ExpenseSummary>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExpenseSummary expenseSummary = new ExpenseSummary();
+                        expenseSummary.ID = Convert.ToInt32(reader["ID"].ToString());
+                        expenseSummary.UserName = reader["UserName"].ToString();
+                        expenseSummary.Name = reader["Name"].ToString();
+                        expenseSummary.ClientName = reader["ClientName"].ToString();
+                        expenseSummary.ExpenseStatusID = Convert.ToInt32(reader["ExpenseStatusID"]);
+                        expenseSummary.ExpenseStatusName = reader["ExpenseStatusName"].ToString();
+                        expenseSummary.TotalAmount = Convert.ToDecimal(reader["TotalAmount"] == DBNull.Value ? 0 : reader["TotalAmount"]);
+                        expenseSummary.ApprovedAmount = Convert.ToDecimal(reader["ApprovedAmount"] == DBNull.Value ? 0 : reader["ApprovedAmount"]);
+                        expenseSummary.ProjectName = reader["ProjectName"].ToString();
+                        expenseSummary.EmpID = Convert.ToInt32(reader["EmpID"]);
+                        expenseSummary.ProjectID = Convert.ToInt32(reader["ProjectID"]);
+                        expenseSummary.ProjectName = reader["ProjectName"].ToString();
+                        expenseSummary.FromDate = Convert.ToDateTime(reader["FromDate"].ToString());
+                        expenseSummary.ToDate = Convert.ToDateTime(reader["ToDate"].ToString());
+                        expenseSummary.Description = reader["Description"].ToString();
+                        ExpenseSummaryList.Add(expenseSummary);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return ExpenseSummaryList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+
+        public IEnumerable<ExpenseDetail> ExpenseDetailReport(int clientNo, int ProjectNo)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetExpenseDetailReport", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ClientId", clientNo);
+                cmd.Parameters.AddWithValue("@ProjectId", ProjectNo);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<ExpenseDetail> ExpenseDetailList = new List<ExpenseDetail>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        ExpenseDetail expenseDetail = new ExpenseDetail();
+                        expenseDetail.Name = reader["Name"].ToString();
+                        expenseDetail.ProjectName = reader["ProjectName"].ToString();
+                        expenseDetail.ClientName = reader["ClientName"].ToString();
+                        expenseDetail.UserName = reader["UserName"].ToString();
+                        expenseDetail.ExpenseStatusName = reader["ExpenseStatusName"].ToString();
+                        expenseDetail.Description = reader["Description"].ToString();
+
+                        expenseDetail.ID = Convert.ToInt32(reader["ID"].ToString());
+                        expenseDetail.CategoryID = Convert.ToInt32(reader["CategoryID"].ToString());
+                        expenseDetail.CategoryName = reader["CategoryName"].ToString();
+                        expenseDetail.ExpenseSummaryID = Convert.ToInt32(reader["ExpenseSummaryID"].ToString());
+                        expenseDetail.CurrencyBillNo = reader["CurrencyBillNo"].ToString();
+                        expenseDetail.Amount = Convert.ToDecimal(reader["Amount"] == DBNull.Value ? 0 : reader["Amount"]);
+                        expenseDetail.BillDate = Convert.ToDateTime(reader["BillDate"].ToString());
+                        expenseDetail.Location = reader["Location"].ToString();
+                        expenseDetail.HasAttachment = Convert.ToBoolean(reader["HasAttachment"]);
+                        expenseDetail.Notes = reader["Notes"].ToString();
+                        ExpenseDetailList.Add(expenseDetail);
+
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return ExpenseDetailList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+
         public IEnumerable<ExpenseDetail> GetExpenseDetailBySummary(int id)
         {
             try

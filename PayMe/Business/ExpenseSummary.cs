@@ -28,6 +28,7 @@ namespace Business
         [DisplayName("Project")]
         public Nullable<int> ProjectID { get; set; }
         public string ProjectName { get; set; }
+        public string ClientName { get; set; }
 
         [Required(ErrorMessage = "Please select from date")]
         [DisplayName("From Date")]
@@ -36,5 +37,7 @@ namespace Business
         [DisplayName("To Date")]
         public Nullable<System.DateTime> ToDate { get; set; }
         public string Description { get; set; }
+        public string UserName { get; set; }
+
     }
 }
