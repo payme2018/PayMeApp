@@ -3,7 +3,8 @@
     ViewBag.Title = "PayMe - Create Expense Summary";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 <div class="row">
     <ol class="breadcrumb">
         <li>
@@ -101,13 +102,9 @@
     $(document).ready(function () {
    
 
-        $("#FromDate").datepicker
-           ({
-               dateFormat: "yy-mm-dd",
-               changeMonth: true,
-               changeYear: true,
-               yearRange: "-100:+100"
-           });
+        $("#FromDate").datetimepicker({
+           
+        });
         $("#ToDate").datepicker
           ({
               dateFormat: "yy-mm-dd",

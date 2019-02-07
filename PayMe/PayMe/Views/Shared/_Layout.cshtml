@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using PayMe.Utilities
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -20,7 +21,7 @@
     <![endif]-->
 
     <script src="~/Scripts/jquery-1.11.1.min.js"></script>
-    <link rel="stylesheet" href="~/scripts/jqwidgets4.1.0/styles/jqx.base.css" type="text/css" />
+    @*<link rel="stylesheet" href="~/scripts/jqwidgets4.1.0/styles/jqx.base.css" type="text/css" />
     <link rel="stylesheet" href="~/scripts/jqwidgets4.1.0/styles/jqx.classic.css" type="text/css" />
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxcore.js"></script>
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxdata.js"></script>
@@ -71,7 +72,7 @@
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxvalidator.js"></script>
 
     <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxchart.core.js"></script>
-    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxchart.js"></script>
+    <script type="text/javascript" src="~/Scripts/jqwidgets4.1.0/jqxchart.js"></script>*@
 
    
     <script src="~/Scripts/chart.min.js"></script>
@@ -192,14 +193,15 @@
             </div>
         </form>
         <ul class="nav menu">
-            <li class="active"><a href="~/Home/Index"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li><a href="~/Employee/Index"><em class="fa fa-users">&nbsp;</em> Employees</a></li>
-            <li><a  href="~/Client/Index"><em class="fa fa-globe">&nbsp;</em> Clients</a></li>
-            <li><a  href="~/Project/Index"><em class="fa fa-suitcase">&nbsp;</em> Projects</a></li>
-            <li><a href="~/Tasks/Index"><em class="fa fa-tasks">&nbsp;</em> Tasks</a></li>
-            <li><a  href="~/Expense/Index"><em class="fa fa-money">&nbsp;</em> Expenses</a></li>
+            <li class='@Html.IsActive("Home", "Index")'><a href="~/Home/Index"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+            <li class='@Html.IsActive("Employee", "Index")'><a href="~/Employee/Index"><em class="fa fa-users">&nbsp;</em> Employees</a></li>
+            <li class='@Html.IsActive("Client", "Index")'><a href="~/Client/Index"><em class="fa fa-globe">&nbsp;</em> Clients</a></li>
+            <li class='@Html.IsActive("Project", "Index")'><a href="~/Project/Index"><em class="fa fa-suitcase">&nbsp;</em> Projects</a></li>
+            <li class='@Html.IsActive("Tasks", "Index")'><a href="~/Tasks/Index"><em class="fa fa-tasks">&nbsp;</em> Tasks</a></li>
+            <li class='@Html.IsActive("Expense", "Index")'><a href="~/Expense/Index"><em class="fa fa-money">&nbsp;</em> Expenses</a></li>
+            <li class='@Html.IsActive("Timesheet", "Index")'><a href="~/Timesheet/Index"><em class="fa fa-money">&nbsp;</em> Timesheet</a></li>
           
-            <li class="parent ">
+            @*<li class="parent ">
                 <a data-toggle="collapse" href="#sub-item-1">
                     <em class="fa fa-navicon">&nbsp;</em> Timesheet <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
                 </a>
@@ -220,7 +222,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li>*@
             <li><a href="#"><em class="fa fa-bar-chart">&nbsp;</em> Reports</a></li>
             <li><a href="~/Login/Logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
@@ -232,8 +234,8 @@
         <div class="container body-content">
            
         </div>
-        <script src="~/js/jquery-3.3.1.min.js"></script>
-        @*<script src="~/js/jquery-1.11.1.min.js"></script>*@
+        @*<script src="~/js/jquery-3.3.1.min.js"></script>*@
+      
         <script src="~/js/tableExport.js"></script>
         <script src="~/Scripts/jquery.validate.min.js"></script>
         <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

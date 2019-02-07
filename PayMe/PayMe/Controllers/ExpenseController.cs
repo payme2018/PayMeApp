@@ -1,5 +1,6 @@
 ﻿using Business;
 using DAL;
+using PayMe.Filters;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -11,6 +12,8 @@ using System.Web.Mvc;
 
 namespace PayMe.Controllers
 {
+
+    [ValidateUserSession]
     public class ExpenseController : Controller
     {
         // GET: Expense
