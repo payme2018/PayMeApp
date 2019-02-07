@@ -1,0 +1,274 @@
+﻿
+@{
+    ViewBag.Title = "PayMe - Create Expense Summary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>TimeSheet</h2>
+
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+
+</head>
+<body>
+    <div id="jsGrid" style="overflow: visible;"></div>
+</body>
+</html>
+
+<script>
+    var clients = [
+
+    ];
+
+
+    $(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "/Client/GetClientList/"
+        }).done(function (Clients) {
+            debugger;
+            Clients.unshift({ ID: "0", ClientName: "" });
+
+            $.ajax({
+                type: "GET",
+                url: "/Project/GetProjectList/"
+            }).done(function (projectList) {
+
+                projectList.unshift({ ID: "0", ProjectName: "" });
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Tasks/GetTaskList/"
+                }).done(function (taskList) {
+                    debugger;
+                    taskList.unshift({ ID: "0", TaskName: "" });
+                    var SolRiaDateTimeField = function (config) {
+                        jsGrid.Field.call(this, config);
+                    };
+                    SolRiaDateTimeField.prototype = new jsGrid.Field({
+                        sorter: function (date1, date2) {
+                            return new Date(date1) - new Date(date2);
+                        },
+
+                        itemTemplate: function (value) {
+                            if (value === null) {
+                                return '';
+                            } else {
+                                return moment(value).format('L LTS');
+                            }
+                        },
+
+                        insertTemplate: function (value) {
+                            this._insertPicker = $('<input>').datetimepicker({
+                                format: 'L LTS',
+                                defaultDate: moment(),
+                                widgetPositioning: {
+                                    horizontal: 'auto',
+                                    vertical: 'bottom'
+                                }
+                            });
+
+                            this._insertPicker.data('DateTimePicker').date(moment());
+                            return this._insertPicker;
+                        },
+
+                        editTemplate: function (value) {
+                            this._editPicker = $('<input>').datetimepicker({
+                                format: 'L LTS',
+                                widgetPositioning: {
+                                    horizontal: 'auto',
+                                    vertical: 'bottom'
+                                }
+                            });
+
+                            if (value !== null) {
+                                this._editPicker.data('DateTimePicker').defaultDate(moment(value));
+                                this._editPicker.data('DateTimePicker').date(moment(value));
+                            }
+                            return this._editPicker;
+                        },
+
+                        insertValue: function () {
+                            var insertValue = this._insertPicker.data('DateTimePicker').date();
+                            if (typeof insertValue !== 'undefined' && insertValue !== null) {
+                                return insertValue.format('L LTS');
+                            } else {
+                                return null;
+                            }
+                        },
+
+                        editValue: function () {
+                            var editValue = this._editPicker.data('DateTimePicker').date();
+                            if (typeof editValue !== 'undefined' && editValue !== null) {
+                                return editValue.format('L LTS');
+                            } else {
+                                return null;
+                            }
+                        }
+                    });
+                    jsGrid.fields.solRiaDateTimeField = SolRiaDateTimeField;
+                    var MyDateField = function (config) {
+                        jsGrid.Field.call(this, config);
+                    };
+
+                    MyDateField.prototype = new jsGrid.Field({
+                        sorter: function (date1, date2) {
+                            return new Date(date1) - new Date(date2);
+                        },
+
+                        itemTemplate: function (value) {
+                          
+                            return new Date(value).toDateString();
+                        },
+
+                        insertTemplate: function (value) {
+                            return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date() });
+                        },
+
+                        editTemplate: function (value) {
+                            return this._editPicker = $("<input>").datepicker().datepicker("setDate", new Date(value));
+                        },
+
+                        insertValue: function () {
+                            return this._insertPicker.datepicker("getDate").toISOString();
+                        },
+
+                        editValue: function () {
+                            return this._editPicker.datepicker("getDate").toISOString();
+                        }
+                    });
+
+                    jsGrid.fields.myDateField = MyDateField;
+
+
+                    // jsGrid.fields.myDateField = MyDateField;
+                    $("#jsGrid").jsGrid({
+                        width: "100%",
+                        height: "400px",
+
+                        inserting: true,
+                        editing: true,
+                        sorting: true,
+                        paging: true,
+
+
+                        controller: {
+                            loadData: function (filter) {
+                                debugger;
+                                return $.ajax({
+                                    type: "GET",
+                                    url: "/Timesheet/GetTimesheetEntries/",
+                                    data: filter
+                                });
+                            },
+                            insertItem: function (item) {
+                                debugger;
+                                return $.ajax({
+                                    type: "POST",
+                                    url: "/Timesheet/Create/",
+                                    data: item
+                                });
+                            },
+                            updateItem: function (item) {
+                                return $.ajax({
+                                    type: "PUT",
+                                    url: "/clients/",
+                                    data: item
+                                });
+                            },
+                            //deleteItem: function (item) {
+                            //    return $.ajax({
+                            //        type: "DELETE",
+                            //        url: "/clients/",
+                            //        data: item
+                            //    });
+                            //}
+                        },
+                        fields: [
+                            //{ name: "Client", type: "select", items: Clients, valueField: "ID", textField: "ClientName", },
+                            {
+                                name: "fkClientId", title: "Client", type: "select", items: Clients, valueField: "ID", textField: "ClientName", insertcss: "client-insert",
+                                insertTemplate: function () {
+
+                                    var projectField = this._grid.fields[1];
+                                    var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
+
+                                    $insertControl.on("change", function () {
+                                        debugger;
+                                        var selectedClient = $(this).val();
+                                        var clietProject = $.grep(projectList, function (team) {
+                                            return team.ClientID == parseInt(selectedClient);
+                                        });
+
+                                        projectField.items = clietProject;
+
+                                        $(".project-insert").empty().append(projectField.insertTemplate());
+                                    });
+
+                                    return $insertControl;
+                                }, width: 150, align: "center"
+                            },
+                            {
+                                name: "fkProjectID", type: "select", items: projectList, valueField: "Id", textField: "ProjectName", insertcss: "project-insert",
+                                insertTemplate: function () {
+
+                                    var taskField = this._grid.fields[2];
+                                    var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
+
+                                    $insertControl.on("change", function () {
+                                        debugger;
+                                        var selectedProject = $(this).val();
+                                        var projectTask = $.grep(taskList, function (task) {
+                                            return task.ProjectName == selectedProject;
+                                        });
+
+                                        taskField.items = projectTask;
+
+                                        $(".task-insert").empty().append(taskField.insertTemplate());
+                                    });
+
+                                    return $insertControl;
+                                },
+                            },
+                            { name: "fkTaskID", type: "select", items: taskList, valueField: "ID", textField: "TaskName", insertcss: "task-insert" },
+
+                           {
+                               name: "CheckInDate",
+                               type: "myDateField",
+                               width: 'auto',
+                               title: "Check In Date"
+                           },
+                            { name: "CheckInDateTime", type: "solRiaDateTimeField", width: 'auto', title: "Check In DateTime" },
+                            { name: "CheckoutDateTime", type: "solRiaDateTimeField", width: 'auto', title: "Check Out DateTime" },
+                            { name: "Description", type: "text", width: 200 },
+
+                            { type: "control" }
+                        ]
+                    });
+
+                });
+            });
+        });
+    });
+</script>

@@ -81,6 +81,7 @@
     <Compile Include="Registration.cs" />
     <Compile Include="Report.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="Timesheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
