@@ -204,6 +204,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\TimesheetController.cs" />
     <Compile Include="Filters\ValidateUserSession.cs" />
@@ -825,12 +826,17 @@
     <Content Include="Views\Expense\Detail.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
     <Content Include="Views\Tasks\Create.cshtml" />
+    <Content Include="Views\Expense\Upload.cshtml" />
+    <Content Include="Template\Expense Detail Template.xlsx" />
+    <Content Include="Views\Report\ExpensesSummery.cshtml" />
+    <Content Include="Views\Report\ExpensesDetail.cshtml" />
     <Content Include="Views\Timesheet\View.cshtml" />
     <Content Include="Views\Timesheet\Index.cshtml" />
     <Content Include="Views\Timesheet\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\ExpenseDetail\" />
     <Folder Include="Views\ExpenseDetail\" />
   </ItemGroup>
   <ItemGroup>
