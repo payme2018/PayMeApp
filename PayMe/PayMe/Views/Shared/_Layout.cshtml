@@ -96,7 +96,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span>Test</span>&nbsp;ME</a>
+                <a class="navbar-brand" href="#"><span>PAY</span>&nbsp;ME</a>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -201,29 +201,25 @@
             <li class='@Html.IsActive("Expense", "Index")'><a href="~/Expense/Index"><em class="fa fa-money">&nbsp;</em> Expenses</a></li>
             <li class='@Html.IsActive("Timesheet", "Index")'><a href="~/Timesheet/Index"><em class="fa fa-money">&nbsp;</em> Timesheet</a></li>
           
-            @*<li class="parent ">
+            <li class='@Html.IsActive("Report", "Index")' >
                 <a data-toggle="collapse" href="#sub-item-1">
-                    <em class="fa fa-navicon">&nbsp;</em> Timesheet <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
+                    <em class="fa fa-bar-chart">&nbsp;</em> Reports <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
                 </a>
                 <ul class="children collapse" id="sub-item-1">
                     <li>
-                        <a class="" href="#">
-                            <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 1
+                        <a class="" href="~/Report/ExpensesSummery">
+                            <span class="fa fa-arrow-right">&nbsp;</span> Expense Summary Report
                         </a>
                     </li>
                     <li>
-                        <a class="" href="#">
-                            <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 2
+                        <a class="" href="~/Report/ExpensesDetail">
+                            <span class="fa fa-arrow-right">&nbsp;</span> Expense Detail Report
                         </a>
                     </li>
-                    <li>
-                        <a class="" href="#">
-                            <span class="fa fa-arrow-right">&nbsp;</span> Sub Item 3
-                        </a>
-                    </li>
+                   
                 </ul>
-            </li>*@
-            <li><a href="#"><em class="fa fa-bar-chart">&nbsp;</em> Reports</a></li>
+            </li>
+            @*<li><a href="#"><em class="fa fa-bar-chart">&nbsp;</em> Reports</a></li>*@
             <li><a href="~/Login/Logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
     </div><!--/.sidebar-->
