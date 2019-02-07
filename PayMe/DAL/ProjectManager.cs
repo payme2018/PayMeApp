@@ -35,7 +35,8 @@ namespace DAL
                         project.PrimaryContact = reader["PrimaryContact"].ToString();
                         project.IsActive = Convert.ToBoolean(reader["IsActive"].ToString());
                         project.ClientName = reader["ClientName"].ToString();
-                       
+                        project.ClientID = Convert.ToInt32(reader["fkClientId"]);
+
                         projectList.Add(project);
                     }
                 }
