@@ -52,7 +52,7 @@ namespace PayMe.Controllers
                     TempData["Message"] = "Error Occured";
                     return View();
                 }
-                return RedirectToAction("Create");
+                return RedirectToAction("Index");
             }
             catch
             {

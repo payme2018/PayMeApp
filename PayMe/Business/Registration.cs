@@ -45,12 +45,16 @@ namespace Business
         public int Gender { get; set; }
         [DisplayName("DOB")]
         public DateTime? Birthdate { get; set; }
+
+        [DisplayName("Date of Joining")]
         public DateTime? DateofJoining { get; set; }
         [DisplayName("Role")]
         [Required(ErrorMessage = "Role Required")]
         public int RoleID { get; set; }
 
         public int EmployeeID { get; set; }
+
+        [DisplayName("Employee Code")]
         public string EmployeeCode { get; set; }
         public DateTime? CreatedOn { get; set; }
         public int? ForceChangePassword { get; set; }

@@ -36,7 +36,7 @@
                
                    
                     <div class="col-lg-4">
-                        @Html.LabelFor(model => model.ClientID, htmlAttributes: new { @class = "control-label manadatory" })
+                        @Html.LabelFor(model => model.ClientID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
                         @Html.DropDownList("ClientID", ViewBag.Roles as SelectList, "--Please select--"
 , new { @class = "form-control input-lg" })
                         @Html.ValidationMessageFor(model => model.ClientID, "", new { @class = "text-danger" })
@@ -44,7 +44,7 @@
                    
                 
                 <div class="col-lg-4">
-                    @Html.LabelFor(model => model.ProjectName, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.LabelFor(model => model.ProjectName, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
                     @Html.EditorFor(model => model.ProjectName, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.ProjectName, "", new { @class = "text-danger" })
                 </div>

@@ -115,15 +115,15 @@
         $('#table').bootstrapTable('refresh', {
             "url": "/TimeTracker/GetTimeTracker/"
         });
-       
-
-    });
-    $('#export').click(function () {
-        table.tableExport({
-            type: 'excel',
-            escape: false
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
         });
     });
+   
     function Action(value, row) {
         debugger;
         if (row.CheckOutDateTime == null) {

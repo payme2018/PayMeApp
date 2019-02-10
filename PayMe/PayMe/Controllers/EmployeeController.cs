@@ -66,7 +66,7 @@ namespace PayMe.Controllers
 
                 }
                 ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
-                return View(registration);
+                return RedirectToAction("Index");
 
             }
             catch
