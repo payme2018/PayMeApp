@@ -86,7 +86,32 @@ namespace PayMe.Controllers
             try
             {
                 TaskManager taskManager = new TaskManager();
-                projectList = taskManager.GetTaskList();
+                projectList = taskManager.GetTaskList(null);
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+
+            }
+            var jsonResult = this.Json(projectList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+        public JsonResult GetTaskListByProject(int projectId)
+        {
+            IEnumerable<Task> projectList = null;
+            try
+            {
+                TaskManager taskManager = new TaskManager();
+                projectList = taskManager.GetTaskList(projectId);
+
+                var lstSiteAdd = ViewBag.Task = new SelectList(taskManager.GetTaskList(projectId), "ID", "TaskName");
+                var bindingAddresses = new
+                {
+                    task = lstSiteAdd,
+                };
+                return Json(new { bindingAddresses, JsonRequestBehavior.AllowGet });
             }
             catch (Exception ex)
             {

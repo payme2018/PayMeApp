@@ -180,8 +180,10 @@
 
     });
    
-    function Download(value) {
-        return '<a href="/Expense/DownloadFile/' + value + '"><em class="fa fa-download"></a>';
+    function Download(value,row) {
+        if (row.HasAttachment != null && row.HasAttachment != false ) {
+            return '<a href="/Expense/DownloadFile/' + value + '"><em class="fa fa-download"></a>';
+        }
     }  
     function dateFormat(value, row, index) {
         return moment(value).format('MM/DD/YYYY');

@@ -82,6 +82,7 @@
     <Compile Include="Report.cs" />
     <Compile Include="Task.cs" />
     <Compile Include="Timesheet.cs" />
+    <Compile Include="TimeTracker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

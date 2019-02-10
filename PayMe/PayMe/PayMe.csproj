@@ -207,6 +207,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\TasksController.cs" />
     <Compile Include="Controllers\TimesheetController.cs" />
+    <Compile Include="Controllers\TimeTrackerController.cs" />
     <Compile Include="Filters\ValidateUserSession.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -299,6 +300,7 @@
     <Content Include="js\custom.js" />
     <Content Include="js\easypiechart-data.js" />
     <Content Include="js\easypiechart.js" />
+    <Content Include="js\ez.countimer.min.js" />
     <Content Include="js\html5shiv.min.js" />
     <Content Include="js\jquery-1.11.1.min.js" />
     <Content Include="js\jquery-3.3.1.min.js" />
@@ -338,6 +340,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-1.11.1.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -833,6 +837,7 @@
     <Content Include="Views\Timesheet\View.cshtml" />
     <Content Include="Views\Timesheet\Index.cshtml" />
     <Content Include="Views\Timesheet\Test.cshtml" />
+    <Content Include="Views\TimeTracker\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

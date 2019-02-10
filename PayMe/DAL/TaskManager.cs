@@ -10,7 +10,7 @@ namespace DAL
     public class TaskManager
     {
 
-        public IEnumerable<Task> GetTaskList()
+        public IEnumerable<Task> GetTaskList(int? proejctId)
         {
             try
             {
@@ -18,6 +18,7 @@ namespace DAL
                 SqlConnection connection = new SqlConnection(connectionString);
                 SqlCommand cmd = new SqlCommand("GetTaskList", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ProjectId", proejctId);
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 List<Task> taskList = new List<Task>();
