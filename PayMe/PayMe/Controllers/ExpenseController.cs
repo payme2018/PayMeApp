@@ -134,28 +134,30 @@ namespace PayMe.Controllers
                 ////store image in folder
                 //expenseDetail.expenseAttachment.SaveAs(Server.MapPath("~/Images") + "/" + expenseDetail.expenseAttachment.FileName);
                 byte[] bytes;
-                using (BinaryReader br = new BinaryReader(expenseDetail.expenseAttachment.InputStream))
+                if (expenseDetail.expenseAttachment != null)
                 {
-                    bytes = br.ReadBytes(expenseDetail.expenseAttachment.ContentLength);
-                }
-                string constr = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                using (SqlConnection con = new SqlConnection(constr))
-                {
-                    string query = "INSERT INTO ExpenseDetailDocument VALUES (@ExpenseDetailID,@Name, @ContentType, @Data)";
-                    using (SqlCommand cmd = new SqlCommand(query))
+                    using (BinaryReader br = new BinaryReader(expenseDetail.expenseAttachment.InputStream))
                     {
-                        cmd.Connection = con;
-                        cmd.Parameters.AddWithValue("@ExpenseDetailID", value);
-                        cmd.Parameters.AddWithValue("@Name", Path.GetFileName(expenseDetail.expenseAttachment.FileName));
-                        cmd.Parameters.AddWithValue("@ContentType", expenseDetail.expenseAttachment.ContentType);
-                        cmd.Parameters.AddWithValue("@Data", bytes);
+                        bytes = br.ReadBytes(expenseDetail.expenseAttachment.ContentLength);
+                    }
+                    string constr = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                    using (SqlConnection con = new SqlConnection(constr))
+                    {
+                        string query = "INSERT INTO ExpenseDetailDocument VALUES (@ExpenseDetailID,@Name, @ContentType, @Data)";
+                        using (SqlCommand cmd = new SqlCommand(query))
+                        {
+                            cmd.Connection = con;
+                            cmd.Parameters.AddWithValue("@ExpenseDetailID", value);
+                            cmd.Parameters.AddWithValue("@Name", Path.GetFileName(expenseDetail.expenseAttachment.FileName));
+                            cmd.Parameters.AddWithValue("@ContentType", expenseDetail.expenseAttachment.ContentType);
+                            cmd.Parameters.AddWithValue("@Data", bytes);
 
-                        con.Open();
-                        cmd.ExecuteNonQuery();
-                        con.Close();
+                            con.Open();
+                            cmd.ExecuteNonQuery();
+                            con.Close();
+                        }
                     }
                 }
-
                 TempData["Message"] = "Expense Detail Created Successfully";
 
                 return RedirectToAction("Detail/" + id);
