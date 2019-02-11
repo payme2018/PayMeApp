@@ -837,6 +837,7 @@
     <Content Include="Views\Timesheet\View.cshtml" />
     <Content Include="Views\Timesheet\Index.cshtml" />
     <Content Include="Views\Timesheet\Test.cshtml" />
+    <Content Include="Views\Report\TimesheetDetail.cshtml" />
     <Content Include="Views\TimeTracker\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

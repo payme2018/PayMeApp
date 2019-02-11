@@ -26,5 +26,7 @@ namespace Business
         public Nullable<System.DateTime> ApprovedDate { get; set; }
         public string ProjectName { get; set; }
         public string ClientName { get; set; }
+        public string EmployeeName { get; set; }
+        public string TaskName { get; set; }
     }
 }
