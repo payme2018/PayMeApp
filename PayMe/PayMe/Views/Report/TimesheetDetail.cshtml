@@ -1,0 +1,171 @@
+﻿@model Business.Report
+@{
+    ViewBag.Title = "Pay Me - Time Sheet Detail Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Report/Time Sheet Detail Report</li>
+    </ol>
+</div><!--/.row-->
+
+<div class="panel panel-default">
+    <div id="title" class="panel-heading">Time Sheet Detail Report</div>
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @using (Html.BeginForm())
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-lg-4">
+                    From Date:
+                    <div class="input-group date" id="FromDatediv">
+                        <input type="text" id="FromDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    To Date:
+                    <div class="input-group date" id="ToDatediv">
+                        <input type="text" id="ToDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    </div>
+                </div>
+
+            </div>
+            <br />
+            <div class="row">                
+                <div class="col-lg-4">
+                    <input id="Report" value="Report" class="btn btn-md btn-primary" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="grid" class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Time Sheet Detail Report</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-show-refresh="true" data-url='x' data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="EmployeeName" data-sortable="true">Employee Name</th>
+                            <th data-field="ClientName" data-sortable="true">Client Name</th>
+                            <th data-field="ProjectName" data-sortable="true">Project Name</th>
+                            <th data-field="TaskName" data-sortable="true">Task Name</th>
+                            <th data-field="CheckInDate" data-sortable="true" data-formatter="dateFormat">Check In Date</th>
+                            <th data-field="CheckInDateTime" data-sortable="true" data-formatter="datetimeFormat">In Time</th>
+                            <th data-field="CheckOutDatetime" data-sortable="true" data-formatter="datetimeFormat">Out Time</th>
+                            <th data-field="Description" data-sortable="true">Description</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
+<script>
+
+    function datetimeFormat(value, row, index) {
+        return moment(value).format('DD/MMM/YYYY HH:mm:ss');
+    }
+
+    function dateFormat(value, row, index) {
+        return moment(value).format('DD/MMM/YYYY');
+    }
+
+    $('#FromDatediv').datepicker({
+        todayBtn: true,
+        clearBtn: true,
+        calendarWeeks: true,
+        todayHighlight: true,
+        format: "dd/MM/yyyy"
+    });
+
+    $('#ToDatediv').datepicker({
+        todayBtn: true,
+        clearBtn: true,
+        calendarWeeks: true,
+        todayHighlight: true,
+        format: "dd/MM/yyyy"
+    });
+
+    $(document).ready(function () {
+        $("#grid").hide();
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+    });
+
+    $("#Report").click(function () {
+        debugger;
+        var FromDate = $('#FromDate').val();
+        var ToDate = $('#ToDate').val();
+        if (FromDate == "" || ToDate == "") {
+            alert("Please select From and To Date to generate report!")
+        }
+        else {
+            var f = Date.parse(FromDate);
+            var t = Date.parse(ToDate);
+            if (f > t) {
+                alert("Error!");
+            }
+            else {
+                $.ajax({
+
+                    url: "/Report/TimesheetDetailReport",
+                    type: "POST",
+                    data: JSON.stringify({ 'FromDate': FromDate, 'ToDate': ToDate }),
+                    dataType: "json",
+                    traditional: true,
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        debugger;
+                        if (typeof (result.Message) == "undefined") {
+                            $("#grid").show();
+                            $('#table').bootstrapTable('load', result);
+                        }
+                        else {
+                            $("#grid").hide();
+                            alert(result.Message)
+
+                        }
+
+                    },
+                    error: function (xhr, status, p3, p4) {
+                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                        if (xhr.responseText && xhr.responseText[0] == "{")
+                            err = JSON.parse(xhr.responseText).Message;
+                        alert(err);
+                        return false;
+                    }
+                });
+            }
+        }
+        
+    });
+
+
+</script>
