@@ -198,6 +198,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\EmployeeProjectController.cs" />
     <Compile Include="Controllers\ExpenseController.cs" />
     <Compile Include="Controllers\ExpenseDetailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -839,6 +840,8 @@
     <Content Include="Views\Timesheet\Test.cshtml" />
     <Content Include="Views\Report\TimesheetDetail.cshtml" />
     <Content Include="Views\TimeTracker\Index.cshtml" />
+    <Content Include="Views\EmployeeProject\Index.cshtml" />
+    <Content Include="Views\EmployeeProject\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

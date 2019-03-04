@@ -48,6 +48,44 @@ namespace DAL
             }
         }
 
+
+        public IEnumerable<Employee> GetUserForDD()
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetUserForDD", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+
+                List<Employee> registrationList = new List<Employee>();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Employee registration = new Employee();
+                        
+                        registration.ID = Convert.ToInt32(reader["ID"].ToString());
+                        registration.EmployeeName = reader["EmployeeName"].ToString();
+                       
+                        registrationList.Add(registration);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+
+                return registrationList;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
         public IEnumerable<Registration> GetUsers()
         {
             try
@@ -89,6 +127,8 @@ namespace DAL
                 throw new ApplicationException(ex.Message.ToString());
             }
         }
+
+
 
         public int CreateUser(string firstName, string lastName, string email, DateTime? dateOfJoining, DateTime? dob, string designation, string emplyeeCode,
             int gender, string userName, string password, int roleID, string createdBy)

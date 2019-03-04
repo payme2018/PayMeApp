@@ -26,5 +26,6 @@ namespace Business
         public DateTime LastWorkingDate { get; set; }
         public DateTime Createdate { get; set; }
         public DateTime UpdatedDate { get; set; }
+        public string EmployeeName { get; set; }
     }
 }
