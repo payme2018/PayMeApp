@@ -55,6 +55,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="DatabaseContext.cs" />
+    <Compile Include="EmployeeProjectManager.cs" />
     <Compile Include="ExpenseManager.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="TaskManager.cs" />

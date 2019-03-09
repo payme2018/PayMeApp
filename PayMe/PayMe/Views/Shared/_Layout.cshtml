@@ -223,6 +223,19 @@
             <li class='@Html.IsActive("Timesheet", "Index")'><a href="~/Timesheet/Index"><em class="fa fa-calendar">&nbsp;</em> Timesheet</a></li>
             <li class='@Html.IsActive("TimeTracker", "Index")'><a href="~/TimeTracker/Index"><em class="fa fa-clock-o">&nbsp;</em> Time Tracker</a></li>
           
+            <li class='@Html.IsActive("EmployeeProject", "Index")'>
+                <a data-toggle="collapse" href="#sub-item-5">
+                    <em class="fa fa-desktop">&nbsp;</em> Management <span data-toggle="collapse" href="#sub-item-5" class="icon pull-right"><em class="fa fa-plus"></em></span>
+                </a>
+                <ul class="children collapse" id="sub-item-5">
+                    <li>
+                        <a class="" href="~/EmployeeProject/Index">
+                            <span class="fa fa-arrow-right">&nbsp;</span> Assign Employee to Project
+                        </a>
+                    </li>                   
+                </ul>
+            </li>
+
             <li class='@Html.IsActive("Report", "Index")' >
                 <a data-toggle="collapse" href="#sub-item-1">
                     <em class="fa fa-bar-chart">&nbsp;</em> Reports <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>

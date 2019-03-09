@@ -74,6 +74,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Employee.cs" />
+    <Compile Include="EmployeeProject.cs" />
     <Compile Include="ExpenseDetail.cs" />
     <Compile Include="ExpenseSummary.cs" />
     <Compile Include="LoginViewModel.cs" />

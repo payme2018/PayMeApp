@@ -31,5 +31,7 @@ namespace Business
 
         [DisplayName("Is Active")]
         public bool IsActive { get; set; }
+
+       
     }
 }

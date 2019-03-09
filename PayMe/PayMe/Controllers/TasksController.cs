@@ -80,6 +80,20 @@ namespace PayMe.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult BindTask(int ProjectId)
+        {
+            TaskManager taskmgr = new TaskManager();
+            int id = Convert.ToInt32(ProjectId);
+            var lstSiteAdd = ViewBag.Project = new SelectList(taskmgr.GetTaskByProject(ProjectId), "ID", "ProjectName");
+            var bindingAddresses = new
+            {
+                task = lstSiteAdd,
+            };
+            return Json(new { bindingAddresses, JsonRequestBehavior.AllowGet });
+        }
+
+
         public JsonResult GetTaskList()
         {
             IEnumerable<Task> projectList = null;
