@@ -71,6 +71,31 @@ namespace Business
         [Required(ErrorMessage = "Role Required")]
         public string RoleName { get; set; }
         public string GenderName { get; set; }
+        [DisplayName("Passport No")]
+        public string PassportNo { get; set; }
+        [DisplayName("Issued By")]
+        public string PassportIssuedBy { get; set; }
+        [DisplayName("Issued On")]
+        public DateTime? PassportIssuedOn { get; set; }
+        [DisplayName("Expire On")]
+        public DateTime? PassportExpireOn { get; set; }
+        [DisplayName("VISA No")]
+        public string VISANo { get; set; }
+        [DisplayName("Issued By")]
+        public string VISAIssuedBy { get; set; }
+        [DisplayName("Issued On")]
+        public DateTime? VISAIssuedOn { get; set; }
+        [DisplayName("Expire On")]
+        public DateTime? VISAExpireOn { get; set; }
+
+        [DisplayName("Labour Card No")]
+        public string LabourCardNo { get; set; }
+        [DisplayName("Issued By")]
+        public string LabourCardIssuedBy { get; set; }
+        [DisplayName("Issued On")]
+        public DateTime? LabourCardIssuedOn { get; set; }
+        [DisplayName("Expire On")]
+        public DateTime? LabourCardExpireOn { get; set; }
 
 
     }

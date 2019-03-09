@@ -159,20 +159,94 @@
                     </div>
                 </div>
                     <br />
-                    <div class="row">
-                        <div class="col-lg-4">
-
-                            <input type="submit" value="Create User" class="btn btn-md btn-primary" />
-                            @Html.ActionLink("Cancel", "Register", "Employee", null, new { @class = "btn btn-md btn-primary" })
-
-
-
-                        </div>
-                    </div>
+                    
                     }
 
                 </div>
-</div>
+    <div class="panel-heading">Passport Detail</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.PassportNo, htmlAttributes: new { @class = "control-label manadatory" }) 
+                @Html.TextBoxFor(model => model.PassportNo, new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.PassportNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.PassportIssuedBy, htmlAttributes: new { @class = "control-label manadatory" }) 
+                @Html.TextBoxFor(model => model.PassportIssuedBy, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PassportIssuedBy, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.PassportIssuedOn, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.PassportIssuedOn, new { @class = "form-control",})
+                @Html.ValidationMessageFor(model => model.PassportIssuedOn, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.PassportExpireOn, htmlAttributes: new { @class = "control-label manadatory" }) 
+                @Html.TextBoxFor(model => model.PassportExpireOn, new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.PassportExpireOn, "", new { @class = "text-danger" })
+            </div>
+            </div>
+        </div>
+    <div class="panel-heading">Visa Detail</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.VISANo, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.VISANo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.VISANo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.VISAIssuedBy, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.VISAIssuedBy, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.VISAIssuedBy, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.VISAIssuedOn, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.VISAIssuedOn, new { @class = "form-control", })
+                @Html.ValidationMessageFor(model => model.VISAIssuedOn, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.VISAExpireOn, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.VISAExpireOn, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.VISAExpireOn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="panel-heading">Labour Card Detail</div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.LabourCardNo, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.LabourCardNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LabourCardNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.LabourCardIssuedBy, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.LabourCardIssuedBy, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LabourCardIssuedBy, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.LabourCardIssuedOn, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.LabourCardIssuedOn, new { @class = "form-control", })
+                @Html.ValidationMessageFor(model => model.LabourCardIssuedOn, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(model => model.LabourCardExpireOn, htmlAttributes: new { @class = "control-label manadatory" })
+                @Html.TextBoxFor(model => model.LabourCardExpireOn, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LabourCardExpireOn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <input type="submit" value="Create User" class="btn btn-md btn-primary" />
+            @Html.ActionLink("Cancel", "Register", "Employee", null, new { @class = "btn btn-md btn-primary" })
+
+        </div>
+    </div>
+
+    </div>
 
 
 
