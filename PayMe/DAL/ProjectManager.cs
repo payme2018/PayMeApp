@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DAL
 {
@@ -19,6 +20,7 @@ namespace DAL
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
                 SqlConnection connection = new SqlConnection(connectionString);
                 SqlCommand cmd = new SqlCommand("GetProjectList", connection);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 cmd.CommandType = CommandType.StoredProcedure;
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -102,6 +104,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@LocationInfo", project.LocationInfo);
                 cmd.Parameters.AddWithValue("@Description", project.Description);
                 cmd.Parameters.AddWithValue("@IsActive", project.IsActive);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();

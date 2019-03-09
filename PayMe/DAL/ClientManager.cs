@@ -5,8 +5,10 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DAL
 {
@@ -19,6 +21,7 @@ namespace DAL
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
                 SqlConnection connection = new SqlConnection(connectionString);
                 SqlCommand cmd = new SqlCommand("GetClientList", connection);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 cmd.CommandType = CommandType.StoredProcedure;
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -71,6 +74,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@LocationInfo", LocationInfo);
                 cmd.Parameters.AddWithValue("@Designation", Description);
                 cmd.Parameters.AddWithValue("@IsActive", IsActive);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();
@@ -103,6 +107,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@LocationInfo", client.LocationInfo);
                 cmd.Parameters.AddWithValue("@Description", client.Description);
                 cmd.Parameters.AddWithValue("@IsActive", client.IsActive);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();

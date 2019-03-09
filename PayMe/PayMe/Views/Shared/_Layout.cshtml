@@ -96,8 +96,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span>PAY</span>&nbsp;ME</a>
+                <a class="navbar-brand" href="#"><span>PAY</span>&nbsp;ME &nbsp;&nbsp;&nbsp;<span>
+    @Html.DropDownList("AccountID", @Session["Accounts"] as SelectList
+, new { @class = "" })
+</span> </a>
+               
                 <ul class="nav navbar-top-links navbar-right">
+
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <em class="fa fa-envelope"></em><span class="label label-danger">15</span>
@@ -283,7 +288,33 @@
         <footer>
             <p>&copy; @DateTime.Now.Year -Pay Me</p>
         </footer>
+        <script>
+            $(document).ready(function () {
+                debugger;
+                var accountId = @Session["AccountID"]
+                $("#AccountID").val(accountId);
+            });
 
+            $("#AccountID").change(function () {
+                debugger;
+                var accountId = $("#AccountID").val();
+                $.ajax({
+                    url: "/Login/UpdateAccountSession",
+                    type: "POST",
+                    data: JSON.stringify({ 'accountId': accountId }),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (result) {
+                        debugger;
+                        $("#AccountID").val(accountId);
+                    },
+                    error: function () {
+                        alert("Error Occured!")
+                    }
+                });
+
+            });
+        </script>
     </div>
     
 

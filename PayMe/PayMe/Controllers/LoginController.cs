@@ -42,12 +42,14 @@ namespace PayMe.Controllers
                         else
                         {
                             var RoleID = result.RoleID;
-                           
+                            AccountManager accountManager = new AccountManager();
+                            Session["Accounts"] = new SelectList(accountManager.GetAccounts(), "ID", "Name");
 
                             Session["RoleID"] = Convert.ToString(result.RoleID);
                             Session["Username"] = Convert.ToString(result.Username);
                             Session["FullName"] = result.FirstName + " " + result.LastName;
                             Session["UserID"] = result.EmployeeID;
+
                             return RedirectToAction("Index", "Home");
                             //if (RoleID == 1)
                             //{
@@ -97,7 +99,21 @@ namespace PayMe.Controllers
                 throw;
             }
         }
-
+        [HttpPost]
+        public JsonResult UpdateAccountSession(int accountId)
+        {
+            try
+            {
+                Session["AccountID"] = accountId;
+                var result = new { Success = "true" };
+                return Json(result);
+            }
+            catch
+            {
+                var result = new { Success = "False" };
+                return Json(result);
+            }
+        }
         [HttpGet]
         public ActionResult Logout()
         {
