@@ -57,14 +57,19 @@ namespace Business
         [DisplayName("Employee Code")]
         public string EmployeeCode { get; set; }
         public DateTime? CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        
         public int? ForceChangePassword { get; set; }
         [DisplayName("Employement Location")]
+        [Required(ErrorMessage = "Location Required")]
         public int? fkEmploymentLocationID { get; set; }
 
         [DisplayName("Department")]
+        [Required(ErrorMessage = "Department Required")]
         public int? fkDepartmentID { get; set; }
 
         [DisplayName("Manager")]
+        [Required(ErrorMessage = "Manager Required")]
         public int? fkManagerId { get; set; }
         public int? fkContactID { get; set; }
         public string Designation { get; set; }

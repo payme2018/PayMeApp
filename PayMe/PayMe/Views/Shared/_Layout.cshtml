@@ -290,13 +290,11 @@
         </footer>
         <script>
             $(document).ready(function () {
-                debugger;
                 var accountId = @Session["AccountID"]
                 $("#AccountID").val(accountId);
             });
 
             $("#AccountID").change(function () {
-                debugger;
                 var accountId = $("#AccountID").val();
                 $.ajax({
                     url: "/Login/UpdateAccountSession",
@@ -305,7 +303,6 @@
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
-                        debugger;
                         $("#AccountID").val(accountId);
                     },
                     error: function () {

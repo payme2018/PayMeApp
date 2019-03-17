@@ -37,6 +37,8 @@ namespace PayMe.Controllers
 
         }
 
+      
+
         public ActionResult Delete(int id)
         {
             try

@@ -29,7 +29,11 @@ namespace PayMe.Controllers
         public ActionResult Register()
         {
             UserManager userManager = new UserManager();
-            ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName"); 
+            ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
+            ViewBag.Managers = new SelectList(userManager.GetManagerList(), "fkManagerId", "Name");
+            ViewBag.Locations = new SelectList(userManager.GetLocationList(), "fkEmploymentLocationID", "Name");
+            ViewBag.Departments = new SelectList(userManager.GetDepartmentList(), "fkDepartmentID", "Name");
+            ViewBag.editupdate = -1;
             return View();
         }
 
@@ -41,10 +45,11 @@ namespace PayMe.Controllers
             try
             {
                 UserManager userManager = new UserManager();
-                string password = EncryptionLibrary.EncryptText(registration.Password);
-                string username = Session["Username"].ToString();
-                int value =userManager.CreateUser(registration.FirstName, registration.LastName, registration.EmailID, registration.DateofJoining, registration.Birthdate
-                    , registration.Designation, registration.EmployeeCode, registration.Gender, registration.Username, password, registration.RoleID, username);
+
+              
+                registration.CreatedBy = Session["Username"].ToString();
+                registration.Password = EncryptionLibrary.EncryptText(registration.Password);
+                int value =userManager.CreateUser(registration);
                 if (value == 1)
                 {
                     TempData["MessageRegistration"] = "User Created Successfully";
@@ -78,15 +83,26 @@ namespace PayMe.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            UserManager userManager = new UserManager();
+            ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
+            ViewBag.Managers = new SelectList(userManager.GetManagerList(), "fkManagerId", "Name");
+            ViewBag.Locations = new SelectList(userManager.GetLocationList(), "fkEmploymentLocationID", "Name");
+            ViewBag.Departments = new SelectList(userManager.GetDepartmentList(), "fkDepartmentID", "Name");
+            Registration registration = new Registration();
+            registration = userManager.GetEmployeeByID(id);
+            ViewBag.editupdate = id;
+            return View("Register", registration);
+
         }
 
         // POST: Employee/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Registration registration)
         {
             try
             {
+                UserManager userManager = new UserManager();
+                int value = userManager.UpdateUser(registration);
                 // TODO: Add update logic here
 
                 return RedirectToAction("Index");
@@ -133,6 +149,23 @@ namespace PayMe.Controllers
             {
                 return View();
             }
+        }
+        public JsonResult GetPayRateByEmployee(int id)
+        {
+            IEnumerable<EmployeePayRate> employeePayRateList = null;
+            try
+            {
+                UserManager userManager = new UserManager();
+                employeePayRateList = userManager.GetPayrateByEmployeeID(id);
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+
+            }
+            var jsonResult = this.Json(employeePayRateList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
         }
     }
 }

@@ -20,7 +20,7 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">Create User</div>
+    <div  id="title" class="panel-heading">Create User</div>
     <div class="panel-body">
 
         @if (TempData["MessageRegistration"] != null)
@@ -36,6 +36,7 @@
 
             <div class="row">
                 <div class="col-lg-4">
+                    @Html.HiddenFor(model => model.EmployeeID);
                     @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
                     @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", @maxlength = 40, @onkeypress = "return onlyspecchar(event);" })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -79,12 +80,9 @@
                     </div>
                    
                 </div>
-                <div class="row">
-                    <div class="col-lg-4">
-                        @Html.LabelFor(model => model.DateofJoining, htmlAttributes: new { @class = "control-label" }) <span class="text-danger">*</span>
-                        @Html.TextBoxFor(model => model.DateofJoining, new { @class = "form-control", @onkeypress = "alert('Choose DateofJoining');" })
-                        @Html.ValidationMessageFor(model => model.DateofJoining, "", new { @class = "text-danger" })
-                    </div>
+        
+                <div class="row" id="userContainer">
+                   
                     <div class="col-lg-4">
                         @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
                         @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @maxlength = 20, @onkeypress = "return onlyspecchar(event);", @onblur = "CheckUsernameExists();" })
@@ -95,14 +93,16 @@
                         @Html.PasswordFor(model => model.Password, new { @class = "form-control", @maxlength = 30, })
                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     </div>
-                    
-                </div>
-                <div class="row">
                     <div class="col-lg-4">
                         @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
                         @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                     </div>
+                    
+                </div>
+          
+                <div class="row">
+                    
                     <div class="col-lg-4">
                         @Html.LabelFor(model => model.EmployeeCode, htmlAttributes: new { @class = "control-label manadatory" })
                         @Html.TextBoxFor(model => model.EmployeeCode, new { @class = "form-control" })
@@ -117,52 +117,44 @@
 
                 <div class="row">
                     <div class="col-lg-4">
-                        @Html.LabelFor(model => model.fkDepartmentID, htmlAttributes: new { @class = "control-label manadatory" })
-                        @Html.DropDownList("Department", new List<SelectListItem>
-{
-   new SelectListItem{ Text="IT", Value = "1" },
-   new SelectListItem{ Text="NON-IT", Value = "2" }
-}, new { @class = "form-control input-lg" })
+                        @Html.LabelFor(model => model.fkDepartmentID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                        @Html.DropDownList("fkDepartmentID", ViewBag.Departments as SelectList, "--Please select--"
+, new { @class = "form-control input-lg" })
                         @Html.ValidationMessageFor(model => model.fkDepartmentID, "", new { @class = "text-danger" })
                     </div>
                     <div class="col-lg-4">
                         @Html.LabelFor(model => model.fkManagerId, htmlAttributes: new { @class = "control-label manadatory" })
-                        @Html.DropDownList("Manager", new List<SelectListItem>
-{
-   new SelectListItem{ Text="Dinesh", Value = "1" },
-   new SelectListItem{ Text="Ashok", Value = "2" }
-}, new { @class = "form-control input-lg" })
-                        @Html.ValidationMessageFor(model => model.fkManagerId, "", new { @class = "text-danger" })
+                        @Html.DropDownList("fkManagerId", ViewBag.Managers as SelectList, "--Please select--"
+, new { @class = "form-control input-lg" })
+
+                        @Html.ValidationMessageFor(model => model.fkManagerId)
+                       
                     </div>
                     <div class="col-lg-4">
-                        @Html.LabelFor(model => model.fkEmploymentLocationID, htmlAttributes: new { @class = "control-label manadatory" })
-                        @Html.DropDownList("Employment Location", new List<SelectListItem>
-{
-   new SelectListItem{ Text="USA", Value = "1" },
-   new SelectListItem{ Text="India", Value = "2" }
-}, new { @class = "form-control input-lg" })
+                        @Html.LabelFor(model => model.fkEmploymentLocationID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                        @Html.DropDownList("fkEmploymentLocationID", ViewBag.Locations as SelectList, "--Please select--"
+, new { @class = "form-control input-lg" })
                         @Html.ValidationMessageFor(model => model.fkEmploymentLocationID, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
-                        @Html.LabelFor(model => model.RoleID, htmlAttributes: new { @class = "control-label manadatory" })
-                        @Html.DropDownList("RoleID", new List<SelectListItem>
-{
-   new SelectListItem{ Text="Admin", Value = "1" },
-   new SelectListItem{ Text="Users", Value = "2" },
-   new SelectListItem{ Text="SuperAdmin", Value = "3" }
-}, new { @class = "form-control input-lg" })
-                        @*@Html.DropDownList("RoleID", ViewBag.Roles as SelectList, "--Please select--"
-, new { @class = "form-control input-lg" })*@
+                        @Html.LabelFor(model => model.RoleID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                        @Html.DropDownList("RoleID", ViewBag.Roles as SelectList, "--Please select--"
+, new { @class = "form-control input-lg" })
                         @Html.ValidationMessageFor(model => model.RoleID, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-lg-4">
+                        @Html.LabelFor(model => model.DateofJoining, htmlAttributes: new { @class = "control-label" }) <span class="text-danger">*</span>
+                        @Html.TextBoxFor(model => model.DateofJoining, new { @class = "form-control", @onkeypress = "alert('Choose DateofJoining');" })
+                        @Html.ValidationMessageFor(model => model.DateofJoining, "", new { @class = "text-danger" })
                     </div>
                 </div>
                     <br />
                     
-                    }
+             
 
-                </div>
+              
     <div class="panel-heading">Passport Detail</div>
     <div class="panel-body">
         <div class="row">
@@ -240,20 +232,66 @@
     </div>
     <div class="row">
         <div class="col-lg-4">
-            <input type="submit" value="Create User" class="btn btn-md btn-primary" />
+            <input type="submit" id="create" value="Create" class="btn btn-md btn-primary" />
+            <input type="submit" id="update" value="Update Value" onclick="return update()" class="btn btn-md btn-primary" />
             @Html.ActionLink("Cancel", "Register", "Employee", null, new { @class = "btn btn-md btn-primary" })
 
         </div>
     </div>
-
+        }
+    </div>
+    <div class="row" id="payrate" >
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Pay Rate</div>
+                <div class="panel-body">
+                    <div style="float:right;"><input type="button" id="AddPayrate" value="Add Pay Rate" class="btn btn-md btn-primary" onclick="OnPayRateClick()" /></div>
+                    <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                           data-show-export="true" data-toolbar="#toolbar">
+                        <thead>
+                            <tr>
+                                <th data-field="StartDate" data-sortable="true" data-formatter="dateFormat">Start Date</th>
+                                <th data-field="EndDate" data-sortable="true" data-formatter="dateFormat">End Date</th>
+                                <th data-field="Name" data-sortable="true">Pay Rate Type</th>
+                                <th data-field="RegularRate" data-sortable="true">Regular Rate</th>
+                                <th data-field="OTRate" data-sortable="true">OT Rate</th>
+                              
+                                
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
-
-
-
+<script src="https://momentjs.com/downloads/moment.min.js"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
+
+        var ID = @ViewBag.editupdate;
+        if ( ID==-1 )
+        {
+            $("#update").hide();
+            $("#create").show();
+            $("#payrate").hide();
+            $('#title').text('Create User');
+        }
+        else
+        {
+            $("#update").show();
+            $("#create").hide();
+            $("#userContainer").hide();
+            //$("#Password").hide();
+            //$("#ConfirmPassword").hide();
+
+            $('#table').bootstrapTable('refresh', {
+                "url": "/Employee/GetPayRateByEmployee/"+ID
+                });
+            $('#title').text('Update User');
+        }
         $("#Birthdate").datepicker
             ({
                 dateFormat: "yy-mm-dd",
@@ -281,9 +319,60 @@
                changeYear: true,
                yearRange: "-100:+100"
            });
+        $("#PassportIssuedOn").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+        $("#PassportExpireOn").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+        $("#VISAIssuedOn").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+        $("#VISAExpireOn").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+        $("#LabourCardIssuedOn").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+        $("#LabourCardExpireOn").datepicker
+          ({
+              dateFormat: "yy-mm-dd",
+              changeMonth: true,
+              changeYear: true,
+              yearRange: "-100:+100"
+          });
+
+
+
 
     });
-
+    function OnPayRateClick() {
+        window.location.href = "/EmployeePayRate/AddPayRate/"+ @ViewBag.editupdate;
+   
+    }
+    function dateFormat(value, row, index) {
+        return moment(value).format('MM/DD/YYYY');
+    }
     function OnlyNumeric(evt) {
         var charCode = (evt.which) ? evt.which : evt.keyCode
         if ((charCode < 48 || charCode > 57)) {
@@ -297,17 +386,7 @@
     }
 
     function CheckUsernameExists() {
-        var url = '@Url.Content("~/")' + "Registration/CheckUserNameExists";
-        var source = "#Username";
-        $.post(url, { Username: $(source).val() }, function (data) {
-            if (data) {
-                $(source).val('');
-                alert("Username Already Used try unique one!");
-            }
-            else {
 
-            }
-        });
     }
 
     function onlyspecchar(evt) {

@@ -1,0 +1,138 @@
+﻿@model Business.EmployeePayRate
+@{
+    ViewBag.Title = "PayMe - Create Pay Rate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Employee PayRate</li>
+    </ol>
+</div><!--/.row-->
+
+<div class="panel panel-default">
+    <div class="panel-heading">Enter Employee PayRate</div>
+    @*<div class="panel-heading" style="font-weight:bold;">@ViewBag.ExpenseSummaryName</div>*@
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @using (Html.BeginForm("AddPayRate", "EmployeePayRate", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="clearfix"></div>
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.PayRateTypeID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                    @Html.DropDownList("PayRateTypeID", new List<SelectListItem>
+{
+   new SelectListItem{ Text="Hourly", Value = "1" },
+   new SelectListItem{ Text="Monthly", Value = "2" }
+}, new { @class = "form-control input-lg" })
+
+                    <br />
+                    @Html.ValidationMessageFor(model => model.PayRateTypeID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.RegularRate, htmlAttributes: new { @class = "control-label" }) <span class="text-danger">*</span>
+                    @Html.TextBoxFor(model => model.RegularRate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RegularRate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.OTRate, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                    @Html.EditorFor(model => model.OTRate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.OTRate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <input type="submit" value="Create" class="btn btn-md btn-primary" />
+                    @Html.ActionLink("Cancel", "Index", "Employee", null, new { @class = "btn btn-md btn-primary" })
+
+                </div>
+            </div>
+
+        }
+    </div>
+    @*<div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Expense Detail</div>
+                    <div class="panel-body">
+                        <div id="toolbar">
+                            <button id="export" class="btn btn-default">Export Excel</button>
+                        </div>
+                        <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                               data-show-export="true" data-toolbar="#toolbar">
+                            <thead>
+                                <tr>
+                                    <th data-field="CategoryName" data-sortable="true">Category Name</th>
+                                    <th data-field="CurrencyBillNo" data-sortable="true">Currency Bill No</th>
+                                    <th data-field="Amount" data-sortable="true">Amount</th>
+                                    <th data-field="BillDate" data-sortable="true" data-formatter="dateFormat">BillDate</th>
+                                    <th data-field="Location" data-sortable="true">Location</th>
+                                    <th data-field="HasAttachment" data-sortable="true" data-formatter="YesNoFormater">Has Attachment</th>
+                                    <th data-field="Notes" data-sortable="true">Notes</th>
+                                    <th data-field="ID" data-sortable="true" data-formatter="Download">Download</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+   
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+      
+
+        $("#StartDate").datepicker
+           ({
+               dateFormat: "yy-mm-dd",
+               changeMonth: true,
+               changeYear: true,
+               yearRange: "-100:+100"
+           });
+        $("#EndDate").datepicker
+           ({
+               dateFormat: "yy-mm-dd",
+               changeMonth: true,
+               changeYear: true,
+               yearRange: "-100:+100"
+           });
+       
+
+    });
+
+   
+
+</script>
