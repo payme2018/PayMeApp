@@ -6,9 +6,33 @@ using System.Threading.Tasks;
 
 namespace Business
 {
-   public class Dropdown
+    public class Dropdown
     {
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public int ID { get; set; }
+
+        public string Name { get; set; }
+    }
+
+    public class ManagerDropdown
+    {
+        public int fkManagerId { get; set; }
+
+        public string Name { get; set; }
+
+    }
+    public class LocationDropdown
+    {
+        public int fkEmploymentLocationID { get; set; }
+
+        public string Name { get; set; }
+
+    }
+    public class DepartmentDropdown
+    {
+        public int fkDepartmentID { get; set; }
+
+        public string Name { get; set; }
+
+
     }
 }

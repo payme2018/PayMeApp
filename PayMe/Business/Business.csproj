@@ -73,7 +73,9 @@
     <Compile Include="Account.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Dropdown.cs" />
     <Compile Include="Employee.cs" />
+    <Compile Include="EmployeePayRate.cs" />
     <Compile Include="EmployeeProject.cs" />
     <Compile Include="ExpenseDetail.cs" />
     <Compile Include="ExpenseSummary.cs" />
