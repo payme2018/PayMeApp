@@ -53,7 +53,9 @@ namespace PayMe.Controllers
         // GET: EmployeePayRate/Edit/5
         public ActionResult AddPayRate(int id)
         {
-            
+            UserManager userManager = new UserManager();
+            var result = userManager.GetEmployeeByID(id);
+            ViewBag.EmployeeName = result.FirstName + " " + result.LastName;
             return View();
         }
         [HttpPost]
@@ -61,8 +63,9 @@ namespace PayMe.Controllers
         {
             UserManager userManager = new UserManager();
             userManager.AddPayEmployeePayRate(collection);
-            TempData["Message"] = "Pay Rate Added Successfully";
-            return View();
+            //TempData["Message"] = "Pay Rate Added Successfully";
+            return RedirectToAction("edit", "Employee", new { id = collection.ID });
+            //return RedirectToAction("/Employee/"+ collection.ID);
         }
         // POST: EmployeePayRate/Edit/5
         [HttpPost]

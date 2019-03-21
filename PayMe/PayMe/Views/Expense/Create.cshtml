@@ -44,7 +44,7 @@
                 </div>
                 <div class="col-lg-4">
                     @Html.LabelFor(model => model.ProjectID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
-                    @Html.DropDownList("ProjectID", ViewBag.Projects as SelectList, "--Please select--"
+                      @Html.DropDownList("ProjectID", ViewBag.Projects as SelectList, "--Please select--"
 , new { @class = "form-control input-lg" })
                     @Html.ValidationMessageFor(model => model.ProjectID, "", new { @class = "text-danger" })
                 </div>

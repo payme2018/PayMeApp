@@ -30,6 +30,7 @@ namespace PayMe.Controllers
         {
             ClientManager clientManager = new ClientManager();
             ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
+            ViewBag.editupdate = -1;
             return View();
           
         }
@@ -69,17 +70,24 @@ namespace PayMe.Controllers
         // GET: Project/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ClientManager clientManager = new ClientManager();
+            ProjectManager projectManager = new ProjectManager();
+            ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
+            Project project = new Project();
+            project = projectManager.GetProjectByID(id);
+            ViewBag.editupdate = id;
+            return View("Create", project);
         }
 
         // POST: Project/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Project project)
         {
             try
             {
                 // TODO: Add update logic here
-
+                ProjectManager projectManager = new ProjectManager();
+                projectManager.UpdateProject(project);
                 return RedirectToAction("Index");
             }
             catch

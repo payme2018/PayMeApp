@@ -16,7 +16,9 @@
     function YesNoFormater(value) {
         return value == true ? 'Yes' : 'No';
     }
-
+    function ActionEdit(value) {
+        return '<a href="../Project/Edit/' + value + '"><em class="fa fa-pencil" style="font-size:18px;"></a>';
+    }
 </script>
 <div class="row">
     <ol class="breadcrumb">
@@ -48,6 +50,7 @@
                             <th data-field="PrimaryContact" data-sortable="true">Primary Contact</th>
                             <th data-field="LocationInfo" data-sortable="true">Location Info</th>
                             <th data-field="IsActive" data-sortable="true" data-formatter="YesNoFormater">Is Active</th>
+                            <th data-field="ID" data-sortable="true" data-formatter="ActionEdit">Edit</th>
                         </tr>
                     </thead>
                 </table>

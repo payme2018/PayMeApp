@@ -36,6 +36,7 @@ namespace DAL
                         registration.Username = reader["UserName"].ToString();
                         registration.FirstName = reader["FirstName"].ToString();
                         registration.LastName = reader["LastName"].ToString();
+                        registration.AccountID = Convert.ToInt32(reader["AccountID"].ToString());
                     }
                 }
                 reader.Close();
@@ -116,6 +117,7 @@ namespace DAL
                         registration.RoleName = reader["RoleName"].ToString();
                         registration.GenderName = reader["Gender"].ToString();
                         registration.EmailID = reader["EmailID"].ToString();
+                        registration.FullName = reader["FullName"].ToString();
                         registrationList.Add(registration);
                     }
                 }
@@ -343,6 +345,8 @@ namespace DAL
                     con.Close();
                 }
             }
+
+           
 
             return items;
         }

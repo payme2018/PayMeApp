@@ -44,9 +44,11 @@ namespace Business
         [Required(ErrorMessage = "Gender Required")]
         public int Gender { get; set; }
         [DisplayName("DOB")]
+        [Required(ErrorMessage = "DOB Required")]
         public DateTime? Birthdate { get; set; }
 
         [DisplayName("Date of Joining")]
+        [Required(ErrorMessage = "Date of Joining Required")]
         public DateTime? DateofJoining { get; set; }
         [DisplayName("Role")]
         [Required(ErrorMessage = "Role Required")]
@@ -80,10 +82,10 @@ namespace Business
         public string PassportNo { get; set; }
         [DisplayName("Issued By")]
         public string PassportIssuedBy { get; set; }
-        [DisplayName("Issued On")]
-        public DateTime? PassportIssuedOn { get; set; }
-        [DisplayName("Expire On")]
-        public DateTime? PassportExpireOn { get; set; }
+        [DisplayName("Passport Issued On")]
+        public DateTime PassportIssuedOn { get; set; }
+        [DisplayName("Passport Expire On")]
+        public DateTime PassportExpireOn { get; set; }
         [DisplayName("VISA No")]
         public string VISANo { get; set; }
         [DisplayName("Issued By")]
@@ -102,6 +104,8 @@ namespace Business
         [DisplayName("Expire On")]
         public DateTime? LabourCardExpireOn { get; set; }
 
+        public string FullName { get; set; }
+        public int AccountID { get; set; }
 
     }
     public enum Gender
