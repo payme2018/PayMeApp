@@ -17,7 +17,7 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">Create Project</div>
+    <div  id="title" class="panel-heading">Create Project</div>
     <div class="panel-body">
 
         @if (TempData["Message"] != null)
@@ -36,6 +36,7 @@
                
                    
                     <div class="col-lg-4">
+                        @Html.HiddenFor(model => model.ID);
                         @Html.LabelFor(model => model.ClientID, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
                         @Html.DropDownList("ClientID", ViewBag.Roles as SelectList, "--Please select--"
 , new { @class = "form-control input-lg" })
@@ -87,7 +88,8 @@
                 <div class="row">
                     <div class="col-lg-4">
 
-                        <input type="submit" value="Create" class="btn btn-md btn-primary" />
+                        <input type="submit" id="create" value="Create" class="btn btn-md btn-primary" />
+                        <input type="submit" id="update" value="Update"  class="btn btn-md btn-primary" />
                         @Html.ActionLink("Cancel", "Index", "Project", null, new { @class = "btn btn-md btn-primary" })
 
 
@@ -104,3 +106,25 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var ID = @ViewBag.editupdate;
+        if ( ID==-1 )
+        {
+            $("#update").hide();
+            $("#create").show();
+            $('#title').text('Create Project');
+        }
+        else
+        {
+            $("#update").show();
+            $("#create").hide();
+            $('#title').text('Update Project');
+        }
+     
+
+    });
+    
+</script>

@@ -28,8 +28,14 @@ namespace PayMe.Controllers
         // GET: Employee/Register
         public ActionResult Register()
         {
+            TempData["MessageRegistration"] = "";
             UserManager userManager = new UserManager();
-            ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
+            var roleList = userManager.GetRoleList();
+            if (Convert.ToInt32(Session["RoleID"]) != 3)
+            {
+                roleList = roleList.Where(x => x.RoleID != 3).ToList();
+            }
+            ViewBag.Roles = new SelectList(roleList, "RoleID", "RoleName");
             ViewBag.Managers = new SelectList(userManager.GetManagerList(), "fkManagerId", "Name");
             ViewBag.Locations = new SelectList(userManager.GetLocationList(), "fkEmploymentLocationID", "Name");
             ViewBag.Departments = new SelectList(userManager.GetDepartmentList(), "fkDepartmentID", "Name");
@@ -70,7 +76,7 @@ namespace PayMe.Controllers
                     TempData["MessageRegistration"] = "Error Occured";
 
                 }
-                ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
+               // ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
                 return RedirectToAction("Index");
 
             }

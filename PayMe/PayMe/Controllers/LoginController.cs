@@ -43,13 +43,25 @@ namespace PayMe.Controllers
                         {
                             var RoleID = result.RoleID;
                             AccountManager accountManager = new AccountManager();
-                            Session["Accounts"] = new SelectList(accountManager.GetAccounts(), "ID", "Name");
-
-                            Session["RoleID"] = Convert.ToString(result.RoleID);
+                            var accountList = accountManager.GetAccounts();
+                           
+                            Session["RoleID"] = result.RoleID;
                             Session["Username"] = Convert.ToString(result.Username);
                             Session["FullName"] = result.FirstName + " " + result.LastName;
                             Session["UserID"] = result.EmployeeID;
-
+                            if (Convert.ToInt32(Session["RoleID"]) == 3)
+                            {
+                                var takeFirstAccount = accountList.OrderBy(x => x.Name).FirstOrDefault();
+                                Session["Accounts"] = new SelectList(accountList, "ID", "Name");
+                                Session["AccountID"] = takeFirstAccount.ID;
+                            }
+                            else
+                            {
+                                accountList = accountList.Where(x => x.ID == result.AccountID).ToList();
+                                var takeFirstAccount = accountList.Where(x => x.ID == result.AccountID).FirstOrDefault();
+                                Session["Accounts"] = new SelectList(accountList, "ID", "Name");
+                                Session["AccountID"] = takeFirstAccount.ID;
+                            }
                             return RedirectToAction("Index", "Home");
                             //if (RoleID == 1)
                             //{
@@ -94,7 +106,7 @@ namespace PayMe.Controllers
                 }
                 return View(loginViewModel);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -22,8 +22,8 @@ namespace PayMe.Controllers
             TaskManager taskManager = new TaskManager();
             ViewBag.Client = new SelectList(clientManager.GetClients(), "ID", "ClientName");
             ViewBag.Project = new SelectList(projectManager.GetProjectsByClient(0), "ID", "ProjectName");
-            ViewBag.Employee = new SelectList(userManager.GetUsers(), "EmployeeID", "FirstName");
-            ViewBag.Task = new SelectList(taskManager.GetTaskList(null), "ID", "TaskName");
+            ViewBag.Employee = new SelectList(userManager.GetUsers(), "EmployeeID", "FullName");
+            ViewBag.Task = new SelectList(taskManager.GetTaskList(null,Convert.ToInt32(Session["AccountID"])), "ID", "TaskName");
             return View();
            
         }

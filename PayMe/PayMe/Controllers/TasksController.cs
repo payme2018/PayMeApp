@@ -100,7 +100,7 @@ namespace PayMe.Controllers
             try
             {
                 TaskManager taskManager = new TaskManager();
-                projectList = taskManager.GetTaskList(null);
+                projectList = taskManager.GetTaskList(null, Convert.ToInt32(Session["AccountID"]));
             }
             catch (Exception ex)
             {
@@ -118,9 +118,9 @@ namespace PayMe.Controllers
             try
             {
                 TaskManager taskManager = new TaskManager();
-                projectList = taskManager.GetTaskList(projectId);
+                projectList = taskManager.GetTaskList(projectId, Convert.ToInt32(Session["AccountID"]));
 
-                var lstSiteAdd = ViewBag.Task = new SelectList(taskManager.GetTaskList(projectId), "ID", "TaskName");
+                var lstSiteAdd = ViewBag.Task = new SelectList(taskManager.GetTaskList(projectId, Convert.ToInt32(Session["AccountID"])), "ID", "TaskName");
                 var bindingAddresses = new
                 {
                     task = lstSiteAdd,
