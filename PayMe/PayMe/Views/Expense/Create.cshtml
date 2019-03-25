@@ -103,16 +103,32 @@
     $(document).ready(function () {
    
 
-        $("#FromDate").datetimepicker({
+        //$("#FromDate").datetimepicker({
            
+        //});
+        //$("#ToDate").datepicker
+        //  ({
+        //      dateFormat: "yy-mm-dd",
+        //      changeMonth: true,
+        //      changeYear: true,
+        //      yearRange: "-100:+100"
+        //  });
+
+        $('#FromDate').datepicker({
+            todayBtn: true,
+            clearBtn: true,
+            calendarWeeks: true,
+            todayHighlight: true,
+            format: "dd/MM/yyyy"
         });
-        $("#ToDate").datepicker
-          ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
-          });
+
+        $('#ToDate').datepicker({
+            todayBtn: true,
+            clearBtn: true,
+            calendarWeeks: true,
+            todayHighlight: true,
+            format: "dd/MM/yyyy"
+        });
 
     });
 
