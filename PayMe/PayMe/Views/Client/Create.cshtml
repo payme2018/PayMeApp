@@ -17,7 +17,7 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">Create Client</div>
+    <div id="title" class="panel-heading">Create Client</div>
     <div class="panel-body">
 
         @if (TempData["Message"] != null)
@@ -78,15 +78,43 @@
 
             </div>
 
-                <br />
+            <br />
                 <div class="row">
                     <div class="col-lg-4">
 
-                        <input type="submit" value="Create" class="btn btn-md btn-primary" />
+                        <input type="submit" id="create" value="Create" class="btn btn-md btn-primary" />
+                        <input type="submit" id="update" value="Update" class="btn btn-md btn-primary" />
                         @Html.ActionLink("Cancel", "Index", "Client", null, new { @class = "btn btn-md btn-primary" })
 
 
 
+                    </div>
+                </div>
+                <br />
+
+                <div id="grid" class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Projects</div>
+                            <div class="panel-body">
+                                <div id="toolbar">
+                                    <button id="export" class="btn btn-default">Export Excel</button>
+                                </div>
+                                <table id="table" data-toggle="table"  data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                                       data-show-export="true" data-toolbar="#toolbar">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="ClientName" data-sortable="true">Client</th>
+                                            <th data-field="ProjectName" data-sortable="true">Project</th>
+                                            <th data-field="PrimaryContact" data-sortable="true">Primary Contact</th>
+                                            <th data-field="LocationInfo" data-sortable="true">Location Info</th>
+                                            <th data-field="IsActive" data-sortable="true" data-formatter="YesNoFormater">Is Active</th>
+                                            <th data-field="ID" data-sortable="true" data-formatter="ActionEdit">Edit</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
         }
@@ -99,3 +127,34 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var ID = @ViewBag.editupdate;
+        if ( ID==-1 )
+        {
+            $("#grid").hide();
+            $("#update").hide();
+            $("#create").show();
+            $('#title').text('Create Client');
+        }
+        else
+        {
+            $("#grid").show();
+            $("#update").show();
+            $("#create").hide();
+            $('#title').text('Update Client');
+        }
+
+        $('#table').bootstrapTable('refresh', {
+           
+            "url": "/Client/GetProjectListByClient/"+@ViewBag.editupdate
+        });
+
+    });
+
+    function ActionEdit(value) {
+        return '<a href="../../Project/Edit/' + value + '"><em class="fa fa-pencil" style="font-size:18px;"></a>';
+    }
+</script>
