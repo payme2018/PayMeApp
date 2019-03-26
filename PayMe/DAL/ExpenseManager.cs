@@ -246,6 +246,30 @@ namespace DAL
 
 
 
+        public int DeleteExpenseDetail(int id)
+        {
+            int returnValue = 0;
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("DeleteExpenseDetail", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                returnValue = Convert.ToInt32(cmd.Parameters["@output"].Value);
+
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+            return returnValue;
+        }
+
 
         public int CreateExpense(ExpenseSummary expenseSummary)
         {
@@ -359,6 +383,13 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@Location", expenseDetail.Location);
                 cmd.Parameters.AddWithValue("@HasAttachment", expenseDetail.HasAttachment);
                 cmd.Parameters.AddWithValue("@Notes", expenseDetail.Notes);
+
+                cmd.Parameters.AddWithValue("@GrossTotal", expenseDetail.GrossTotal);
+                cmd.Parameters.AddWithValue("@TaxAmount", expenseDetail.TaxAmount);
+                cmd.Parameters.AddWithValue("@VatNumber", expenseDetail.VatNumber);
+                cmd.Parameters.AddWithValue("@PaidTo", expenseDetail.PaidTo);
+                cmd.Parameters.AddWithValue("@HasBill", expenseDetail.HasBill);
+
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();
