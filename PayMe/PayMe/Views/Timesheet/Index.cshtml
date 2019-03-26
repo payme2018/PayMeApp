@@ -1,299 +1,240 @@
-﻿
+﻿@model Business.Timesheet
 @{
-    ViewBag.Title = "PayMe - Create Expense Summary";
+    ViewBag.Title = "PayMe - Time Sheet";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Timesheet</h2>
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Time Tracker</li>
+    </ol>
+</div><!--/.row-->
+<div class="panel panel-default">
+    <div id="title" class="panel-heading">Time Sheet</div>
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
 
-<!DOCTYPE html>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @using (Html.BeginForm("Create", "Timesheet", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.fkEmpId, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("EmployeeID", ViewBag.Employee as SelectList, "--Please select--", new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.fkEmpId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.fkClientId, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("ClientID", ViewBag.Client as SelectList, "--Please select--", new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.fkClientId, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.fkProjectID, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("ProjectID", ViewBag.Project as SelectList, "--Please select--", new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.fkProjectID, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.fkTaskID, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.DropDownList("TaskID", ViewBag.Task as SelectList, "--Please select--", new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.fkTaskID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <br />
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.CheckInDate, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.EditorFor(model => model.CheckInDate, new { htmlAttributes = new { @class = "form-control" } })
+
+                </div>
+
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.CheckInDateTime, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.EditorFor(model => model.CheckInDateTime, new { htmlAttributes = new { @class = "form-control" } })
+
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.CheckOutDatetime, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.EditorFor(model => model.CheckOutDatetime, new { htmlAttributes = new { @class = "form-control" } })
+
+                </div>
+                <div class="col-lg-2">
+                    @Html.LabelFor(model => model.Hours, htmlAttributes: new { @class = "control-label manadatory" })
+                    @Html.EditorFor(model => model.Hours, new { htmlAttributes = new { @class = "form-control" } })
+
+                </div>
+                <div class="col-lg-2" style="margin-top:30px;">
+
+                    <input type="submit" value="Add" class="btn btn-md btn-primary" />
+
+                </div>
+                @*<p><button class="btn btn-default" onClick="$('.timer').countimer('start');">Start</button> <button class="btn btn-warning" onClick="$('.timer').countimer('stop');">Stop</button>  <button class="btn btn-success" onClick="$('.timer').countimer('resume');">Resume</button></p>*@
+
+            </div>
 
 
 
+        }
 
 
 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
 
+                            <div class="panel-body">
+                                <div id="toolbar">
+                                    <button id="export" class="btn btn-default">Export Excel</button>
+                                </div>
+                                <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                                       data-show-export="true" data-toolbar="#toolbar">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="EmployeeName" data-sortable="true">Employee</th>
+                                            <th data-field="ClientName" data-sortable="true">Client </th>
+                                            <th data-field="ProjectName" data-sortable="true">Project </th>
+                                            <th data-field="TaskName" data-sortable="true">Task </th>
+                                            <th data-field="CheckInDateTime" data-sortable="true" data-formatter="dateFormat">Check In Date</th>
+                                            <th data-field="CheckInDateTime" data-sortable="true" data-formatter="dateAndTimeFormat">Check In Date Time</th>
+                                            <th data-field="CheckOutDatetime" data-sortable="true" data-formatter="dateAndTimeFormat">Check Out Date Time</th>
+                                            <th data-field="Hours" data-sortable="true">Time</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
-<html>
-
-<head>
-  
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-
-    
-</head>
-<body>
-    <div id="jsGrid" style="overflow: visible;"></div>
-</body>
-</html>
-
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script>
-    department_list = [
-      { "id": 1, "department": "Department A" },
-      { "id": 2, "department": "Department B" }
-    ];
 
-    team_list = [
-        { "department": "Department A", "id": 1, "team": "Team A" },
-        { "department": "Department B", "id": 2, "team": "Team B" },
-        { "department": "Department B", "id": 3, "team": "Team C" }
-    ];
-
-    content = [
-        
-    ];
-    $.ajax({
-        type: "GET",
-        url: "/Client/GetClientList/"
-    }).done(function (Clients) {
+    $(document).ready(function () {
        
-        Clients.unshift({ ID: "0", ClientName: "" });
-
-        $.ajax({
-            type: "GET",
-            url: "/Project/GetProjectList/"
-        }).done(function (projectList) {
-         
-            projectList.unshift({ ID: "0", ProjectName: "" });
-
-            $.ajax({
-                type: "GET",
-                url: "/Tasks/GetTaskList/"
-            }).done(function (taskList) {
-             
-                taskList.unshift({ ID: "0", TaskName: "" });
-
-
-                var MyDateField = function (config) {
-                
-                    jsGrid.Field.call(this, config);
-                };
-
-                MyDateField.prototype = new jsGrid.Field({
-                    sorter: function (date1, date2) {
-                        return new Date(date1) - new Date(date2);
-                    },
-
-                    itemTemplate: function (value) {
-                    
-                        if (value === null) {
-                            return '';
-                        } else {
-                            return moment(value).format("DD/MM/YYYY");
-                        }
-                    },
-
-                    insertTemplate: function (value) {
-                        return this._insertPicker = $("<input>").datepicker({ defaultDate: new Date() });
-                    },
-
-                    editTemplate: function (value) {
-                        
-                        return this._editPicker = $("<input>").datepicker().datepicker("setDate", new moment(value).format("DD/MM/YYYY"));
-                    },
-
-                    insertValue: function () {
-                        return this._insertPicker.datepicker("getDate").toISOString();
-                    },
-
-                    editValue: function () {
-                        return this._editPicker.datepicker("getDate").toISOString();
-                    }
-                });
-
-                jsGrid.fields.myDateField = MyDateField;
-                var SolRiaDateTimeField = function (config) {
-                    jsGrid.Field.call(this, config);
-                };
-                SolRiaDateTimeField.prototype = new jsGrid.Field({
-                    sorter: function (date1, date2) {
-                        return new Date(date1) - new Date(date2);
-                    },
-
-                    itemTemplate: function (value) {
-                        if (value === null) {
-                            return '';
-                        } else {
-                            return moment(value).format('DD/MM/YYYY HH:mm:ss');
-                        }
-                    },
-
-                    insertTemplate: function (value) {
-                        this._insertPicker = $('<input>').datetimepicker({
-                            format: 'DD/MM/YYYY HH:mm:ss',
-                            defaultDate: moment(),
-                            widgetPositioning: {
-                                horizontal: 'auto',
-                                vertical: 'bottom'
-                            }
-                        });
-
-                        this._insertPicker.data('DateTimePicker').date(moment());
-                        return this._insertPicker;
-                    },
-
-                    editTemplate: function (value) {
-                        this._editPicker = $('<input>').datetimepicker({
-                            format: 'DD/MM/YYYY HH:mm:ss',
-                            widgetPositioning: {
-                                horizontal: 'auto',
-                                vertical: 'bottom'
-                            }
-                        });
-
-                        if (value !== null) {
-                            this._editPicker.data('DateTimePicker').defaultDate(moment(value));
-                            this._editPicker.data('DateTimePicker').date(moment(value));
-                        }
-                        return this._editPicker;
-                    },
-
-                    insertValue: function () {
-                        var insertValue = this._insertPicker.data('DateTimePicker').date();
-                        if (typeof insertValue !== 'undefined' && insertValue !== null) {
-                            return insertValue.format('DD/MM/YYYY HH:mm:ss');
-                        } else {
-                            return null;
-                        }
-                    },
-
-                    editValue: function () {
-                        var editValue = this._editPicker.data('DateTimePicker').date();
-                        if (typeof editValue !== 'undefined' && editValue !== null) {
-                            return editValue.format('DD/MM/YYYY HH:mm:ss');
-                        } else {
-                            return null;
-                        }
-                    }
-                });
-                jsGrid.fields.solRiaDateTimeField = SolRiaDateTimeField;
-               
-               
-    $("#jsGrid").jsGrid({
-        width: "100%",
-        inserting: true,
-        editing: true,
-        sorting: true,
-        paging: true,
-        data: content,
-        autoload: true,
-        deleteConfirm: "Are you sure?",
-        controller: {
-            loadData: function (filter) {
-               
-                return $.ajax({
-                    type: "GET",
-                    url: "/Timesheet/GetTimesheetEntries/",
-                    data: filter
-                });
-            },
-            insertItem: function (item) {
-             
-                return $.ajax({
-                    type: "POST",
-                    url: "/Timesheet/CreateTimesheet/",
-                    data: item
-                }).done(function (filter) {
-                    $("#jsGrid").jsGrid("loadData");
-                });
-            },
-        },
-        fields: [
-			
-			   {
-			       name: "fkClientId", title: "Client", type: "select", items: Clients, valueField: "ID", textField: "ClientName", title: "Client", insertcss: "client-insert",
-			       insertTemplate: function () {
-
-			           var projectField = this._grid.fields[1];
-			           var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
-
-			           $insertControl.on("change", function () {
-
-			               var selectedClient = $(this).val();
-			               var clietProject = $.grep(projectList, function (team) {
-			                   return team.ClientID == parseInt(selectedClient);
-			               });
-
-			               projectField.items = clietProject;
-
-			               $(".project-insert").empty().append(projectField.insertTemplate());
-			           });
-
-			           return $insertControl;
-			       }, width: 150, align: "center"
-			   },
-                            {
-                                name: "fkProjectID", type: "select", items: projectList, valueField: "ID", textField: "ProjectName", title: "Project", insertcss: "project-insert",
-                                insertTemplate: function () {
-
-                                    var taskField = this._grid.fields[2];
-                                    var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
-
-                                    $insertControl.on("change", function () {
-                                    
-                                        var selectedProject = $(this).val();
-                                        var projectTask = $.grep(taskList, function (task) {
-                                            return task.ProjectId == parseInt(selectedProject);
-                                        });
-
-                                        taskField.items = projectTask;
-
-                                        $(".task-insert").empty().append(taskField.insertTemplate());
-                                    });
-
-                                    return $insertControl;
-                                },
-                            },
-                            { name: "fkTaskID", type: "select", items: taskList, valueField: "ID", textField: "TaskName", title: "Task",insertcss: "task-insert" },
-                            {
-                                name: "CheckInDate",
-                                type: "myDateField",
-                                width: 'auto',
-                                title: "Check In Date"
-                            },
-                             { name: "CheckInDateTime", type: "solRiaDateTimeField", width: 'auto', title: "Check In DateTime" },
-                            { name: "CheckOutDatetime", type: "solRiaDateTimeField", width: 'auto', title: "Check Out DateTime" },
-                            { name: "Description", type: "text", width: 200 },
-                            
-
-            { type: "control", editButton: false, modeSwitchButton: false }
-        ]
-    });
-
-    var selectedItems = [];
-
-    var selectItem = function (item) {
-        selectedItems.push(item);
-    };
-
-    var unselectItem = function (item) {
-        selectedItems = $.grep(selectedItems, function (i) {
-            return i !== item;
+        $('#table').bootstrapTable('refresh', {
+            "url": "/Timesheet/GetTimesheetEntries/"
         });
-    };
-
-    var deleteSelectedItems = function () {
-        if (!selectedItems.length || !confirm("Are you sure?"))
-            return;
-
-        var $grid = $("#jsGrid");
-
-        $.each(selectedItems, function (_, item) {
-            $grid.jsGrid("deleteItem", item);
-        });
-
-        selectedItems = [];
-    };
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
             });
         });
+
+        $("#CheckInDate").datepicker
+           ({
+               dateFormat: "yy-mm-dd",
+               changeMonth: true,
+               changeYear: true,
+               yearRange: "-100:+100"
+           });
+        $("#CheckInDateTime").datepicker
+           ({
+               dateFormat: "yy-mm-dd",
+               changeMonth: true,
+               changeYear: true,
+               yearRange: "-100:+100"
+           });
+
+        $("#CheckOutDatetime").datepicker
+           ({
+               dateFormat: "yy-mm-dd",
+               changeMonth: true,
+               changeYear: true,
+               yearRange: "-100:+100"
+           });
+
+
     });
 
+    
+   
+    $("#ClientID").change(function () {
+        var clientNo = $("#ClientID").val();
+        if (clientNo == null || clientNo == "") {
+            alert("Please Select Client");
+            return;
+        }
+        $("input[id='ClientName']").val(clientNo);
+        if (clientNo != null || clientNo != "") {
+            $.ajax({
+                url: "/Tasks/BindProject",
+                type: "POST",
+                data: JSON.stringify({ 'clientNo': clientNo }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                  
+                    var listItems = "";
+                    var list = "";
+                    var a = result.bindingAddresses.project;
+                    listItems = "<option value='" + -1 + "'>" + "--Please select--" + "</option>"
+                    for (i in a) {
+                        listItems += "<option value='" + a[i].Value + "'>" + a[i].Text + "</option>";
+                    }
+                    $("#ProjectID").html(listItems);
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+    });
+
+    $("#ProjectID").change(function () {
+        var projectId = $("#ProjectID").val();
+        if (projectId == null || projectId == "") {
+            alert("Please select project");
+            return;
+        }
+        $("input[id='ProjectName']").val(projectId);
+        if (projectId != null || projectId != "") {
+            $.ajax({
+                url: "/Tasks/GetTaskListByProject",
+                type: "POST",
+                data: JSON.stringify({ 'projectId': projectId }),
+                dataType: "json",
+                traditional: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (result) {
+                    debugger;
+                    var listItems = "";
+                    var list = "";
+                    var a = result.bindingAddresses.task;
+                    listItems = "<option value='" + -1 + "'>" + "--Please select--" + "</option>"
+                    for (i in a) {
+                        listItems += "<option value='" + a[i].Value + "'>" + a[i].Text + "</option>";
+                    }
+                    $("#TaskID").html(listItems);
+                },
+                error: function () {
+                    alert("An error has occured!!!");
+                }
+            });
+        }
+
+    });
+    function dateAndTimeFormat(value, row, index) {
+        if(value!=null)
+        return moment(value).format('DD/MM/YYYY HH:mm:ss');
+    }
+    function dateFormat(value, row, index) {
+        if (value != null)
+            return moment(value).format('DD/MM/YYYY');
+    }
 </script>

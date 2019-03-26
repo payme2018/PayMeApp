@@ -12,14 +12,14 @@ namespace DAL
 {
     public class TimesheetManager
     {
-        public IEnumerable<Timesheet> GetTimesheetEntries(int userId)
+        public IEnumerable<Timesheet> GetTimesheetEntries(int accountId)
         {
             try
             {
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
                 SqlConnection connection = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetTimesheetByUserID", connection);
-                cmd.Parameters.AddWithValue("@UserID", userId);
+                SqlCommand cmd = new SqlCommand("GetTimesheetEntries", connection);
+                cmd.Parameters.AddWithValue("@AccountID", accountId);
                 cmd.CommandType = CommandType.StoredProcedure;
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -39,8 +39,10 @@ namespace DAL
                         timesheet.CheckOutDatetime = Convert.ToDateTime(reader["CheckOutDatetime"].ToString());
                         timesheet.Description = reader["Description"].ToString();
                         timesheet.ProjectName = reader["ProjectName"].ToString();
-                        
+                        timesheet.EmployeeName = reader["EmployeeName"].ToString(); 
                         timesheet.ClientName = reader["ClientName"].ToString();
+                        timesheet.Hours = reader["WorkedHours"].ToString();
+                        timesheet.TaskName = reader["TaskName"].ToString();
                         timesheetList.Add(timesheet);
 
 
