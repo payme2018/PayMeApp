@@ -27,6 +27,7 @@ namespace PayMe.Controllers
         // GET: Expense/Details/5
         public ActionResult Details(int id)
         {
+           
             return View();
         }
 
@@ -100,14 +101,20 @@ namespace PayMe.Controllers
         }
         public ActionResult Detail(int id)
         {
-
+            ExpenseDetail obj = new ExpenseDetail();
+            obj.HasBill = true;
             ExpenseManager expenseManager = new ExpenseManager();
             ViewBag.ExpenseSummaryName = expenseManager.GetExpenseSummaryName(id);
             ViewBag.ExpenseSummaryID = id;
             ViewBag.Category = new SelectList(expenseManager.GetExpenseCategory(), "ID", "Name");
-            return View();
+            return View(obj);
         }
 
+        public ActionResult EditDetail(int id,int ExpenseSummaryID)
+        {
+            ExpenseDetail obj = new ExpenseDetail();
+            return View(obj);
+        }
 
         public ActionResult Upload(int id)
         {
@@ -204,7 +211,17 @@ namespace PayMe.Controllers
         // GET: Expense/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                // TODO: Add update logic here
+                ExpenseManager clientManager = new ExpenseManager();
+                clientManager.DeleteExpenseDetail(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // POST: Expense/Delete/5

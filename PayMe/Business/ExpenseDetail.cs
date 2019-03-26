@@ -23,7 +23,8 @@ namespace Business
         [DisplayName("Currency Bill No")]
         [Required(ErrorMessage = "Please enter currency bill no")]
         public string CurrencyBillNo { get; set; }
-      
+
+        [DisplayName("Total Amount")]
         [Required(ErrorMessage = "Please enter amount")]
         public Nullable<decimal> Amount { get; set; }
 
@@ -38,6 +39,27 @@ namespace Business
         [DisplayName("Has Attachment")]
         public bool HasAttachment { get; set; }
         public string Notes { get; set; }
+
+        [DisplayName("Gross Total Amount")]
+        [Required(ErrorMessage = "Please enter Gross Total")]
+        public Nullable<decimal> GrossTotal { get; set; }
+
+        [DisplayName("Tax Amount")]
+        [Required(ErrorMessage = "Please enter tax amount")]
+        public Nullable<decimal> TaxAmount { get; set; }
+
+        [DisplayName("Vat Number")]
+        [Required(ErrorMessage = "Please enter vat number")]
+        public string VatNumber { get; set; }
+
+        [DisplayName("Paid To")]
+        [Required(ErrorMessage = "Please enter vendor/company name")]
+        public string PaidTo { get; set; }
+
+       
+        [DisplayName("Has Bill")]
+        [System.ComponentModel.DefaultValue(true)]
+        public bool HasBill { get; set; }
 
         public HttpPostedFileBase expenseAttachment { get; set; }
         public string Name { get; set; }
