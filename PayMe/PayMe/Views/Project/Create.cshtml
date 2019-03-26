@@ -101,7 +101,27 @@
     </div>
 </div>
 
-
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Tasks</div>
+            <div class="panel-body">
+                <div id="toolbar">
+                    <button id="export" class="btn btn-default">Export Excel</button>
+                </div>
+                <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                       data-show-export="true" data-toolbar="#toolbar">
+                    <thead>
+                        <tr>
+                            <th data-field="TaskName" data-sortable="true">Task Name</th>
+                            <th data-field="ID" data-sortable="true" data-formatter="ActionEdit">Edit</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -123,8 +143,14 @@
             $("#create").hide();
             $('#title').text('Update Project');
         }
-     
+        $('#table').bootstrapTable('refresh', {
+            "url": "/Tasks/GetTaskNameByProject/"+ID
+        });
 
     });
-    
+
+    function ActionEdit(value) {
+        return '<a href="/Tasks/Edit/' + value + '"><em class="fa fa-pencil" style="font-size:18px;"></a>';
+    }
+
 </script>

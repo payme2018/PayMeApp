@@ -15,6 +15,17 @@ namespace PayMe.Controllers
         // GET: Timesheet
         public ActionResult Index()
         {
+            TempData["Message"] = null;
+            ClientManager clientManager = new ClientManager();
+            ProjectManager projectManager = new ProjectManager();
+            UserManager userManager = new UserManager();
+            TaskManager taskManager = new TaskManager();
+            ViewBag.Client = new SelectList(clientManager.GetClients(), "ID", "ClientName");
+            ViewBag.Project = new SelectList(projectManager.GetProjectsByClient(0), "ID", "ProjectName");
+            ViewBag.Employee = new SelectList(userManager.GetUsers(), "EmployeeID", "FullName");
+            ViewBag.Task = new SelectList(taskManager.GetTaskList(null, Convert.ToInt32(Session["AccountID"])), "ID", "TaskName");
+           
+
             return View();
         }
 
@@ -36,8 +47,10 @@ namespace PayMe.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-
+                TimesheetManager timesheetManager = new TimesheetManager();
+                timesheet.fkEmpId = Convert.ToInt32(Session["UserID"]);
+                timesheet.CreatedBy = Session["FullName"].ToString();
+                var x = timesheetManager.CreateTimesheet(timesheet);
                 return RedirectToAction("Index");
             }
             catch
@@ -96,7 +109,7 @@ namespace PayMe.Controllers
             try
             {
                 TimesheetManager timesheetManager = new TimesheetManager();
-                timesheetList = timesheetManager.GetTimesheetEntries(Convert.ToInt32(Session["UserID"]));
+                timesheetList = timesheetManager.GetTimesheetEntries(Convert.ToInt32(Session["AccountID"]));
             }
             catch (Exception ex)
             {

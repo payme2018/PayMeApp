@@ -112,15 +112,15 @@ namespace PayMe.Controllers
             return jsonResult;
         }
 
-        public JsonResult GetTaskListByProject(int projectId)
+        public JsonResult GetTaskListByProject(int? id)
         {
             IEnumerable<Task> projectList = null;
             try
             {
                 TaskManager taskManager = new TaskManager();
-                projectList = taskManager.GetTaskList(projectId, Convert.ToInt32(Session["AccountID"]));
+                projectList = taskManager.GetTaskList(id, Convert.ToInt32(Session["AccountID"]));
 
-                var lstSiteAdd = ViewBag.Task = new SelectList(taskManager.GetTaskList(projectId, Convert.ToInt32(Session["AccountID"])), "ID", "TaskName");
+                var lstSiteAdd = ViewBag.Task = new SelectList(taskManager.GetTaskList(id, Convert.ToInt32(Session["AccountID"])), "ID", "TaskName");
                 var bindingAddresses = new
                 {
                     task = lstSiteAdd,
@@ -137,6 +137,24 @@ namespace PayMe.Controllers
             return jsonResult;
         }
 
+        public JsonResult GetTaskNameByProject(int? id)
+        {
+            IEnumerable<Task> taskList = null;
+            try
+            {
+                TaskManager taskManager = new TaskManager();
+                taskList = taskManager.GetTaskList(id, Convert.ToInt32(Session["AccountID"]));
+               
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+
+            }
+            var jsonResult = this.Json(taskList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
         // POST: Project/Create
         [HttpPost]
         public ActionResult Create(Task task)
