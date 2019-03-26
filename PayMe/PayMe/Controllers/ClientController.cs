@@ -27,6 +27,7 @@ namespace PayMe.Controllers
         // GET: Client/Create
         public ActionResult Create()
         {
+            ViewBag.editupdate = -1;
             return View();
         }
 
@@ -63,17 +64,26 @@ namespace PayMe.Controllers
         // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ClientManager clientManager = new ClientManager();
+           
+            ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
+            Client client = new Client();
+            client = clientManager.GetClientByID(id);
+            ViewBag.editupdate = id;
+            return View("Create", client);
+
+            //return View();
         }
 
         // POST: Client/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Client client)
         {
             try
             {
                 // TODO: Add update logic here
-
+                ClientManager clientManager = new ClientManager();
+                clientManager.UpdateClient(client);
                 return RedirectToAction("Index");
             }
             catch
@@ -85,7 +95,17 @@ namespace PayMe.Controllers
         // GET: Client/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            try
+            {
+                // TODO: Add update logic here
+                ClientManager clientManager = new ClientManager();
+                clientManager.DeleteClient(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // POST: Client/Delete/5
@@ -118,6 +138,25 @@ namespace PayMe.Controllers
 
             }
             var jsonResult = this.Json(clientList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+
+        public JsonResult GetProjectListByClient(int id)
+        {
+            IEnumerable<Project> projectList = null;
+            try
+            {
+                ProjectManager projectManager = new ProjectManager();
+                projectList = projectManager.GetProjectListByClient(id);
+            }
+            catch (Exception ex)
+            {
+                string sMessage = ex.Message;
+
+            }
+            var jsonResult = this.Json(projectList, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
         }
