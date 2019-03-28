@@ -92,7 +92,6 @@ namespace DAL
                 throw new ApplicationException(ex.Message.ToString());
             }
         }
-
         public IEnumerable<Project> GetProjectListByClient(int ClientId)
         {
             try
@@ -132,40 +131,8 @@ namespace DAL
             {
                 throw new ApplicationException(ex.Message.ToString());
             }
-        }
-
-        public IEnumerable<Project> GetProjectsByClient(int ClientID)
-        {
-            try
-            {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
-                SqlCommand cmd = new SqlCommand("GetProjectsByClient", connection);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ClientID", ClientID);
-                connection.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                List<Project> projectList = new List<Project>();
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        Project project = new Project();
-                        project.ID = Convert.ToInt32(reader["ID"].ToString());
-                        project.ProjectName = reader["ProjectName"].ToString();                      
-                        projectList.Add(project);
-                    }
-                }
-                reader.Close();
-                connection.Close();
-                return projectList;
-
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException(ex.Message.ToString());
-            }
-        }
+        } 
+       
 
 
 
@@ -229,6 +196,87 @@ namespace DAL
                 throw new ApplicationException(ex.Message.ToString());
             }
             return returnValue;
+        }
+     
+     public IEnumerable<Project> GetProjectsByClient(int ClientID)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetProjectsByClient", connection);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ClientID", ClientID);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Project> projectList = new List<Project>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Project project = new Project();
+                        project.ID = Convert.ToInt32(reader["ID"].ToString());
+                        project.ProjectName = reader["ProjectName"].ToString();                      
+                        projectList.Add(project);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return projectList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+
+
+        public IEnumerable<Project> GetProjectListByClient(int ClientId)
+
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+
+                SqlCommand cmd = new SqlCommand("GetProjectsByClient", connection);
+
+                SqlCommand cmd = new SqlCommand("GetProjectListByClient", connection);
+                cmd.Parameters.AddWithValue("@ClientID", ClientId);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<Project> projectList = new List<Project>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Project project = new Project();
+                        project.ID = Convert.ToInt32(reader["ID"].ToString());
+                        project.ProjectName = reader["ProjectName"].ToString();
+                        project.LocationInfo = reader["LocationInfo"].ToString();
+                        project.Description = reader["Description"].ToString();
+                        project.PrimaryContact = reader["PrimaryContact"].ToString();
+                        project.IsActive = Convert.ToBoolean(reader["IsActive"].ToString());
+                        project.ClientName = reader["ClientName"].ToString();
+                        project.ClientID = Convert.ToInt32(reader["fkClientId"]);
+
+                        projectList.Add(project);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return projectList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
         }
     }
 }
