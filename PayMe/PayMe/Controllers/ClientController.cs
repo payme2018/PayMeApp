@@ -63,7 +63,7 @@ namespace PayMe.Controllers
                     TempData["Message"] = "Error Occured";
                     return View();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index", "Client");
             }
             catch
             {
@@ -94,7 +94,7 @@ namespace PayMe.Controllers
                 // TODO: Add update logic here
                 ClientManager clientManager = new ClientManager();
                 clientManager.UpdateClient(client);
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index", "Client");
             }
             catch
             {
@@ -110,7 +110,7 @@ namespace PayMe.Controllers
                 // TODO: Add update logic here
                 ClientManager clientManager = new ClientManager();
                 clientManager.DeleteClient(id);
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index", "Client");
             }
             catch
             {
@@ -126,7 +126,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
