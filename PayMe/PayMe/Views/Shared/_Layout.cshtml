@@ -12,6 +12,7 @@
     <link href="~/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/css/datepicker3.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
+    <link href="~/css/bootstrap-datetimepicker.css" rel="stylesheet" />
 
     <!--Custom Font-->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -80,9 +81,8 @@
     <script src="~/Scripts/easypiechart.js"></script>
     <script src="~/Scripts/easypiechart-data.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
-    <script src="~/Scripts/custom.js"></script>
- 
-
+    <script src="~/Scripts/custom.js"></script>    
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
 
 
 </head>
@@ -103,7 +103,7 @@
                
                 <ul class="nav navbar-top-links navbar-right">
 
-                    <li class="dropdown">
+                    @*<li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <em class="fa fa-envelope"></em><span class="label label-danger">15</span>
                         </a>
@@ -175,7 +175,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </li>*@
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <em class="fa fa-power-off"></em><span class="label label-info"></span>
@@ -208,11 +208,11 @@
             <div class="clear"></div>
         </div>
         <div class="divider"></div>
-        <form role="search">
+        @*<form role="search">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Search">
             </div>
-        </form>
+        </form>*@
         <ul class="nav menu">
             <li class='@Html.IsActive("Home", "Index")'><a href="~/Home/Index"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
             <li class='@Html.IsActive("Employee", "Index")'><a href="~/Employee/Index"><em class="fa fa-users">&nbsp;</em> Employees</a></li>
