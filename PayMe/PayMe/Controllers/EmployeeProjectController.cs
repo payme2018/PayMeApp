@@ -56,7 +56,7 @@ namespace PayMe.Controllers
 
                 }
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {

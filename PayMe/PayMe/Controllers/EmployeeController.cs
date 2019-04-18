@@ -59,7 +59,7 @@ namespace PayMe.Controllers
                 if (value == 1)
                 {
                     TempData["MessageRegistration"] = "User Created Successfully";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("/Index");
                 }
                 else if (value == 2)
                 {
@@ -76,8 +76,8 @@ namespace PayMe.Controllers
                     TempData["MessageRegistration"] = "Error Occured";
 
                 }
-               // ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
-                return RedirectToAction("Index");
+                // ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
+                return RedirectToAction("/Index");
 
             }
             catch
@@ -113,7 +113,7 @@ namespace PayMe.Controllers
                 int value = userManager.UpdateUser(registration);
                 // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
@@ -151,7 +151,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");//
+                return RedirectToAction("/Index");
             }
             catch
             {

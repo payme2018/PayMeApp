@@ -37,7 +37,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
@@ -59,7 +59,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
@@ -82,7 +82,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {

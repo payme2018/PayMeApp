@@ -51,7 +51,7 @@ namespace PayMe.Controllers
                 timesheet.fkEmpId = Convert.ToInt32(Session["UserID"]);
                 timesheet.CreatedBy = Session["FullName"].ToString();
                 var x = timesheetManager.CreateTimesheet(timesheet);
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
@@ -73,7 +73,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
@@ -95,7 +95,7 @@ namespace PayMe.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
+                return RedirectToAction("/Index");
             }
             catch
             {
