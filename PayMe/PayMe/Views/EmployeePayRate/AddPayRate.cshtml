@@ -117,17 +117,19 @@
 
         $("#StartDate").datepicker
            ({
-               dateFormat: "yy-mm-dd",
-               changeMonth: true,
-               changeYear: true,
-               yearRange: "-100:+100"
+               todayBtn: true,
+               clearBtn: true,
+               calendarWeeks: true,
+               todayHighlight: true,
+               format: "dd/MM/yyyy"
            });
         $("#EndDate").datepicker
            ({
-               dateFormat: "yy-mm-dd",
-               changeMonth: true,
-               changeYear: true,
-               yearRange: "-100:+100"
+               todayBtn: true,
+               clearBtn: true,
+               calendarWeeks: true,
+               todayHighlight: true,
+               format: "dd/MM/yyyy"
            });
        
 

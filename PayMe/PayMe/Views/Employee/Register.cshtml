@@ -23,14 +23,14 @@
     <div  id="title" class="panel-heading">Create User</div>
     <div class="panel-body">
 
-        @if (TempData["MessageRegistration"] != null)
-            {
+        @if (TempData["MessageRegistration"] != null && TempData["MessageRegistration"].ToString() != "")
+        {
             <p class="alert alert-success" id="successMessage">@TempData["MessageRegistration"]</p>
         }
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Register", "Employee", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
             @Html.AntiForgeryToken()
 
@@ -146,7 +146,7 @@
                     </div>
                     <div class="col-lg-4">
                         @Html.LabelFor(model => model.DateofJoining, htmlAttributes: new { @class = "control-label" }) <span class="text-danger">*</span>
-                        @Html.TextBoxFor(model => model.DateofJoining, new { @class = "form-control", @onkeypress = "alert('Choose DateofJoining');" })
+                        @Html.TextBoxFor(model => model.DateofJoining, new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.DateofJoining, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                 @Html.ValidationMessageFor(model => model.PassportIssuedBy, "", new { @class = "text-danger" })
             </div>
             <div class="col-lg-4">
-                @Html.LabelFor(model => model.PassportIssuedOn, htmlAttributes: new { @class = "control-label" }) <span class="text-danger">*</span>
+                @Html.LabelFor(model => model.PassportIssuedOn, htmlAttributes: new { @class = "control-label" }) 
                 @Html.TextBoxFor(model => model.PassportIssuedOn, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PassportIssuedOn, "", new { @class = "text-danger" })
             </div>
@@ -267,6 +267,7 @@
     </div>
 
 <script src="https://momentjs.com/downloads/moment.min.js"></script>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -293,73 +294,76 @@
             $('#title').text('Update User');
         }
         $("#Birthdate").datepicker
-            ({
-                dateFormat: "yy-mm-dd",
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-100:+100",
-                onSelect: function (date) {
-                    var dob = new Date(date);
-                    var today = new Date();
-
-                    if (dob.getFullYear() + 18 < today.getFullYear()) {
-
-                    }
-                    else {
-                        $("#Birthdate").val('');
-                        alert("You are not eligible for Registration");
-                    }
-                }
-            });
-
+           ({
+               todayBtn: true,
+               clearBtn: true,
+               calendarWeeks: true,
+               todayHighlight: true,
+               format: "dd/MM/yyyy"
+               
+           });
         $("#DateofJoining").datepicker
            ({
-               dateFormat: "yy-mm-dd",
-               changeMonth: true,
-               changeYear: true,
-               yearRange: "-100:+100"
+               todayBtn: true,
+               clearBtn: true,
+               calendarWeeks: true,
+               todayHighlight: true,
+               format: "dd/MM/yyyy"
+               
            });
         $("#PassportIssuedOn").datepicker
           ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
+              todayBtn: true,
+              clearBtn: true,
+              calendarWeeks: true,
+              todayHighlight: true,
+              format: "dd/MM/yyyy"
+            
           });
         $("#PassportExpireOn").datepicker
           ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
+              todayBtn: true,
+              clearBtn: true,
+              calendarWeeks: true,
+              todayHighlight: true,
+              format: "dd/MM/yyyy"
+             
           });
         $("#VISAIssuedOn").datepicker
           ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
+              todayBtn: true,
+              clearBtn: true,
+              calendarWeeks: true,
+              todayHighlight: true,
+              format: "dd/MM/yyyy"
+             
           });
         $("#VISAExpireOn").datepicker
           ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
+              todayBtn: true,
+              clearBtn: true,
+              calendarWeeks: true,
+              todayHighlight: true,
+              format: "dd/MM/yyyy"
+              
           });
         $("#LabourCardIssuedOn").datepicker
           ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
+              todayBtn: true,
+              clearBtn: true,
+              calendarWeeks: true,
+              todayHighlight: true,
+              format: "dd/MM/yyyy"
+            
           });
         $("#LabourCardExpireOn").datepicker
           ({
-              dateFormat: "yy-mm-dd",
-              changeMonth: true,
-              changeYear: true,
-              yearRange: "-100:+100"
+              todayBtn: true,
+              clearBtn: true,
+              calendarWeeks: true,
+              todayHighlight: true,
+              format: "dd/MM/yyyy"
+             
           });
 
 

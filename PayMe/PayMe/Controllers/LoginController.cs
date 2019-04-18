@@ -6,11 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using log4net;
 
 namespace PayMe.Controllers
 {
     public class LoginController : Controller
     {
+        ILog logger = log4net.LogManager.GetLogger("ErrorLog");
+       
         // GET: Login
         public ActionResult Index()
         {
@@ -108,7 +111,8 @@ namespace PayMe.Controllers
             }
             catch (Exception ex)
             {
-                throw;
+                logger.Error("EX" + ex);
+                return View();                
             }
         }
         [HttpPost]
@@ -136,8 +140,9 @@ namespace PayMe.Controllers
                 Session.Abandon();
                 return RedirectToAction("Index", "Login");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error("EX" + ex);
                 throw;
             }
         }

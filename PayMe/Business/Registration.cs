@@ -83,9 +83,9 @@ namespace Business
         [DisplayName("Issued By")]
         public string PassportIssuedBy { get; set; }
         [DisplayName("Passport Issued On")]
-        public DateTime PassportIssuedOn { get; set; }
+        public DateTime? PassportIssuedOn { get; set; }
         [DisplayName("Passport Expire On")]
-        public DateTime PassportExpireOn { get; set; }
+        public DateTime? PassportExpireOn { get; set; }
         [DisplayName("VISA No")]
         public string VISANo { get; set; }
         [DisplayName("Issued By")]

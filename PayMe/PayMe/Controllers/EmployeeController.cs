@@ -45,7 +45,7 @@ namespace PayMe.Controllers
 
         // POST: Employee/Register
         [HttpPost]
-        [ValidateAntiForgeryToken]
+       
         public ActionResult Register(Registration registration)
         {
             try
@@ -89,6 +89,7 @@ namespace PayMe.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
+            TempData["MessageRegistration"] = "";
             UserManager userManager = new UserManager();
             ViewBag.Roles = new SelectList(userManager.GetRoleList(), "RoleID", "RoleName");
             ViewBag.Managers = new SelectList(userManager.GetManagerList(), "fkManagerId", "Name");
@@ -107,6 +108,7 @@ namespace PayMe.Controllers
         {
             try
             {
+                TempData["MessageRegistration"] = "";
                 UserManager userManager = new UserManager();
                 int value = userManager.UpdateUser(registration);
                 // TODO: Add update logic here

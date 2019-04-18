@@ -1,5 +1,6 @@
 ﻿using Business;
 using DAL;
+using log4net;
 using PayMe.Filters;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,19 @@ namespace PayMe.Controllers
     [ValidateUserSession]
     public class ProjectController : Controller
     {
+        ILog logger = log4net.LogManager.GetLogger("ErrorLog");
         // GET: Project
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                logger.Error("EX" + ex);
+                return View();
+            }
         }
 
         // GET: Project/Details/5
@@ -129,7 +139,7 @@ namespace PayMe.Controllers
             catch (Exception ex)
             {
                 string sMessage = ex.Message;
-
+                logger.Error("EX" + ex);
             }
             var jsonResult = this.Json(projectList, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;

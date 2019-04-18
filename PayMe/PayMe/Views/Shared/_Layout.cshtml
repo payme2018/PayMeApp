@@ -304,6 +304,7 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
                         $("#AccountID").val(accountId);
+                        window.location.href = "/Home/Index";
                     },
                     error: function () {
                         alert("Error Occured!")
