@@ -37,6 +37,10 @@
         <div class="panel panel-default">
             <div class="panel-heading">Employees</div>
             <div class="panel-body">
+                @if (TempData["MessageRegistration"] != null && TempData["MessageRegistration"].ToString() != "")
+                {
+                    <p class="alert alert-success" id="successMessage">@TempData["MessageRegistration"]</p>
+                }
                 <div id="toolbar">
                     <button id="export" class="btn btn-default">Export Excel</button>
                 </div>

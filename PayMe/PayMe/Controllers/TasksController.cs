@@ -179,7 +179,7 @@ namespace PayMe.Controllers
 
                 }
 
-                return RedirectToAction("Create");
+                return RedirectToAction("/Index");
             }
             catch
             {

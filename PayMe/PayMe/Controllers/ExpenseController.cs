@@ -34,6 +34,7 @@ namespace PayMe.Controllers
         // GET: Expense/Create
         public ActionResult Create()
         {
+            TempData["Message"] = null;
             ProjectManager projectManager = new ProjectManager();
             ViewBag.Projects = new SelectList(projectManager.GetProjects(), "ID", "ProjectName");
             return View();
@@ -101,6 +102,7 @@ namespace PayMe.Controllers
         }
         public ActionResult Detail(int id)
         {
+            TempData["Message"] = null;
             ExpenseDetail obj = new ExpenseDetail();
             obj.HasBill = true;
             ExpenseManager expenseManager = new ExpenseManager();
@@ -112,6 +114,7 @@ namespace PayMe.Controllers
 
         public ActionResult EditDetail(int id,int ExpenseSummaryID)
         {
+            TempData["Message"] = null;
             ExpenseDetail obj = new ExpenseDetail();
             return View(obj);
         }
@@ -213,6 +216,7 @@ namespace PayMe.Controllers
         {
             try
             {
+                TempData["Message"] = null;
                 // TODO: Add update logic here
                 ExpenseManager clientManager = new ExpenseManager();
                 clientManager.DeleteExpenseDetail(id);

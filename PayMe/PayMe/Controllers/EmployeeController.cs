@@ -108,11 +108,11 @@ namespace PayMe.Controllers
         {
             try
             {
-                TempData["MessageRegistration"] = "";
+               
                 UserManager userManager = new UserManager();
                 int value = userManager.UpdateUser(registration);
                 // TODO: Add update logic here
-
+                TempData["MessageRegistration"] = "User Updated Successfully";
                 return RedirectToAction("/Index");
             }
             catch

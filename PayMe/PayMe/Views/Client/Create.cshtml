@@ -20,7 +20,7 @@
     <div id="title" class="panel-heading">Create Client</div>
     <div class="panel-body">
 
-        @if (TempData["Message"] != null)
+        @if (TempData["Message"] != null && TempData["Message"] != "")
             {
             <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
         }

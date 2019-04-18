@@ -17,8 +17,8 @@
 <div class="panel panel-default">
     <div id="title" class="panel-heading">Create Task</div>
     <div class="panel-body">
-        @if (TempData["Message"] != null)
-            {
+        @if (TempData["Message"] != null && TempData["Message"].ToString() != "")
+        {
             <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
         }
 

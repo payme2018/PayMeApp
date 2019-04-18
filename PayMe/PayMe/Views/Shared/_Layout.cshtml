@@ -297,14 +297,14 @@
             $("#AccountID").change(function () {
                 var accountId = $("#AccountID").val();
                 $.ajax({
-                    url: "/Login/UpdateAccountSession",
+                    url: "../../Login/UpdateAccountSession",
                     type: "POST",
                     data: JSON.stringify({ 'accountId': accountId }),
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (result) {
                         $("#AccountID").val(accountId);
-                        window.location.href = "/Home/Index";
+                        window.location.href = "../../Home/Index";
                     },
                     error: function () {
                         alert("Error Occured!")

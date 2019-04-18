@@ -38,6 +38,7 @@ namespace PayMe.Controllers
         // GET: Project/Create
         public ActionResult Create()
         {
+            TempData["Message"] = "";
             ClientManager clientManager = new ClientManager();
             ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
             ViewBag.editupdate = -1;
@@ -50,7 +51,9 @@ namespace PayMe.Controllers
         public ActionResult Create(Project project)
         {
             try
+
             {
+                TempData["Message"] = "";
                 ProjectManager projectManager = new ProjectManager();
                 int value = projectManager.CreateProject(project);
 
@@ -80,6 +83,7 @@ namespace PayMe.Controllers
         // GET: Project/Edit/5
         public ActionResult Edit(int id)
         {
+            TempData["Message"] = "";
             ClientManager clientManager = new ClientManager();
             ProjectManager projectManager = new ProjectManager();
             ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
@@ -98,6 +102,7 @@ namespace PayMe.Controllers
                 // TODO: Add update logic here
                 ProjectManager projectManager = new ProjectManager();
                 projectManager.UpdateProject(project);
+                TempData["Message"] = "Project Updated Successfully";
                 return RedirectToAction("/Index");
             }
             catch

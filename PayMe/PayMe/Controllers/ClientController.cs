@@ -74,6 +74,7 @@ namespace PayMe.Controllers
         // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
+            TempData["Message"] = null;
             ClientManager clientManager = new ClientManager();
            
             ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
@@ -94,6 +95,7 @@ namespace PayMe.Controllers
                 // TODO: Add update logic here
                 ClientManager clientManager = new ClientManager();
                 clientManager.UpdateClient(client);
+                TempData["Message"] = "Client Updated Successfully";
                 return RedirectToAction("/Index", "Client");
             }
             catch
@@ -107,6 +109,7 @@ namespace PayMe.Controllers
         {
             try
             {
+                TempData["Message"] = null;
                 // TODO: Add update logic here
                 ClientManager clientManager = new ClientManager();
                 clientManager.DeleteClient(id);

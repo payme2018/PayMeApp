@@ -38,6 +38,10 @@
         <div class="panel panel-default">
             <div class="panel-heading">Projects</div>
             <div class="panel-body">
+                @if (TempData["Message"] != null && TempData["Message"] != "")
+            {
+                    <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+                }
                 <div id="toolbar">
                     <button id="export" class="btn btn-default">Export Excel</button>
                 </div>
