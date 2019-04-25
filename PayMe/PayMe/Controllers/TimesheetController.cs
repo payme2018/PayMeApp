@@ -48,7 +48,7 @@ namespace PayMe.Controllers
             try
             {
                 TimesheetManager timesheetManager = new TimesheetManager();
-                timesheet.fkEmpId = Convert.ToInt32(Session["UserID"]);
+                //timesheet.fkEmpId = Convert.ToInt32(Session["UserID"]);
                 timesheet.CreatedBy = Session["FullName"].ToString();
                 var x = timesheetManager.CreateTimesheet(timesheet);
                 return RedirectToAction("/Index");
@@ -127,7 +127,7 @@ namespace PayMe.Controllers
             try
             {
                 TimesheetManager timesheetManager = new TimesheetManager();
-                timesheet.fkEmpId = Convert.ToInt32(Session["UserID"]);
+                //timesheet.fkEmpId =// Convert.ToInt32(Session["UserID"]);
                 timesheet.CreatedBy = Session["FullName"].ToString();
                 var x = timesheetManager.CreateTimesheet(timesheet);
             }

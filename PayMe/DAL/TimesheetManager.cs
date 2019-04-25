@@ -125,7 +125,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@CheckInDate", timesheet.CheckInDate);
                 cmd.Parameters.AddWithValue("@CheckInDateTime", timesheet.CheckInDateTime);
                 cmd.Parameters.AddWithValue("@CheckOutDateTime", timesheet.CheckOutDatetime);
-                cmd.Parameters.AddWithValue("@Description", timesheet.Description);
+                cmd.Parameters.AddWithValue("@Description", "");
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();
