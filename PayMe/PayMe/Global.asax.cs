@@ -19,7 +19,7 @@ namespace PayMe
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            SqlDependency.Start(ConfigurationManager.ConnectionStrings["PayMe-Connectionstring"].ToString());
+            //SqlDependency.Start(ConfigurationManager.ConnectionStrings["PayMe-Connectionstring"].ToString());
         }
     }
 }
