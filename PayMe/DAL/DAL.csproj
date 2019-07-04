@@ -54,6 +54,7 @@
     <Compile Include="AccountManager.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="ClientManager.cs" />
+    <Compile Include="DalUtil.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="EmployeeProjectManager.cs" />
     <Compile Include="ExpenseManager.cs" />
