@@ -215,15 +215,12 @@
         </form>*@
         <ul class="nav menu">
             <li class='@Html.IsActive("Home", "Index")'><a href="~/Home/Index"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-            <li class='@Html.IsActive("Employee", "Index")'><a href="~/Employee/Index"><em class="fa fa-users">&nbsp;</em> Employees</a></li>
-            <li class='@Html.IsActive("Client", "Index")'><a href="~/Client/Index"><em class="fa fa-globe">&nbsp;</em> Clients</a></li>
-            <li class='@Html.IsActive("Project", "Index")'><a href="~/Project/Index"><em class="fa fa-suitcase">&nbsp;</em> Projects</a></li>
-            <li class='@Html.IsActive("Tasks", "Index")'><a href="~/Tasks/Index"><em class="fa fa-tasks">&nbsp;</em> Tasks</a></li>
+           
             <li class='@Html.IsActive("Expense", "Index")'><a href="~/Expense/Index"><em class="fa fa-money">&nbsp;</em> Expenses</a></li>
             <li class='@Html.IsActive("Timesheet", "Index")'><a href="~/Timesheet/Index"><em class="fa fa-calendar">&nbsp;</em> Timesheet</a></li>
             <li class='@Html.IsActive("TimeTracker", "Index")'><a href="~/TimeTracker/Index"><em class="fa fa-clock-o">&nbsp;</em> Time Tracker</a></li>
           
-            <li class='@Html.IsActive("EmployeeProject", "Index")'>
+            @*<li class='@Html.IsActive("EmployeeProject", "Index")'>
                 <a data-toggle="collapse" href="#sub-item-5">
                     <em class="fa fa-desktop">&nbsp;</em> Management <span data-toggle="collapse" href="#sub-item-5" class="icon pull-right"><em class="fa fa-plus"></em></span>
                 </a>
@@ -233,6 +230,23 @@
                             <span class="fa fa-arrow-right">&nbsp;</span> Assign Employee to Project
                         </a>
                     </li>                   
+                </ul>
+            </li>*@
+            <li class='@Html.IsActive("EmployeeProject", "Index")'>
+                <a data-toggle="collapse" href="#sub-item-2">
+                    <em class="fa fa-bank">&nbsp;</em>Account Settings <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="fa fa-plus"></em></span>
+                </a>
+                <ul class="children collapse" id="sub-item-2">
+                      <li class='@Html.IsActive("Client", "Index")'><a href="~/Client/Index"><em class="fa fa-globe">&nbsp;</em> Clients</a></li>
+                    <li class='@Html.IsActive("Project", "Index")'><a href="~/Project/Index"><em class="fa fa-suitcase">&nbsp;</em> Projects</a></li>
+                    <li class='@Html.IsActive("Tasks", "Index")'><a href="~/Tasks/Index"><em class="fa fa-tasks">&nbsp;</em> Tasks</a></li>
+                    <li class='@Html.IsActive("Employee", "Index")'><a href="~/Employee/Index"><em class="fa fa-user-plus">&nbsp;</em> Employees</a></li>
+
+                    <li>
+                        <a class="" href="~/EmployeeProject/Index">
+                            <span class="fa fa-plug">&nbsp;</span> Assign Employee to Project
+                        </a>
+                    </li> 
                 </ul>
             </li>
 
