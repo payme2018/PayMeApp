@@ -17,8 +17,8 @@ namespace DAL
         {
             try
             {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
+               // var connectionString = DalUtil.connectionString;// ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(DalUtil.connectionString);
                 SqlCommand cmd = new SqlCommand("GetExpenseSummaryByUserID", connection);
                 cmd.Parameters.AddWithValue("@UserID", userId);
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -97,6 +97,45 @@ namespace DAL
                         ExpenseSummaryList.Add(expenseSummary);
                     }
                 }
+                reader.Close();
+                connection.Close();
+                return ExpenseSummaryList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+        public IEnumerable<AccountExpenseSummary> ExpenseSummeryReportByAccount(int accountId, int year, int month)
+        {
+            try
+            {
+                 SqlConnection connection = new SqlConnection(DalUtil.connectionString);
+                SqlCommand cmd = new SqlCommand("GetExpenseSummayByAccount", connection);
+                cmd.Parameters.AddWithValue("@AccountId", accountId);
+                cmd.Parameters.AddWithValue("@Year", year);
+                cmd.Parameters.AddWithValue("@Month", month);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<AccountExpenseSummary> ExpenseSummaryList = new List<AccountExpenseSummary>();
+                
+                while (reader.Read())
+                {
+                    AccountExpenseSummary expenseSummary = new AccountExpenseSummary();
+                    expenseSummary.AccountID= Convert.ToInt32(reader["AccountID"].ToString());
+                    expenseSummary.CompanyID = Convert.ToInt32(reader["ClientID"].ToString());
+                    expenseSummary.CompanyName = reader["ClientName"].ToString();
+                    expenseSummary.projectid = Convert.ToInt32(reader["ProjectID"]);
+                    expenseSummary.ProjectName = reader["ProjectName"].ToString();
+                     expenseSummary.TotalExpense = Convert.ToDouble(reader["TotalAmount"]);
+                    expenseSummary.TotalApprovedExpense = Convert.ToDouble(reader["ApprovedAmount"]);
+
+                    ExpenseSummaryList.Add(expenseSummary);
+                }
+         
                 reader.Close();
                 connection.Close();
                 return ExpenseSummaryList;

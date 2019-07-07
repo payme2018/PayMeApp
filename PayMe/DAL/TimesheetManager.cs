@@ -140,5 +140,43 @@ namespace DAL
             }
             return returnValue;
         }
+
+        public IEnumerable<TimeSheetSummary> TimesheetSummaryByAccount(int accountId, int year , int month)
+        {
+            try
+            {
+ 
+                SqlConnection connection = new SqlConnection(DalUtil.connectionString);
+                SqlCommand cmd = new SqlCommand("GetTimeSheetSummayByAccount", connection);
+                cmd.Parameters.AddWithValue("@AccountId", accountId);
+                cmd.Parameters.AddWithValue("@Year", year);
+                cmd.Parameters.AddWithValue("@Month", month);
+                cmd.CommandType = CommandType.StoredProcedure;
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<TimeSheetSummary> timesheetList = new List<TimeSheetSummary>();
+                while (reader.Read())
+                {
+                    TimeSheetSummary oTimeSheetSummary = new TimeSheetSummary();
+                    oTimeSheetSummary.AccountID = Convert.ToInt32(reader["AccountID"]);
+                    oTimeSheetSummary.AccountName = reader["AccountName"].ToString();
+                    oTimeSheetSummary.CompanyID = Convert.ToInt32(reader["ClientID"]);
+                    oTimeSheetSummary.CompanyName = reader["ClientName"].ToString();
+                    oTimeSheetSummary.ProjectID = Convert.ToInt32(reader["ProjectID"]);
+                    oTimeSheetSummary.ProjectName = reader["ProjectName"].ToString();
+                    oTimeSheetSummary.Totalhours = Convert.ToDouble(reader["TotalHoursinNumber"]);
+                    timesheetList.Add(oTimeSheetSummary);
+                }
+             
+                reader.Close();
+                connection.Close();
+                return timesheetList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
     }
 }

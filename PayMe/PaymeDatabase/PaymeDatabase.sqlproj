@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>PaymeDatabase</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{4b8086eb-f72f-4225-aceb-e1feaab5ac15}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>PaymeDatabase</RootNamespace>
+    <AssemblyName>PaymeDatabase</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="paymeacj_Paymeacc\" />
+    <Folder Include="paymeacj_Paymeacc\Stored Procedures\" />
+    <Folder Include="dbo\User Defined Types\" />
+    <Folder Include="dbo\Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\__MigrationHistory.sql" />
+    <Build Include="dbo\Tables\Account.sql" />
+    <Build Include="dbo\Tables\Client.sql" />
+    <Build Include="dbo\Tables\Contact.sql" />
+    <Build Include="dbo\Tables\Currency.sql" />
+    <Build Include="dbo\Tables\Department.sql" />
+    <Build Include="dbo\Tables\Employee.sql" />
+    <Build Include="dbo\Tables\EmployeePayRate.sql" />
+    <Build Include="dbo\Tables\EmployeeProject.sql" />
+    <Build Include="dbo\Tables\ExpenseCategory.sql" />
+    <Build Include="dbo\Tables\ExpenseDetail.sql" />
+    <Build Include="dbo\Tables\ExpenseDetailDocument.sql" />
+    <Build Include="dbo\Tables\ExpenseStatus.sql" />
+    <Build Include="dbo\Tables\ExpenseSummary.sql" />
+    <Build Include="dbo\Tables\Location.sql" />
+    <Build Include="dbo\Tables\Managers.sql" />
+    <Build Include="dbo\Tables\PayRateType.sql" />
+    <Build Include="dbo\Tables\Project.sql" />
+    <Build Include="dbo\Tables\Registration.sql" />
+    <Build Include="dbo\Tables\Role.sql" />
+    <Build Include="dbo\Tables\Task.sql" />
+    <Build Include="dbo\Tables\Timesheet.sql" />
+    <Build Include="dbo\Tables\TimeTracker.sql" />
+    <Build Include="dbo\Tables\User.sql" />
+    <Build Include="dbo\Tables\UserClient.sql" />
+    <Build Include="dbo\Tables\UserProject.sql" />
+    <Build Include="Security\paymeacj_din.sql" />
+    <Build Include="Security\paymeacj_Paymeacc.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="dbo\Stored Procedures\GetTimesheetDetailReportByDate.sql" />
+    <Build Include="dbo\Stored Procedures\GetTimesheetEntries.sql" />
+    <Build Include="dbo\Stored Procedures\GetTimeTracker.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserForDD.sql" />
+    <Build Include="dbo\Stored Procedures\GetUserList.sql" />
+    <Build Include="dbo\Stored Procedures\InsertEmployeeProject.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-0548ae9d-ebac-47e2-ab1c-c57d3393d0a9.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-1e2c3753-eef4-4f27-85d9-7ffce49d63e3.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-4bb12f87-7497-4dd8-a365-91e93360f746.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-5bdd9032-1787-4dbf-9441-bc828ccc7002.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-8c975413-5672-489b-befa-c53febcca6ec.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-bac37dd6-ca1b-4e5e-a599-a5ee936f6239.sql" />
+    <Build Include="dbo\Stored Procedures\SqlQueryNotificationStoredProcedure-d7a48105-1fc8-4aee-bf7a-8fef53f50293.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateClient.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateEmployeeProject.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateProject.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateTask.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateTimeTrackerDate.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateUser.sql" />
+    <Build Include="dbo\Stored Procedures\UploadExpenseDetail.sql" />
+    <Build Include="dbo\Stored Procedures\ValidateUser.sql" />
+    <Build Include="paymeacj_Paymeacc\Stored Procedures\GetAccountSummary.sql" />
+    <Build Include="dbo\Stored Procedures\AddEmployeePayRate.sql" />
+    <Build Include="dbo\Stored Procedures\CreateClient.sql" />
+    <Build Include="dbo\Stored Procedures\CreateExpenseDetail.sql" />
+    <Build Include="dbo\Stored Procedures\CreateExpenseSummary.sql" />
+    <Build Include="dbo\Stored Procedures\CreateProject.sql" />
+    <Build Include="dbo\Stored Procedures\CreateTask.sql" />
+    <Build Include="dbo\Stored Procedures\CreateTimesheet.sql" />
+    <Build Include="dbo\Stored Procedures\CreateTimeTracker.sql" />
+    <Build Include="dbo\Stored Procedures\CreateUser.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteEmployeeProject.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteExpenseDetail.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteTask.sql" />
+    <Build Include="dbo\Stored Procedures\GetAccountList.sql" />
+    <Build Include="dbo\Stored Procedures\GetClientByID.sql" />
+    <Build Include="dbo\Stored Procedures\GetClientList.sql" />
+    <Build Include="dbo\Stored Procedures\GetClientListByID.sql" />
+    <Build Include="dbo\Stored Procedures\GetEmployeeByID.sql" />
+    <Build Include="dbo\Stored Procedures\GetEmployeeProjectist.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseCategoryList.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseDetailBySummary.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseDetailReport.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseSummaryByID.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseSummaryByUserID.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseSummeryReport.sql" />
+    <Build Include="dbo\Stored Procedures\GetManagersList.sql" />
+    <Build Include="dbo\Stored Procedures\GetPayRateByEmployeeID.sql" />
+    <Build Include="dbo\Stored Procedures\GetProjectByID.sql" />
+    <Build Include="dbo\Stored Procedures\GetProjectList.sql" />
+    <Build Include="dbo\Stored Procedures\GetProjectsByClient.sql" />
+    <Build Include="dbo\Stored Procedures\GetTaskByProject.sql" />
+    <Build Include="dbo\Stored Procedures\GetTaskList.sql" />
+    <Build Include="dbo\Stored Procedures\GetTaskListByID.sql" />
+    <Build Include="dbo\Stored Procedures\GetTimesheetByUserID.sql" />
+    <Build Include="dbo\User Defined Types\ExpenseDetailType.sql" />
+    <Build Include="Security\paymeacj_din_1.sql" />
+    <Build Include="Security\paymeacj_Paymeacc_1.sql" />
+    <Build Include="dbo\Views\vProject.sql" />
+    <Build Include="paymeacj_Paymeacc\Stored Procedures\GetAccountSummary_1.sql" />
+    <Build Include="dbo\Stored Procedures\GetTimeSheetSummayByAccount.sql" />
+    <Build Include="dbo\Stored Procedures\GetExpenseSummayByAccount.sql" />
+  </ItemGroup>
+</Project>

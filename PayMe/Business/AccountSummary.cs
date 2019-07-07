@@ -14,11 +14,14 @@ namespace Business
         public int ID { get; set; }
         [DisplayName("Client Count")]
         public int ClientCount { get; set; }
-        [DisplayName("Client Count")]
+        [DisplayName("Project Count")]
         public int ProjectCount { get; set; }
-        [DisplayName("Client Count")]
+        [DisplayName("Employee Count")]
         public int EmployeeCount { get; set; }
-        [DisplayName("Client Count")]
+        [DisplayName("Total Hour Incurrent Month")]
         public int  TotalHourIncurrentMonth { get; set; }
+        [DisplayName("Total Expense Incurrent Month")]
+        public int TotalExpenseIncurrentMonth { get; set; }
+
     }
 }
