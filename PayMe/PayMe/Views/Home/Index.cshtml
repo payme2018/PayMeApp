@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+            <div class="col-xs-6 col-md-3 col-lg-3 no-padding ">
                 <div class="panel panel-orange panel-widget border-right">
                     <div class="row no-padding">
                         <em class="fa fa-xl fa-users color-teal"></em>
@@ -64,35 +64,39 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-6 col-md-3">
+        <div class="col-lg-6">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>Projects</h4>
-                    <div class="easypiechart" id="easypiechart-blue" data-percent="92"><span class="percent">92%</span></div>
-                </div>
+                <div class="panel-body ">
+                    <h4>Time sheet for @ViewBag.CurrentMonth</h4>
+                    <table id="table" data-toggle="table" data-url="../Home/GetAccountTimeSheetSummaries" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                           data-show-export="true" data-toolbar="#toolbar">
+                        <thead>
+                            <tr>
+                                <th data-field="CompanyName" data-sortable="true">Company Name</th>
+                                <th data-field="ProjectName" data-sortable="true">Project Name</th>
+                                <th data-field="Totalhours" data-sortable="true">Total Hours</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    </div>
             </div>
         </div>
-        <div class="col-xs-6 col-md-3">
+        <div class="col-lg-6">
             <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>Clients</h4>
-                    <div class="easypiechart" id="easypiechart-orange" data-percent="65"><span class="percent">65%</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>Users</h4>
-                    <div class="easypiechart" id="easypiechart-teal" data-percent="56"><span class="percent">56%</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-6 col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-body easypiechart-panel">
-                    <h4>Visitors</h4>
-                    <div class="easypiechart" id="easypiechart-red" data-percent="27"><span class="percent">27%</span></div>
+                <div class="panel-body" >
+                    <h4>Expense for @ViewBag.CurrentMonth</h4>
+
+                    <table id="table" data-toggle="table" data-url="../Home/GetAccountExpenseSummaries" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                           data-show-export="true" data-toolbar="#toolbar">
+                        <thead>
+                            <tr>
+                                <th data-field="CompanyName" data-sortable="true">Company Name</th>
+                                <th data-field="ProjectName" data-sortable="true">Project Name</th>
+                                <th data-field="TotalExpense" data-sortable="true"> Expense</th>
+                                <th data-field="TotalApprovedExpense" data-sortable="true"> Approved Expense</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
