@@ -21,10 +21,11 @@ begin
 	p.ProjectID,
 	IsProjectActive,
 	isnull(sum(e.ApprovedAmount),0.0) as ApprovedAmount,
-	isnull(sum(e.TotalAmount),0.0) as TotalAmount
+	isnull(sum(ed.GrossTotal),0.0) as TotalAmount
 	from 
 	 vProject p 
-	left join ExpenseSummary e on p.ProjectID = e.ProjectID and e.ToDate < @Year + @Month + '01'
+	left join ExpenseSummary e on p.ProjectID = e.ProjectID and e.ToDate >= cast(@Year as varchar) +'-' +  cast(@Month as varchar) + '-01'
+	left join [dbo].[ExpenseDetail] ed on e.ID = ed.ExpenseSummaryID
 	where 
 	p.AccountID = @AccountId
 	
@@ -37,4 +38,5 @@ begin
 	ProjectName,
 	p.ProjectID,
 	IsProjectActive
+	print  cast(@Year as varchar) +'-' +  cast(@Month as varchar) + '-01'
 end

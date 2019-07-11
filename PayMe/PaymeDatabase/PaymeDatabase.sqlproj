@@ -25,6 +25,7 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <ValidateCasingOnIdentifiers>False</ValidateCasingOnIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -96,9 +97,6 @@
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Tables\UserClient.sql" />
     <Build Include="dbo\Tables\UserProject.sql" />
-    <Build Include="Security\paymeacj_din.sql" />
-    <Build Include="Security\paymeacj_Paymeacc.sql" />
-    <Build Include="Security\RoleMemberships.sql" />
     <Build Include="dbo\Stored Procedures\GetTimesheetDetailReportByDate.sql" />
     <Build Include="dbo\Stored Procedures\GetTimesheetEntries.sql" />
     <Build Include="dbo\Stored Procedures\GetTimeTracker.sql" />
@@ -155,10 +153,7 @@
     <Build Include="dbo\Stored Procedures\GetTaskListByID.sql" />
     <Build Include="dbo\Stored Procedures\GetTimesheetByUserID.sql" />
     <Build Include="dbo\User Defined Types\ExpenseDetailType.sql" />
-    <Build Include="Security\paymeacj_din_1.sql" />
-    <Build Include="Security\paymeacj_Paymeacc_1.sql" />
     <Build Include="dbo\Views\vProject.sql" />
-    <Build Include="paymeacj_Paymeacc\Stored Procedures\GetAccountSummary_1.sql" />
     <Build Include="dbo\Stored Procedures\GetTimeSheetSummayByAccount.sql" />
     <Build Include="dbo\Stored Procedures\GetExpenseSummayByAccount.sql" />
   </ItemGroup>

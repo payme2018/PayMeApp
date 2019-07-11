@@ -25,7 +25,7 @@ begin
 	from 
 	 [dbo].[vProject] p 
 	 
-	left join Timesheet t on p.ProjectID = t.fkProjectID and t.CheckInDate < @Year + @Month + '01'
+	left join Timesheet t on p.ProjectID = t.fkProjectID and t.CheckInDate >= cast(@Year as varchar) +'-' +  cast(@Month as varchar) + '-01'
 	where 
 	p.AccountID = @AccountId
 	

@@ -158,8 +158,21 @@
 
     });
 
-    
-   
+    $("#CheckInDateTime").change(function () {SetHours();});
+    $("#CheckOutDatetime").change(function () { SetHours(); });
+
+    function SetHours()
+    {
+        debugger;
+        var intime = $("#CheckInDateTime").val();
+        var outtime = $("#CheckOutDatetime").val();
+        if ((clientNo == null || clientNo == "") && (clientNo == null || clientNo == ""))
+            return;
+        var hoursWorked = GetHoursDiffernace(intime, outtime);
+
+        $("#Hours").val(hoursWorked);
+    }
+
     $("#fkClientId").change(function () {
         var clientNo = $("#fkClientId").val();
         if (clientNo == null || clientNo == "") {
@@ -226,6 +239,8 @@
         }
 
     });
+
+
     function dateAndTimeFormat(value, row, index) {
         if(value!=null)
         return moment(value).format('DD/MM/YYYY HH:mm:ss');
@@ -234,4 +249,5 @@
         if (value != null)
             return moment(value).format('DD/MM/YYYY');
     }
+    
 </script>

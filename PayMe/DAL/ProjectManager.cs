@@ -17,16 +17,14 @@ namespace DAL
         {
             try
             {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
+                SqlConnection connection = new SqlConnection(DalUtil.connectionString);
                 SqlCommand cmd = new SqlCommand("GetProjectList", connection);
                 cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 cmd.CommandType = CommandType.StoredProcedure;
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 List<Project> projectList = new List<Project>();
-                if (reader.HasRows)
-                {
+             
                     while (reader.Read())
                     {
                         Project project = new Project();
@@ -38,10 +36,12 @@ namespace DAL
                         project.IsActive = Convert.ToBoolean(reader["IsActive"].ToString());
                         project.ClientName = reader["ClientName"].ToString();
                         project.ClientID = Convert.ToInt32(reader["fkClientId"]);
+                        project.ManagerName = reader["ManagerName"].ToString();
+                        project.ManagerID = Convert.ToInt32(reader["ManagerID"]);
 
                         projectList.Add(project);
                     }
-                }
+            
                 reader.Close();
                 connection.Close();
                 return projectList;
@@ -57,8 +57,7 @@ namespace DAL
         {
             try
             {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
+               SqlConnection connection = new SqlConnection(DalUtil.connectionString);
                 SqlCommand cmd = new SqlCommand("GetProjectByID", connection);
                 cmd.Parameters.AddWithValue("@Id", projectId);
                 cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
@@ -66,8 +65,7 @@ namespace DAL
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 Project project = new Project();
-                if (reader.HasRows)
-                {
+               
                     while (reader.Read())
                     {
                        
@@ -79,10 +77,11 @@ namespace DAL
                         project.IsActive = Convert.ToBoolean(reader["IsActive"].ToString());
                         //project.ClientName = reader["ClientName"].ToString();
                         project.ClientID = Convert.ToInt32(reader["fkClientId"]);
+                        project.ManagerName = reader["ManagerName"].ToString();
+                        project.ManagerID = Convert.ToInt32(reader["ManagerID"]);
 
                     }
-                }
-                reader.Close();
+                
                 connection.Close();
                 return project;
 
@@ -96,8 +95,7 @@ namespace DAL
         {
             try
             {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
+                SqlConnection connection = new SqlConnection(DalUtil.connectionString);
                 SqlCommand cmd = new SqlCommand("GetProjectListByClient", connection);
                 cmd.Parameters.AddWithValue("@ClientID", ClientId);
                 cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
@@ -141,8 +139,7 @@ namespace DAL
             int returnValue = 0;
             try
             {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
+                SqlConnection connection = new SqlConnection(DalUtil.connectionString);
                 SqlCommand cmd = new SqlCommand("CreateProject", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ClientID", project.ClientID);
@@ -152,6 +149,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@Description", project.Description);
                 cmd.Parameters.AddWithValue("@IsActive", project.IsActive);
                 cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
+                cmd.Parameters.AddWithValue("@ManagerID", project.ManagerID);
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();
@@ -172,8 +170,7 @@ namespace DAL
             int returnValue = 0;
             try
             {
-                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
-                SqlConnection connection = new SqlConnection(connectionString);
+                SqlConnection connection = new SqlConnection(DalUtil.connectionString);
                 SqlCommand cmd = new SqlCommand("UpdateProject", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@ID", project.ID);
@@ -183,6 +180,7 @@ namespace DAL
                 cmd.Parameters.AddWithValue("@LocationInfo", project.LocationInfo);
                 cmd.Parameters.AddWithValue("@Description", project.Description);
                 cmd.Parameters.AddWithValue("@IsActive", project.IsActive);
+                cmd.Parameters.AddWithValue("@ManagerID", project.ManagerID);
                 cmd.Parameters.Add("@output", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                 connection.Open();
@@ -198,7 +196,7 @@ namespace DAL
             return returnValue;
         }
      
-     public IEnumerable<Project> GetProjectsByClient(int ClientID)
+     public IEnumerable<Project> GetProjectsByClient( int clientID)
         {
             try
             {
@@ -207,7 +205,8 @@ namespace DAL
                 SqlCommand cmd = new SqlCommand("GetProjectsByClient", connection);
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ClientID", ClientID);
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
+                cmd.Parameters.AddWithValue("@ClientID", clientID);
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
                 List<Project> projectList = new List<Project>();
