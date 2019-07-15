@@ -59,7 +59,9 @@ namespace DAL
                 var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
                 SqlConnection connection = new SqlConnection(connectionString);
                 SqlCommand cmd = new SqlCommand("GetUserForDD", connection);
+                
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@AccountID", HttpContext.Current.Session["AccountID"]);
                 connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 

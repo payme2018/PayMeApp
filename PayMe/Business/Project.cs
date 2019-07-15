@@ -32,6 +32,12 @@ namespace Business
         [DisplayName("Is Active")]
         public bool IsActive { get; set; }
 
-       
+        [DisplayName("Manager")]
+        public int ManagerID { get; set; }
+
+        [DisplayName("Manager Name")]
+        public string ManagerName { get; set; }
+
+
     }
 }

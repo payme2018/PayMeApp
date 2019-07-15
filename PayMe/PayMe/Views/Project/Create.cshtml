@@ -80,6 +80,14 @@
                     @Html.EditorFor(model => model.IsActive)
                     @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    @Html.LabelFor(model => model.ManagerName, htmlAttributes: new { @class = "control-label manadatory" }) <span class="text-danger">*</span>
+                    @Html.DropDownList("ManagerID", ViewBag.Managers as SelectList, "--Please Manager--"
+, new { @class = "form-control input-lg" })
+                    @Html.ValidationMessageFor(model => model.ManagerID, "", new { @class = "text-danger" })
+                </div>
 
 
             </div>

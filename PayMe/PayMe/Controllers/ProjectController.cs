@@ -41,6 +41,7 @@ namespace PayMe.Controllers
             TempData["Message"] = "";
             ClientManager clientManager = new ClientManager();
             ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
+            ViewBag.Managers = new SelectList(new UserManager().GetUsers(), "EmployeeID", "FullName");
             ViewBag.editupdate = -1;
             return View();
           
@@ -56,6 +57,9 @@ namespace PayMe.Controllers
                 TempData["Message"] = "";
                 ProjectManager projectManager = new ProjectManager();
                 int value = projectManager.CreateProject(project);
+
+           
+                //ViewBag.Managers = new SelectList(new UserManager().GetUsers(), "EmployeeID", "FullName");
 
                 if (value == 1)
                 {
@@ -87,6 +91,10 @@ namespace PayMe.Controllers
             ClientManager clientManager = new ClientManager();
             ProjectManager projectManager = new ProjectManager();
             ViewBag.Roles = new SelectList(clientManager.GetClients(), "ID", "ClientName");
+            IEnumerable<Registration> userList = new UserManager().GetUsers();
+
+            ViewBag.Managers = new SelectList(userList, "EmployeeID", "FullName");
+
             Project project = new Project();
             project = projectManager.GetProjectByID(id);
             ViewBag.editupdate = id;

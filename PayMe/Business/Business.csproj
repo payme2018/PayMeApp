@@ -91,6 +91,7 @@
     <Compile Include="Task.cs" />
     <Compile Include="Timesheet.cs" />
     <Compile Include="TimeTracker.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
