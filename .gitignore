@@ -240,3 +240,4 @@ _Pvt_Extensions
 VERSION
 *.tmp
 /PayMe/PayMe/Uploads/ExpenseDetail
+/PayMe/PaymeDatabase/PaymeDatabase.jfm
