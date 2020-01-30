@@ -111,6 +111,7 @@ namespace PayMe.Controllers
             }
             catch (Exception ex)
             {
+                ViewBag.errormessage = ex.Message;
                 logger.Error("EX" + ex);
                 return View();                
             }

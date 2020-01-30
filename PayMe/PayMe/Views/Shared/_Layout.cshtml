@@ -95,7 +95,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="icon-bar">ZxZX</span>
                 </button>
                 <a class="navbar-brand" href="#"><span>PAY</span>&nbsp;ME &nbsp;&nbsp;&nbsp;<span>
     @Html.DropDownList("AccountID", @Session["Accounts"] as SelectList
@@ -198,16 +198,7 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
-        <div class="profile-sidebar">
-            @*<div class="profile-userpic">
-                <img src="~/Images/UserIcon.png" class="img-responsive" alt="">
-            </div>*@
-            <div class="profile-usertitle">
-                <div class="profile-usertitle-name">@Session["FullName"]</div>
-                <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
-            </div>
-            <div class="clear"></div>
-        </div>
+       
         <div class="divider"></div>
         @*<form role="search">
             <div class="form-group">
@@ -234,10 +225,10 @@
                 </ul>
             </li>*@
             <li class='@Html.IsActive("EmployeeProject", "Index")'>
-                <a data-toggle="collapse" href="#sub-item-2">
-                    <em class="fa fa-bank">&nbsp;</em>Account Settings <span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="fa fa-plus"></em></span>
+                <a data-toggle="" href="#sub-item-2">
+                    <em class="fa fa-bank">&nbsp;</em>Account Settings @*<span data-toggle="collapse" href="#sub-item-2" class="icon pull-right"><em class="fa fa-plus"></em></span>*@
                 </a>
-                <ul class="children collapse" id="sub-item-2">
+                <ul class="children" id="sub-item-2">
                       <li class='@Html.IsActive("Client", "Index")'><a href="~/Client/Index"><em class="fa fa-globe">&nbsp;</em> Clients</a></li>
                     <li class='@Html.IsActive("Project", "Index")'><a href="~/Project/Index"><em class="fa fa-suitcase">&nbsp;</em> Projects</a></li>
                     <li class='@Html.IsActive("Tasks", "Index")'><a href="~/Tasks/Index"><em class="fa fa-tasks">&nbsp;</em> Tasks</a></li>
@@ -252,10 +243,10 @@
             </li>
 
             <li class='@Html.IsActive("Report", "Index")' >
-                <a data-toggle="collapse" href="#sub-item-1">
-                    <em class="fa fa-bar-chart">&nbsp;</em> Reports <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
+                <a data-toggle="" href="#sub-item-1">
+                    <em class="fa fa-bar-chart">&nbsp;</em> Reports @*<span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>*@
                 </a>
-                <ul class="children collapse" id="sub-item-1">
+                <ul class="children" id="sub-item-1">
                     <li>
                         <a class="" href="~/Report/ExpensesSummery">
                             <span class="fa fa-arrow-right">&nbsp;</span> Expense Summary 
@@ -276,6 +267,16 @@
             @*<li><a href="#"><em class="fa fa-bar-chart">&nbsp;</em> Reports</a></li>*@
             <li><a href="~/Login/Logout"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
         </ul>
+        <div class="profile-sidebar">
+            @*<div class="profile-userpic">
+                <img src="~/Images/UserIcon.png" class="img-responsive" alt="">
+            </div>*@
+            <div class="profile-usertitle">
+                <div class="profile-usertitle-name">@Session["FullName"]</div>
+                <div class="profile-usertitle-status"><span class="indicator label-success"></span>Online</div>
+            </div>
+            <div class="clear"></div>
+        </div>
     </div><!--/.sidebar-->
 
   
@@ -300,8 +301,10 @@
         <script src="~/js/custom.js"></script>
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year -Pay Me</p>
+        <footer >
+            <div style="align-items:center">
+                <img src="~/Images/logo.png" alt="VeeMak"> &copy; @DateTime.Now.Year -Pay Me
+            </div>
         </footer>
         <script>
             $(document).ready(function () {
