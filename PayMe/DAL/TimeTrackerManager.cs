@@ -58,6 +58,101 @@ namespace DAL
             }
         }
 
+
+        public IEnumerable<TimeTracker> GetTimeTrackerForCheckIn(int accountID)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetTimeTrackerForCheckIn", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@accountID", accountID);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<TimeTracker> timeTrackerList = new List<TimeTracker>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        TimeTracker timeTracker = new TimeTracker();
+                        //timeTracker.ID = Convert.ToInt32(reader["ID"].ToString());
+                        timeTracker.EmployeeID = Convert.ToInt32(reader["EmployeeID"].ToString());
+                        timeTracker.ProjectID = Convert.ToInt32(reader["ProjectID"].ToString());
+                        timeTracker.TaskID = Convert.ToInt32(reader["TaskID"].ToString());
+                        timeTracker.ClientID = Convert.ToInt32(reader["ClientID"].ToString());
+                        //timeTracker.CheckInDateTime = Convert.ToDateTime(reader["CheckInDateTime"].ToString());
+                        //if (reader["CheckOutDateTime"] != DBNull.Value)
+                        //{
+                        //    timeTracker.CheckOutDateTime = Convert.ToDateTime(reader["CheckOutDateTime"].ToString());
+                        //}
+                        timeTracker.ClientName = reader["ClientName"].ToString();
+                        timeTracker.ProjectName = reader["ProjectName"].ToString();
+                        timeTracker.TaskName = reader["TaskName"].ToString();
+                        timeTracker.EmployeeName = reader["EmployeeName"].ToString();
+                        //timeTracker.TaskName = reader["TaskName"].ToString();
+                        //timeTracker.CreatedBy = reader["CreatedBy"].ToString();
+                        //timeTracker.TimeWorked = reader["TimeWorked"].ToString();
+                        timeTrackerList.Add(timeTracker);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return timeTrackerList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
+
+        public IEnumerable<TimeTracker> GetTimeTrackerForCheckOut(int accountID)
+        {
+            try
+            {
+                var connectionString = ConfigurationManager.AppSettings["PayMe-Connectionstring"];
+                SqlConnection connection = new SqlConnection(connectionString);
+                SqlCommand cmd = new SqlCommand("GetTimeTrackerForCheckOut", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@accountID", accountID);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                List<TimeTracker> timeTrackerList = new List<TimeTracker>();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        TimeTracker timeTracker = new TimeTracker();
+                        timeTracker.ID = Convert.ToInt32(reader["ID"].ToString());
+                        timeTracker.EmployeeID = Convert.ToInt32(reader["EmployeeID"].ToString());
+                        timeTracker.ClientID = Convert.ToInt32(reader["ClientID"].ToString());
+                        timeTracker.TaskID = Convert.ToInt32(reader["TaskID"].ToString());
+                        timeTracker.CheckInDateTime = Convert.ToDateTime(reader["CheckInDateTime"].ToString());
+                        if (reader["CheckOutDateTime"] != DBNull.Value)
+                        {
+                            timeTracker.CheckOutDateTime = Convert.ToDateTime(reader["CheckOutDateTime"].ToString());
+                        }
+                        timeTracker.ClientName = reader["ClientName"].ToString();
+                        timeTracker.ProjectName = reader["ProjectName"].ToString();
+                        timeTracker.TaskName = reader["TaskName"].ToString();
+                        timeTracker.EmployeeName = reader["EmployeeName"].ToString();
+                        timeTracker.TaskName = reader["TaskName"].ToString();
+                        timeTracker.CreatedBy = reader["CreatedBy"].ToString();
+                        timeTracker.TimeWorked = reader["TimeWorked"].ToString();
+                        timeTrackerList.Add(timeTracker);
+                    }
+                }
+                reader.Close();
+                connection.Close();
+                return timeTrackerList;
+
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(ex.Message.ToString());
+            }
+        }
         public int CreateTimeTracker(TimeTracker timeTracker)
         {
             int returnValue = 0;

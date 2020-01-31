@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="~/js/ez.countimer.min.js"></script>
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Time Tracker - Check Out</li>
+    </ol>
+</div><!--/.row-->
+
+<div class="panel panel-default">
+    <div id="title" class="panel-heading">Time Tracker - checkin </div>
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div id="toolbar">
+                            <button id="export" class="btn btn-default">Export Excel</button>
+                        </div>
+                        <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                               data-show-export="true" data-toolbar="#toolbar">
+                            <thead>
+                                <tr>
+                                    <th data-field="ID" data-sortable="true" data-formatter="Action"></th>
+                                    <th data-field="EmployeeName" data-sortable="true">Employee</th>
+                                    <th data-field="ClientName" data-sortable="true">Client </th>
+                                    <th data-field="ProjectName" data-sortable="true">Project </th>
+                                    <th data-field="TaskName" data-sortable="true">Task </th>
+                                    <th data-field="CheckInDateTime" data-sortable="true" data-formatter="dateFormat">Check In Date Time</th>
+                                    <th data-field="CheckOutDateTime" data-sortable="true" data-formatter="dateFormat">Check Out Date Time</th>
+                                    <th data-field="TimeWorked" data-sortable="true">Time</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+$(document).ready(function () {
+        $('.timer').countimer({
+            autoStart: false
+        });
+        $('#table').bootstrapTable('refresh', {
+            "url": "/CheckOut/GetTimeTracker/"
+        });
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+});
+function Action(value, row) {
+    debugger;
+    if (row.CheckOutDateTime == null) {
+        return '<input type="submit" onClick="UpdateTimeTracker(' + value + ')" value="Stop" class="btn btn-md btn-primary" />'
+    }
+};
+function UpdateTimeTracker(id) {
+    debugger;
+    $.ajax({
+        url: "/CheckOut/UpdateTimeTracker",
+        type: "POST",
+        data: JSON.stringify({ 'id': id }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+            debugger;
+            $('#table').bootstrapTable('refresh', {
+                "url": "/TimeTracker/GetTimeTracker/"
+            });
+        },
+        error: function () {
+            alert("Error Occured!")
+        }
+    });
+}
+function dateFormat(value, row, index) {
+    if (value != null)
+        return moment(value).format('DD/MM/YYYY HH:mm:ss');
+}
+
+</script>
+
+
+

@@ -1,0 +1,113 @@
+﻿@model Business.TimeTracker
+@{
+    ViewBag.Title = "PayMe - Time Tracker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+<script src="~/js/ez.countimer.min.js"></script>
+
+<div class="row">
+    <ol class="breadcrumb">
+        <li>
+            <a href="#">
+                <em class="fa fa-home"></em>
+            </a>
+        </li>
+        <li class="active">Time Tracker - Check in</li>
+    </ol>
+</div><!--/.row-->
+
+<div class="panel panel-default">
+    <div id="title" class="panel-heading">Time Tracker - checkin </div>
+    <div class="panel-body">
+        @if (TempData["Message"] != null)
+            {
+            <p class="alert alert-success" id="successMessage">@TempData["Message"]</p>
+        }
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <div id="toolbar">
+                            <button id="export" class="btn btn-default">Export Excel</button>
+                        </div>
+                        <table id="table" data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc"
+                               data-show-export="true" data-toolbar="#toolbar">
+                            <thead>
+                                <tr><th data-field="ID" data-sorta ble="true"  data-formatter="Action">
+                                    
+                                    </th>
+                                    <th data-field="EmployeeName" data-sortable="true">Employee</th>
+                                    <th data-field="ClientName" data-sortable="true">Client </th>
+                                    <th data-field="ProjectName" data-sortable="true">Project </th>
+                                    <th data-field="TaskName" data-sortable="true">Task </th>
+                                    @*<th data-field="CheckInDateTime" data-sortable="true" data-formatter="dateFormat">Check In Date Time</th>
+                                    <th data-field="CheckOutDateTime" data-sortable="true" data-formatter="dateFormat">Check Out Date Time</th>
+                                    <th data-field="TimeWorked" data-sortable="true">Time</th>*@
+                                <
+                                    
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+<script>
+$(document).ready(function () {
+        $('.timer').countimer({
+            autoStart: false
+        });
+        $('#table').bootstrapTable('refresh', {
+            "url": "/CheckIn/GetTimeTracker/"
+        });
+        var table = $('#table');
+        $('#export').click(function () {
+            table.tableExport({
+                type: 'excel',
+                escape: false
+            });
+        });
+});
+function Action(value, row) {
+    debugger;
+    if (row.CheckOutDateTime == null) {
+        var eid = row['EmployeeID'];
+        var pid = row['ProjectID'];
+        var cid = row['ClientID'];
+        var tid = row['TaskID'];
+        return '<input type="submit" onClick="CreateTimeTracker(' + cid + ',' + eid + ',' + pid + ',' + tid + ')" value="Start" class="btn btn-md btn-primary" />'
+    }
+};
+function CreateTimeTracker(cid, eid, pid, tid) {
+    debugger;
+    $.ajax({
+        url: "/CheckIn/CreateTimeTracker",
+        type: "POST",
+        data: JSON.stringify({ 'clientID': cid, 'employeeID': eid, 'projectID': pid, 'taskID': tid }),
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (result) {
+            debugger;
+            //$('#table').bootstrapTable('refresh', {
+            //    "url": "/CheckIn/GetTimeTracker/"
+            //});
+        },
+        error: function () {
+            debugger;
+            alert("Error Occured!")
+        }
+    });
+}
+function dateFormat(value, row, index) {
+    if (value != null)
+        return moment(value).format('DD/MM/YYYY HH:mm:ss');
+}
+
+    </script>
+

@@ -100,7 +100,7 @@
                 <a class="navbar-brand" href="#"><span>PAY</span>&nbsp;ME &nbsp;&nbsp;&nbsp;<span>
     @Html.DropDownList("AccountID", @Session["Accounts"] as SelectList
 , new { @class = "" })
-</span> </a>
+</span> </a> 
                
                 <ul class="nav navbar-top-links navbar-right">
 
@@ -194,6 +194,7 @@
                         </ul>
                     </li>
                 </ul>
+                <div class="navbar-right" style="padding-top:15px;"><img src="~/Images/logo.png" alt="VeeMak"></div>
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -211,7 +212,9 @@
             <li class='@Html.IsActive("Expense", "Index")'><a href="~/Expense/Index"><em class="fa fa-money">&nbsp;</em> Expenses</a></li>
             <li class='@Html.IsActive("Timesheet", "Index")'><a href="~/Timesheet/Index"><em class="fa fa-calendar">&nbsp;</em> Timesheet</a></li>
             <li class='@Html.IsActive("TimeTracker", "Index")'><a href="~/TimeTracker/Index"><em class="fa fa-clock-o">&nbsp;</em> Time Tracker</a></li>
-          
+            <li class='@Html.IsActive("CkeckIn", "Index")'><a href="~/Checkin/Index"><em class="fa fa-clock-o">&nbsp;</em> Check In</a></li>
+            <li class='@Html.IsActive("CkeckOut", "Index")'><a href="~/CheckOut/Index"><em class="fa fa-clock-o">&nbsp;</em> Check Out</a></li>
+       
             @*<li class='@Html.IsActive("EmployeeProject", "Index")'>
                 <a data-toggle="collapse" href="#sub-item-5">
                     <em class="fa fa-desktop">&nbsp;</em> Management <span data-toggle="collapse" href="#sub-item-5" class="icon pull-right"><em class="fa fa-plus"></em></span>
@@ -303,7 +306,7 @@
         <hr />
         <footer >
             <div style="align-items:center">
-                <img src="~/Images/logo.png" alt="VeeMak"> &copy; @DateTime.Now.Year -Pay Me
+                &copy; @DateTime.Now.Year -Pay Me
             </div>
         </footer>
         <script>
