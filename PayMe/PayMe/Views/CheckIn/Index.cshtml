@@ -94,9 +94,9 @@ function CreateTimeTracker(cid, eid, pid, tid) {
         contentType: "application/json; charset=utf-8",
         success: function (result) {
             debugger;
-            //$('#table').bootstrapTable('refresh', {
-            //    "url": "/CheckIn/GetTimeTracker/"
-            //});
+            $('#table').bootstrapTable('refresh', {
+                "url": "/CheckIn/GetTimeTracker/"
+            });
         },
         error: function () {
             debugger;

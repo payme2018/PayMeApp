@@ -90,7 +90,7 @@ function UpdateTimeTracker(id) {
         success: function (result) {
             debugger;
             $('#table').bootstrapTable('refresh', {
-                "url": "/TimeTracker/GetTimeTracker/"
+                "url": "/CheckOut/GetTimeTracker/"
             });
         },
         error: function () {

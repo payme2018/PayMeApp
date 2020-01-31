@@ -37,7 +37,7 @@ namespace PayMe.Controllers
         }
         // POST: TimeTracker/Create
         [HttpPost]
-        public ActionResult CreateTimeTracker(int clientID , int employeeID , int projectID , int taskID)
+        public JsonResult CreateTimeTracker(int clientID , int employeeID , int projectID , int taskID)
         {
             try
             {
@@ -64,12 +64,13 @@ namespace PayMe.Controllers
 
                 }
 
-
-               return RedirectToAction("Index");
+                var result = new { Success = "true" };
+                return Json(result);
             }
             catch
             {
-                return View();
+                var result = new { Success = "False" };
+                return Json(result);
             }
         }
     }
