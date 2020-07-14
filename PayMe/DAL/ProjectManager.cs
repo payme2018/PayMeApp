@@ -37,9 +37,9 @@ namespace DAL
                         project.ClientName = reader["ClientName"].ToString();
                         project.ClientID = Convert.ToInt32(reader["fkClientId"]);
                         project.ManagerName = reader["ManagerName"].ToString();
-                        project.ManagerID = Convert.ToInt32(reader["ManagerID"]);
+                        project.ManagerID = Convert.ToInt32(reader["ManagerID"] == null?0: reader["ManagerID"]);
 
-                        projectList.Add(project);
+                    projectList.Add(project);
                     }
             
                 reader.Close();
